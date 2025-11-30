@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name | Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Optional: Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="logo">Your Name</div>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#research">Research</a>
+      <a href="#projects">Projects</a>
+      <a href="#publications">Publications</a>
+      <a href="#teaching">Teaching</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero section -->
+    <section class="hero">
+      <div class="hero-text">
+        <p class="hero-kicker">Physicist & Researcher</p>
+        <h1>Your Name</h1>
+        <p class="hero-subtitle">
+          I am a physicist working on <strong>Topological Data Analysis</strong>, 
+          <strong>Machine Learning</strong>, and <strong>Astrophysics</strong>, 
+          with a focus on applying rigorous mathematical tools to complex physical systems.
+        </p>
+
+        <div class="hero-buttons">
+          <!-- Replace CV.pdf with your real CV filename -->
+          <a class="btn primary" href="CV.pdf" target="_blank" rel="noopener">Download CV</a>
+          <a class="btn secondary" href="#projects">View Projects</a>
+        </div>
+
+        <div class="hero-links">
+          <!-- Replace with your actual links -->
+          <a href="mailto:gabrielwendell@fisica.ufrn.br">Email</a>
+          <span>·</span>
+          <a href="https://github.com/GabrielWendell" target="_blank">GitHub</a>
+          <span>·</span>
+          <a href="http://lattes.cnpq.br/0049111339899544" target="_blank">Google Scholar</a>
+          <span>·</span>
+          <a href="https://orcid.org/0000-0002-3298-402X" target="_blank">ORCID</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="section">
+      <h2>About</h2>
+      <p>
+        I am a PhD student in Physics at Universidade Federal do Rio Grande do Norte (UFRN). 
+        My research explores the intersection of <strong>topological methods</strong>, 
+        <strong>machine learning</strong>, and <strong>complex physical systems</strong>, 
+        with applications ranging from astrophysics to condensed matter.
+      </p>
+      <p>
+        My work involves both theoretical modeling and computational implementations, 
+        with a strong emphasis on reproducible research and open-source software.
+      </p>
+    </section>
+
+    <!-- Research Interests -->
+    <section id="research" class="section">
+      <h2>Research Interests</h2>
+      <div class="pill-grid">
+        <span class="pill">Topological Data Analysis</span>
+        <span class="pill">Machine and Deep Learning</span>
+        <span class="pill">Statistical Physics</span>
+        <span class="pill">Magnetohydrodynamics</span>
+        <span class="pill">Asteroseismology</span>
+        <span class="pill">Galaxy Morphology</span>
+        <span class="pill">Quantum Information</span>
+        <span class="pill">Complex Systems</span>
+        <span class="pill">Scientific Computing</span>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="section">
+      <h2>Selected Projects</h2>
+      <div class="card-grid">
+        <article class="card">
+          <h3>PyMoS2 - Python Modules for a Static Star Model</h3>
+          <p>
+            A personal Python library providing mathematical and computational tools 
+            to simulate the interior of a static, non-magnetic star of 1 solar mass, 
+            from the production of energy through nuclear reactions, the radiative and 
+            convective transport of energy and the movement of a convective cell.
+          </p>
+          <p class="card-links">
+            <a href="https://github.com/GabrielWendell/PyMoS2" target="_blank">GitHub</a>
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Unsupervised Topological and Contrastive Representation Learning for Galaxy Morphological Analysis</h3>
+          <p>
+            Application of Topological Data Analysis (TDA) and Self-Supervised Learning (SSL) 
+            to investigate the unsupervised clustering of galaxies from the Galaxy Zoo 2 (GZ2) dataset.
+          <p class="card-links">
+            <!-- Replace with actual paper or preprint when available -->
+            <a href="https://github.com/GabrielWendell/TDA-SSL_Galaxy_Morphology-XLVIII_RASAB" target="_blank">Project page</a>
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Topological Data Analysis for Gravitational-Wave Detection under Low Signal-to-Noise Ratios</h3>
+          <p>
+            A project that investigates how Topological Data Analysis (TDA) techniques can identify 
+            gravitational-wave-like signals embedded in strong noise. Using synthetic datasets, the workflow 
+            reconstructs the phase-space topology of signals and tracks persistent homological features 
+            (connected components and loops) as the signal-to-noise ratio (SNR) varies.
+          </p>
+          <p class="card-links">
+            <a href="https://github.com/GabrielWendell/TDA-GW_Low_SNR-4th_DSML" target="_blank">Project page</a>
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Publications -->
+    <section id="publications" class="section">
+      <h2>Publications & Preprints</h2>
+      <p>
+        For a complete and up-to-date list of publications, see my
+        <a href="https://scholar.google.com/citations?user=aRwE0XUAAAAJ&hl=en" target="_blank">Google Scholar profile</a>.
+      </p>
+      <ul class="pub-list">
+        <li>
+          <strong>[Year]</strong> “Title of Your Paper 1”, 
+          <em>Journal Name</em> – short one-line description of what the paper is about.
+        </li>
+        <li>
+          <strong>[Year]</strong> “Title of Your Paper 2”, 
+          <em>Conference / Journal</em> – another short description.
+        </li>
+      </ul>
+    </section>
+
+    <!-- Teaching -->
+    <section id="teaching" class="section">
+      <h2>Teaching & Outreach</h2>
+      <ul>
+        <li>
+          <strong>[Year]</strong> Short course: “Mathematical Foundations of Machine Learning”,
+          Department of Physics, [Institution].
+        </li>
+        <li>
+          <strong>[Year]</strong> Teaching assistant for Classical Electromagnetism II,
+          grading and tutoring undergraduate students.
+        </li>
+      </ul>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section">
+      <h2>Contact</h2>
+      <p>
+        The best way to reach me is by email:
+        <a href="mailto:gabrielwendell@fisica.ufrn.br">your.email@domain.com</a>
+      </p>
+      <p>
+        You can also find me on 
+        <a href="https://github.com/GabrielWendell" target="_blank">GitHub</a>, 
+        <a href="https://scholar.google.com/citations?user=aRwE0XUAAAAJ&hl=en" target="_blank">Google Scholar</a>, and 
+        <a href="http://lattes.cnpq.br/0049111339899544" target="_blank">CV</a>.
+      </p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; <span id="year"></span> Gabriel Wendell Celestino Rocha. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Set current year automatically
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
