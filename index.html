@@ -3,255 +3,156 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gabriel Wendell Celestino Rocha | Portfolio</title>
+  <title>Gabriel Wendell – Home</title>
+  <meta name="description" content="Gabriel Wendell – Physicist & PhD student working on Topological Data Analysis and Machine Learning applied to physical systems across scales." />
   <link rel="stylesheet" href="style.css" />
-  <!-- Optional: Google Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="top-nav">
-    <div class="logo">Gabriel Wendell Celestino Rocha</div>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#research">Research</a>
-      <a href="#projects">Projects</a>
-      <a href="#publications">Publications</a>
-      <a href="#teaching">Teaching</a>
-      <a href="#contact">Contact</a>
-    </nav>
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">Gabriel Wendell</a>
+      <nav class="site-nav">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="research.html" class="nav-link">Research</a>
+        <a href="publications.html" class="nav-link">Publications</a>
+        <a href="talks.html" class="nav-link">Talks</a>
+        <a href="software.html" class="nav-link">Software</a>
+        <a href="teaching.html" class="nav-link">Teaching</a>
+        <a href="cv.html" class="nav-link">CV</a>
+      </nav>
+    </div>
   </header>
 
   <main>
-    <!-- Hero section -->
-    <section class="hero">
-      <div class="hero-text">
-        <p class="hero-kicker">Physicist & Researcher</p>
-        <h1>Gabriel Wendell Celestino Rocha</h1>
-        <p class="hero-subtitle">
-          I am a physicist working on <strong>Topological Data Analysis</strong>, 
-          <strong>Machine Learning</strong>, <strong>Statistical Physics</strong> and <strong>Astrophysics</strong>, 
-          with a focus on applying rigorous mathematical tools to complex physical systems.
+    <div class="container">
+      <header class="page-header hero">
+        <div>
+          <p class="page-kicker">Physics · Topological Data Analysis · Machine Learning</p>
+          <h1 class="hero-heading">Gabriel Wendell Celestino Rocha</h1>
+          <p class="hero-tagline">
+            Physicist and PhD student at UFRN (Brazil) working on
+            <strong>Topological Data Analysis</strong> and <strong>Topological Deep Learning</strong>
+            applied to physical systems across scales – from magnetic materials and dynamical systems
+            to galaxies, gravitational waves, and asteroseismology.
+          </p>
+        </div>
+
+        <div class="hero-meta">
+          <p>📍 Natal, Brazil · Departamento de Física, UFRN</p>
+          <div class="hero-buttons">
+            <!-- Adjust file name/URL to your actual CV -->
+            <a class="btn btn-primary" href="files/CV_Gabriel_Wendell.pdf" target="_blank" rel="noopener">
+              Download CV
+            </a>
+            <a class="btn btn-outline" href="mailto:gabrielwendell@fisica.ufrn.br">
+              Contact by email
+            </a>
+          </div>
+          <p style="margin-top: 0.4rem; font-size: 0.86rem;">
+            Also find me on
+            <a href="https://orcid.org/0000-0002-3298-402X" target="_blank" rel="noopener">ORCID</a>,
+            <a href="https://www.researchgate.net/profile/Gabriel-Celestino-Rocha" target="_blank" rel="noopener">ResearchGate</a>,
+            <a href="http://lattes.cnpq.br/0049111339899544" target="_blank" rel="noopener">Lattes</a>, and
+            <a href="https://scholar.google.com/citations?user=aRwE0XUAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a>.
+          </p>
+        </div>
+      </header>
+
+      <section class="section">
+        <h2 class="section-title">Research overview</h2>
+        <p class="section-intro">
+          My work focuses on how <strong>topological and geometric methods</strong> can uncover structure in
+          complex physical data, and how these structures can inform modeling, prediction, and inversion
+          problems in physics.
         </p>
 
-        <div class="hero-buttons">
-          <!-- Replace CV.pdf with your real CV filename -->
-          <a class="btn primary" href="https://github.com/GabrielWendell/gabrielwendell.github.io/blob/main/CV_Gabriel_Wendell.pdf" target="_blank" rel="noopener">Download CV</a>
-          <a class="btn secondary" href="#projects">View Projects</a>
+        <div class="card-grid">
+          <article class="card">
+            <h3 class="card-title">Astronomical scale</h3>
+            <p class="card-body">
+              Topological descriptors for <strong>galaxy morphology</strong>, <strong>asteroseismology</strong>,
+              and <strong>gravitational-wave signals</strong>, using tools such as persistent homology,
+              Mapper, and graph-based representations.
+            </p>
+          </article>
+
+          <article class="card">
+            <h3 class="card-title">Mesoscopic scale</h3>
+            <p class="card-body">
+              Topology in <strong>magnetohydrodynamics</strong>, <strong>fluid instabilities</strong>, and
+              <strong>dynamical systems</strong>, exploring how homological features relate to transport,
+              mixing, and phase-space structure.
+            </p>
+          </article>
+
+          <article class="card">
+            <h3 class="card-title">Microscopic scale</h3>
+            <p class="card-body">
+              Topological analysis of <strong>Barkhausen noise</strong>, disordered media, and
+              <strong>quantum information</strong>, linking topological signatures with domain-wall dynamics
+              and entanglement structure.
+            </p>
+          </article>
         </div>
+      </section>
 
-        <div class="hero-links">
-          <!-- Replace with your actual links -->
-          <a href="mailto:gabrielwendell@fisica.ufrn.br">Email</a>
-          <span>·</span>
-          <a href="https://github.com/GabrielWendell" target="_blank">GitHub</a>
-          <span>·</span>
-          <a href="https://scholar.google.com/citations?user=aRwE0XUAAAAJ&hl=en" target="_blank">Google Scholar</a>
-          <span>·</span>
-          <a href="https://orcid.org/0000-0002-3298-402X" target="_blank">ORCID</a>
-          <span>·</span>
-          <a href="http://lattes.cnpq.br/0049111339899544" target="_blank">Lattes</a>
-        </div>
-      </div>
-    </section>
+      <section class="section">
+        <h2 class="section-title">News & highlights</h2>
+        <p class="section-intro">
+          A few recent activities and projects. For more details, see the
+          <a href="publications.html">publications</a>,
+          <a href="talks.html">talks</a>, and
+          <a href="software.html">software</a> pages.
+        </p>
+        <ul class="item-list">
+          <li>
+            <strong>[2025]</strong> Developing a PhD project on
+            <em>Topological Data Analysis and Topological Deep Learning Applied to Physical Systems Across Scales</em>.
+          </li>
+          <li>
+            <strong>[2025]</strong> Project on TDA-based detection of gravitational-wave-like signals at low SNR
+            for the 4th School on Data Science & Machine Learning.
+          </li>
+          <li>
+            <strong>[2025]</strong> TDA diagnostics of CNN predictors applied to shock tube dynamics, with results
+            presented at the XXXIX EFNNE meeting.
+          </li>
+        </ul>
+      </section>
 
-    <!-- About -->
-    <section id="about" class="section">
-      <h2>About</h2>
-      <p>
-        I am a PhD student in Physics at Universidade Federal do Rio Grande do Norte (UFRN). 
-        My research explores the intersection of <strong>topological methods</strong>, 
-        <strong>machine learning</strong>, and <strong>complex physical systems</strong>, 
-        with applications ranging from astrophysics to condensed matter.
-      </p>
-      <p>
-        My work involves both theoretical modeling and computational implementations, 
-        with a strong emphasis on reproducible research and open-source software.
-      </p>
-      <p>
-        Broadly, my goal is to leverage topological and geometric methods to extract robust, 
-        interpretable structure from complex physical data.
-      </p>
-    </section>
-
-    <!-- Research Interests -->
-    <section id="research" class="section">
-      <h2>Research Interests</h2>
-      <div class="pill-grid">
-        <span class="pill">Topological Data Analysis</span>
-        <span class="pill">Machine and Deep Learning</span>
-        <span class="pill">Statistical Physics</span>
-        <span class="pill">Complex Systems</span>
-        <span class="pill">Magnetohydrodynamics</span>
-        <span class="pill">Computational Fluid Dynamics</span>
-        <span class="pill">Asteroseismology</span>
-        <span class="pill">Galaxy Morphology</span>
-        <span class="pill">Quantum Information</span>
-        <span class="pill">Numerical Modeling</span>
-      </div>
-    </section>
-
-    <!-- Projects -->
-    <section id="projects" class="section">
-      <h2>Selected Projects</h2>
-      <div class="card-grid">
-
-        <article class="card">
-          <h3> TDA Diagnostics of CNN Predictors on Shock Tube Dynamics
-<span style="font-size:0.9em;opacity:0.8;">(XXXIX EFNNE)</span> </h3>
-          <p>
-            Here we use TDA to evaluate a baseline 1D CNN trained to predict the temporal evolution of the Brio-Wu MHD shock tube, 
-            a classical benchmark containing shocks, rarefactions, and discontinuities. Persistent homology and Betti-number signatures 
-            extracted via spatial Takens embeddings reveal that the CNN fails to preserve the multiscale topological structure of 
-            the true solution.
-          <p class="card-links">
-            <!-- Replace with actual paper or preprint when available -->
-            <a href="https://github.com/GabrielWendell/TDA-Brio-Wu_MHD_CNN-XXXIX_EFNNE" target="_blank">GitHub</a>
-          </p>
-        </article>
-
-        <article class="card">
-          <h3> TDA for Gravitational-Wave Detection under Low-to-Noise Ratios <span style="font-size:0.9em;opacity:0.8;">(4th DSML)</span> </h3>
-          <p>
-            A project that investigates how Topological Data Analysis (TDA) techniques can identify 
-            gravitational-wave-like signals embedded in strong noise. Using synthetic datasets, the workflow 
-            reconstructs the phase-space topology of signals and tracks persistent homological features 
-            (connected components and loops) as the signal-to-noise ratio (SNR) varies.
-          </p>
-          <p class="card-links">
-            <a href="https://github.com/GabrielWendell/TDA-GW_Low_SNR-4th_DSML" target="_blank">GitHub</a>
-          </p>
-        </article>
-
-        <article class="card">
-          <h3> TDA and SSL for Galaxy Morphological Analysis <span style="font-size:0.9em;opacity:0.8;">(XLVIII RASAB)</span> </h3>
-          <p>
-            Application of Topological Data Analysis (TDA) and Self-Supervised Learning (SSL) 
-            to investigate the unsupervised clustering of galaxies from the Galaxy Zoo 2 (GZ2) 
-            dataset. The objective is to evaluate whether topological features combined with
-            learned SSL embeddings can reveal meaningful astrophysical structures.
-          <p class="card-links">
-            <!-- Replace with actual paper or preprint when available -->
-            <a href="https://github.com/GabrielWendell/TDA-SSL_Galaxy_Morphology-XLVIII_RASAB" target="_blank">GitHub</a>
-          </p>
-        </article>
-
-        <article class="card">
-          <h3>PyMoS2 - Python Modules for a Static Star Model</h3>
-          <p>
-            A personal Python library providing mathematical and computational tools 
-            to simulate the interior of a static, non-magnetic star of 1 solar mass, 
-            from the production of energy through nuclear reactions, the radiative and 
-            convective transport of energy and the movement of a convective cell.
-          </p>
-          <p class="card-links">
-            <a href="https://github.com/GabrielWendell/PyMoS2" target="_blank">GitHub</a>
-          </p>
-        </article>
-
-        <article class="card">
-          <h3>PET.py</h3>
-          <p>
-            The PET-Physics group at UFRN presents PET.py, a project showcasing solutions 
-            to famous physics problems using knowledge acquired in the Computational Physics 
-            course and the Python programming language. Each problem was solved and presented 
-            by a PET student.
-          </p>
-          <p class="card-links">
-            <a href="https://github.com/GabrielWendell/PET.py" target="_blank">GitHub</a>
-          </p>
-        </article>
-
-        <article class="card">
-          <h3>CML for Flood Prediction</h3>
-          <p>
-            Repository of a comprehensive collection of ongoing projects dedicated to developing Predictive 
-            Statistics, Machine Learning, Quantum Machine Learning algorithms in flood forecasting.
-          </p>
-          <p class="card-links">
-            <a href="https://github.com/GabrielWendell/CML_Flood_Prediction" target="_blank">GitHub</a>
-          </p>
-        </article>
-      </div>
-    </section>
-
-    <!-- Publications -->
-    <section id="publications" class="section">
-      <h2>Publications & Preprints</h2>
-      <p>
-        For a complete and up-to-date list of publications, see my
-        <a href="https://scholar.google.com/citations?user=aRwE0XUAAAAJ&hl=en" target="_blank">Google Scholar profile</a>.
-      </p>
-      <ul class="pub-list">
-        <li>
-          <strong>(2025)</strong> Geometric Analysis of the Stabilizer Polytope for Few-Qubit Systems, 
-          <em> arXiv:2504.12518 </em> - Alberto B. P. Junior*, Santiago Zamora, Rafael A. Macêdo, Tailan S. Sarubi, Joab M. Varela, <b> Gabriel W. C. Rocha </b>, Darlan A. Moreira, Rafael Chaves | <a href="https://arxiv.org/abs/2504.12518" target="_blank">Link</a>
-          </p>
-        </li>
-        <li>
-          <strong>(2025)</strong> Modelagem Computacional de uma Estrela: Uma Abordagem Teórica e Numérica, 
-          <em>Revista Brasileira do Ensino de Física</em> - <b> Gabriel W. C. Rocha* </b> | <a href="https://www.scielo.br/j/rbef/a/n5Hvf3NgzPHXrjtkpWtVNQD/?lang=pt" target="_blank">Link</a>
-          </p>
-        </li>
-        <li>
-          <strong>(2024)</strong> Generalization to d-dimensions of a fermionic path integral for exact enumeration of polygons on hypercubic lattices, 
-          <em> Scientific Reports </em> - M. Ostilli, <b> G. W. C. Rocha* </b>, C. G. Bezerra, G. M. Viswanathan | <a href="https://www.nature.com/articles/s41598-024-71809-1" target="_blank">Link</a>
-          </p>
-        </li>
-        <li>
-          <strong>(2022)</strong> O Escurecimento de limbo via modelagem de trânsitos e inferência bayesiana, 
-          <em> Revista Brasileira do Ensino de Física </em> - G. Zuza Diniz, <b> G. W. C. Rocha </b>, E. N. Velloso, Eliardo G. Costa, J. D. do Nascimento Jr.* | <a href="https://www.scielo.br/j/rbef/a/ddM7DJnfSst5L3s9KpFvcPd/?format=html&lang=pt" target="_blank">Link</a>
-          </p>
-        </li>
-      </ul>
-    </section>
-
-    <!-- Teaching -->
-    <section id="teaching" class="section">
-      <h2>Teaching & Outreach</h2>
-      <ul>
-        <li>
-          <strong>(2025)</strong> Seminar: “Topological Data Analysis Applied to Complex Systems”,
-          International Institute of Physics, UFRN. | <a href="https://www.youtube.com/watch?v=KZo9ciaaBKI&list=PLqTLz9G2bGs2-ToEsAuUg3u6ZASY1UbAk&index=23&t=416s" target="_blank">YouTube</a>
-        </li>
-        <li>
-          <strong>(2025)</strong> Short course: “Mathematical Foundations of Machine Learning”,
-          Department of Physics, UFRN. | <a href="https://github.com/GabrielWendell/Math-ML_Minicouse" target="_blank">GitHub</a>
-        </li>
-        <li>
-          <strong>(2024)</strong> Short course: “Introduction to Scientific Python”,
-          Department of Physics, UFRN. | <a href="https://github.com/GabrielWendell/Intro_Python-Science" target="_blank">GitHub</a>
-        </li>
-        <li>
-          <strong>(2023)</strong> Short course: Introduction to Physical Modeling in Fluid Dynamics,
-          Department of Physics, UFRN.
-        </li>
-      </ul>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" class="section">
-      <h2>Contact</h2>
-      <p>
-        The best way to reach me is by email:
-        <a href="mailto:gabrielwendell@fisica.ufrn.br">gabrielwendell@fisica.ufrn.br</a>
-      </p>
-      <p>
-        You can also find me on 
-        <a href="https://github.com/GabrielWendell" target="_blank">GitHub</a>, 
-        <a href="https://scholar.google.com/citations?user=aRwE0XUAAAAJ&hl=en" target="_blank">Google Scholar</a>, and 
-        <a href="http://lattes.cnpq.br/0049111339899544" target="_blank">CV</a>.
-      </p>
-    </section>
+      <section class="section">
+        <h2 class="section-title">Contact</h2>
+        <p class="section-intro">
+          The best way to reach me is by email. I am always open to discussions and collaborations involving
+          <strong>TDA/TML</strong>, <strong>astrophysics</strong>, <strong>complex systems</strong>, and
+          <strong>scientific computing</strong>.
+        </p>
+        <p style="margin-top: 0.5rem;">
+          📧 <a href="mailto:gabrielwendell@fisica.ufrn.br">gabrielwendell@fisica.ufrn.br</a>
+        </p>
+      </section>
+    </div>
   </main>
 
-  <footer class="footer">
-    <p>&copy; <span id="year"></span> Gabriel Wendell Celestino Rocha. All rights reserved.</p>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>© <span id="year"></span> Gabriel Wendell Celestino Rocha.</div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="research.html">Research</a>
+        <a href="publications.html">Publications</a>
+        <a href="talks.html">Talks</a>
+        <a href="software.html">Software</a>
+        <a href="teaching.html">Teaching</a>
+        <a href="cv.html">CV</a>
+      </div>
+    </div>
   </footer>
 
   <script>
-    // Set current year automatically
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>

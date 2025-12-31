@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Talks & Posters – Gabriel Wendell</title>
+  <meta name="description" content="Talks, posters, and seminars by Gabriel Wendell." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">Gabriel Wendell</a>
+      <nav class="site-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="research.html" class="nav-link">Research</a>
+        <a href="publications.html" class="nav-link">Publications</a>
+        <a href="talks.html" class="nav-link active">Talks</a>
+        <a href="software.html" class="nav-link">Software</a>
+        <a href="teaching.html" class="nav-link">Teaching</a>
+        <a href="cv.html" class="nav-link">CV</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <header class="page-header">
+        <p class="page-kicker">Talks & Posters</p>
+        <h1 class="page-title">Selected Presentations</h1>
+        <p class="page-subtitle">
+          A selection of talks, posters, and seminars. Slides or posters will be linked when available.
+        </p>
+      </header>
+
+      <section class="section">
+        <h2 class="section-title">Conference Talks</h2>
+        <div class="timeline">
+          <article class="timeline-item">
+            <h3 class="timeline-title">
+              Unsupervised Topological and Contrastive Representation Learning for Galaxy Morphological Analysis
+            </h3>
+            <p class="timeline-meta">
+              XLVIII RASAB – Oral Presentation · Brazil, Caxambu · 2025 ·
+              <a href="https://github.com/GabrielWendell/TDA-SSL_Galaxy_Morphology-XLVIII_RASAB" target="_blank" rel="noopener">GitHub Project</a>
+            </p>
+            <p class="timeline-desc">
+              Topological and machine-learning methods for galaxy morphology and representation learning.
+            </p>
+          </article>
+
+          <article class="timeline-item">
+            <h3 class="timeline-title">
+              Applying Statistical Methods in Astrophysics: Analysis of the period-luminosity relation for Cepheids
+            </h3>
+            <p class="timeline-meta">
+              XLVII RASAB – Oral Presentation · Brazil, Águas de Lindoia · 2024 ·
+              <a href="https://github.com/GabrielWendell/Cepheids_Projects" target="_blank" rel="noopener">GitHub Project</a>
+            </p>
+            <p class="timeline-desc">
+              Statistical analysis using Markov Chain Monte Carlo of a sample of Cepheid stars by Riess et al. 2011.
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Posters</h2>
+        <div class="timeline">
+
+          <article class="timeline-item">
+            <h3 class="timeline-title">
+              Topological Machine Learning for Predicting Spatiotemporal Evolution in 1D Magnetohydrodynamics
+            </h3>
+            <p class="timeline-meta">
+              XXXIX Encontro de Física do Norte e Nordeste (EFNNE) · Brazil, Natal · 2025 ·
+              <a href="https://github.com/GabrielWendell/TDA-Brio-Wu_MHD_CNN-XXXIX_EFNNE" target="_blank" rel="noopener">GitHub Project</a>
+            </p>
+            <p class="timeline-desc">
+              Poster on topological analysis of MHD simulations for detection of the failure modes of neural temporal predictors.
+            </p>
+          </article>
+
+          <article class="timeline-item">
+            <h3 class="timeline-title">
+              Topological Data Analysis for Gravitational Wave Detection under Low Signal-to-Noise Ratios
+            </h3>
+            <p class="timeline-meta">
+              4th School on Data Science and Machine Learning · Brazil, São Paulo · 2025 ·
+              <a href="https://github.com/GabrielWendell/TDA-GW_Low_SNR-4th_DSML" target="_blank" rel="noopener">GitHub Project</a>
+            </p>
+            <p class="timeline-desc">
+              Poster on topological analysis of gravitational-wave-like signals in low signal-to-noise ratio scenarios.
+            </p>
+          </article>
+          
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Seminars</h2>
+        <div class="timeline">
+          <article class="timeline-item">
+            <h3 class="timeline-title">
+              Topological Data Analysis Applied to Complex Systems
+            </h3>
+            <p class="timeline-meta">
+              International Institute of Physics / Oral Presentation · 2025 ·
+              <a href="https://www.youtube.com/watch?v=KZo9ciaaBKI&list=PLqTLz9G2bGs2-ToEsAuUg3u6ZASY1UbAk&index=23" target="_blank" rel="noopener">YouTube Video</a>
+            </p>
+            <p class="timeline-desc">
+              Overview of topological data analysis applied to physical systems across scales.
+            </p>
+          </article>
+
+          <iframe width="530" height="300"
+            src="https://www.youtube.com/embed/KZo9ciaaBKI"
+          </iframe>
+
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>© <span id="year"></span> Gabriel Wendell Celestino Rocha.</div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="research.html">Research</a>
+        <a href="publications.html">Publications</a>
+        <a href="talks.html">Talks</a>
+        <a href="software.html">Software</a>
+        <a href="teaching.html">Teaching</a>
+        <a href="cv.html">CV</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

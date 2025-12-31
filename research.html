@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research – Gabriel Wendell</title>
+  <meta name="description" content="Research themes of Gabriel Wendell: Topological Data Analysis and Machine Learning applied to physics across astronomical, mesoscopic, and microscopic scales." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">Gabriel Wendell</a>
+      <nav class="site-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="research.html" class="nav-link active">Research</a>
+        <a href="publications.html" class="nav-link">Publications</a>
+        <a href="talks.html" class="nav-link">Talks</a>
+        <a href="software.html" class="nav-link">Software</a>
+        <a href="teaching.html" class="nav-link">Teaching</a>
+        <a href="cv.html" class="nav-link">CV</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <header class="page-header">
+        <p class="page-kicker">Research</p>
+        <h1 class="page-title">Research Themes</h1>
+        <p class="page-subtitle">
+          My research aims to connect <strong>algebraic topology</strong> and <strong>machine learning</strong>
+          with concrete problems in <strong>astrophysics</strong>, <strong>complex systems</strong>,
+          and <strong>condensed matter physics</strong>.
+        </p>
+      </header>
+
+      <section class="section">
+        <h2 class="section-title">PhD project</h2>
+        <p class="section-intro">
+          My PhD focuses on <strong>Topological Data Analysis and Topological Deep Learning Applied to Physical Systems Across Scales</strong>.
+          The central idea is to use persistent homology, Mapper, and graph neural networks to construct
+          robust, interpretable descriptors of physical fields and time series.
+        </p>
+        <ul class="item-list">
+          <li><strong>Goal:</strong> Build a unified framework where topological features can be systematically related to physical observables.</li>
+          <li><strong>Tools:</strong> Persistent homology, Betti curves, barcodes, Mapper graphs, GNNs, contrastive/self-supervised learning.</li>
+          <li><strong>Applications:</strong> Barkhausen noise, quantum information, condensed matter, MHD turbulence, dynamical systems,  asteroseismology, gravitational waves, galaxy morphology.</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Astronomical scale</h2>
+        <div class="two-column">
+          <div>
+            <p class="section-intro">
+              At the astronomical scale, I study how topological signatures appear in data such as
+              <strong>light curves</strong>, <strong>power spectra</strong>, and <strong>images</strong>.
+              This includes:
+            </p>
+            <ul class="item-list">
+              <li>
+                Topological descriptors of <strong>galaxy morphology</strong> from surveys such as Galaxy Zoo, combined with
+                graph neural networks and self-supervised learning.
+              </li>
+              <li>
+                Use of persistent homology and related tools to analyze <strong>gravitational-wave-like signals</strong> at
+                low signal-to-noise ratios.
+              </li>
+              <li>
+                TDA applied to <strong>asteroseismology</strong>, exploring the relation between mode spectra and homological
+                features of frequency-domain representations.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div class="card">
+              <div class="card-meta">Ongoing work</div>
+              <div class="card-body">
+                <ul class="item-list">
+                  <li><strong>TDA-SSL Galaxy Morphology</strong> – Galaxy Zoo 2 + TDA + self-supervised learning.</li>
+                  <li><strong>TDA for GW at low SNR</strong> – pipeline for robust detection using topological summaries.</li>
+                </ul>
+                <div class="pills">
+                  <span class="pill">Galaxy Zoo</span>
+                  <span class="pill">Persistent homology</span>
+                  <span class="pill">Contrastive learning</span>
+                  <span class="pill">GNNs</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Mesoscopic scale</h2>
+        <div class="two-column">
+          <div>
+            <p class="section-intro">
+              At intermediate scales, my work explores <strong>fluid dynamics</strong>,
+              <strong>magnetohydrodynamics</strong>, and <strong>dynamical systems</strong>.
+              Topological tools are used to quantify structures such as shocks, vortices, and chaotic attractors.
+            </p>
+            <ul class="item-list">
+              <li>
+                TDA diagnostics of <strong>CNN predictors</strong> on shock tube and other CFD test problems.
+              </li>
+              <li>
+                Topology of trajectories in <strong>low-dimensional chaotic systems</strong> (e.g. Lorenz, Rössler, Chua).
+              </li>
+              <li>
+                Connections between persistent homology and mixing / transport in MHD and turbulent flows.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div class="card">
+              <div class="card-meta">Ongoing work</div>
+              <div class="card-body">
+                <ul class="item-list">
+                  <li>Shock tube benchmarks for ML-based solvers.</li>
+                  <li>Betti curves of attractors and their parameter dependence.</li>
+                  <li>Topological signatures of reconnection and field-line complexity.</li>
+                </ul>
+                <div class="pills">
+                  <span class="pill">MHD</span>
+                  <span class="pill">Dynamical systems</span>
+                  <span class="pill">Topological diagnostics</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Microscopic scale</h2>
+        <div class="two-column">
+          <div>
+            <p class="section-intro">
+              At small scales, I study how topological features emerge in <strong>magnetic materials</strong>,
+              <strong>Barkhausen noise</strong>, and <strong>quantum systems</strong>.
+            </p>
+            <ul class="item-list">
+              <li>
+                Persistent homology of Barkhausen voltage time series, relating topological invariants to
+                domain-wall dynamics and scaling laws.
+              </li>
+              <li>
+                TDA-inspired descriptors for <strong>phase transitions</strong> in lattice models and disordered media.
+              </li>
+              <li>
+                Topological perspectives on entanglement and quantum state manifolds.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div class="card">
+              <div class="card-meta">Ongoing work</div>
+              <div class="card-body">
+                <ul class="item-list">
+                  <li>TDA of experimental Barkhausen noise time series.</li>
+                  <li>Links between topological signatures and critical behaviour.</li>
+                </ul>
+                <div class="pills">
+                  <span class="pill">Barkhausen noise</span>
+                  <span class="pill">Phase transitions</span>
+                  <span class="pill">Quantum information</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>© <span id="year"></span> Gabriel Wendell Celestino Rocha.</div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="research.html">Research</a>
+        <a href="publications.html">Publications</a>
+        <a href="talks.html">Talks</a>
+        <a href="software.html">Software</a>
+        <a href="teaching.html">Teaching</a>
+        <a href="cv.html">CV</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

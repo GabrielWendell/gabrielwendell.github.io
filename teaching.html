@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teaching – Gabriel Wendell</title>
+  <meta name="description" content="Teaching activities and educational materials by Gabriel Wendell." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">Gabriel Wendell</a>
+      <nav class="site-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="research.html" class="nav-link">Research</a>
+        <a href="publications.html" class="nav-link">Publications</a>
+        <a href="talks.html" class="nav-link">Talks</a>
+        <a href="software.html" class="nav-link">Software</a>
+        <a href="teaching.html" class="nav-link active">Teaching</a>
+        <a href="cv.html" class="nav-link">CV</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <header class="page-header">
+        <p class="page-kicker">Teaching</p>
+        <h1 class="page-title">Teaching & Outreach</h1>
+        <p class="page-subtitle">
+          I regularly design and teach short courses and workshops on Python, scientific computing, and the
+          mathematical foundations of machine learning, often combining formal derivations with live coding.
+        </p>
+      </header>
+
+      <section class="section">
+        <h2 class="section-title">Short courses</h2>
+        <div class="timeline">
+
+          <article class="timeline-item">
+            <h3 class="timeline-title">
+               Mathematical Foundations of Machine Learning
+            </h3>
+            <p class="timeline-meta">
+              PET–Física / UFRN · 2025 · 
+              <a href="https://github.com/GabrielWendell/Math-ML_Minicouse" target="_blank" rel="noopener">GitHub</a>
+            </p>
+            <p class="timeline-desc">
+              A theoretical course focused exclusively on the mathematical principles of modern Machine Learning. 
+              This is not a course on ML programming or implementation.
+            </p>
+          </article>
+
+          <article class="timeline-item">
+            <h3 class="timeline-title">
+               PET.py Project (pt-br)
+            </h3>
+            <p class="timeline-meta">
+              PET–Física / UFRN · 2022 · 
+              <a href="https://petfisica.home.blog/pet-py/" target="_blank" rel="noopener">Project Page</a> ·
+              <a href="https://github.com/GabrielWendell/PET.py" target="_blank" rel="noopener">GitHub</a>
+            </p>
+            <p class="timeline-desc">
+              This project presents solutions to famous physics problems using knowledge of Computational 
+              Physics and the Python programming language.
+            </p>
+          </article>
+
+          <article class="timeline-item">
+            <h3 class="timeline-title">
+               A Brief Introduction to Machine Learning (pt-br)
+            </h3>
+            <p class="timeline-meta">
+              PET–Física / UFRN · 2022 · 
+              <a href="https://github.com/GabrielWendell/Intro_ML" target="_blank" rel="noopener">GitHub</a>
+            </p>
+            <p class="timeline-desc">
+              A minicourse covering supervised and unsupervised learning, tensor computation, and dimensionality
+              reduction, with emphasis on conceptual understanding and practical implementation in Python.
+            </p>
+          </article>
+
+          <article class="timeline-item">
+            <h3 class="timeline-title">
+               OlimPET Project (pt-br)
+            </h3>
+            <p class="timeline-meta">
+              PET–Física / UFRN · 2021 · 
+              <a href="https://petfisica.home.blog/olimpet/" target="_blank" rel="noopener">Project Page</a>
+            </p>
+            <p class="timeline-desc">
+              A project that aims to present physical and mathematical tools to assist in both understanding 
+              physical concepts and solving physics problems at the Olympic level in high school.
+          </article>
+
+          <article class="timeline-item">
+            <h3 class="timeline-title">
+              Introduction to Python for Chemical Engineering (pt-br)
+            </h3>
+            <p class="timeline-meta">
+              PET-Químca / UFRN · 2021 ·
+              <a href="https://github.com/GabrielWendell/Intro-Python_Eng-Quim" target="_blank" rel="noopener">GitHub</a>
+            </p>
+            <p class="timeline-desc">
+              Introductory Python course focused on scientific computing, including NumPy, Pandas, Matplotlib, SciPy
+              and basic data analysis workflows.
+            </p>
+          </article>
+          
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Educational repositories</h2>
+        <p class="section-intro">
+          Many of my teaching materials are openly available on GitHub:
+        </p>
+        <ul class="item-list">
+          <li>
+            <strong>Math-ML_Minicouse</strong> – noteboooks and exercises for the theoretical ML minicourse.
+          </li>  
+          <li>
+            <strong>PET.py</strong> – computational physics notebooks for topics such as astronomy, fluids,
+            quantum and dynamical systems.
+          </li>
+          <li>
+            <strong>Intro_ML</strong> – notebooks and exercises for the ML minicourse.
+          </li>
+          <li>
+            <strong>Intro-Python_Eng-Quim</strong> – Python course tailored for Chemical Engineering students.
+          </li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>© <span id="year"></span> Gabriel Wendell Celestino Rocha.</div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="research.html">Research</a>
+        <a href="publications.html">Publications</a>
+        <a href="talks.html">Talks</a>
+        <a href="software.html">Software</a>
+        <a href="teaching.html">Teaching</a>
+        <a href="cv.html">CV</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
