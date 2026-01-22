@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gabriel Wendell – Blog</title>
+  <meta name="description"
+        content="Short notes and articles by Gabriel Wendell on physics, topological data analysis, and machine learning." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">Gabriel Wendell</a>
+      <nav class="site-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="research.html" class="nav-link">Research</a>
+        <a href="publications.html" class="nav-link">Publications</a>
+        <a href="talks.html" class="nav-link">Talks</a>
+        <a href="software.html" class="nav-link">Software</a>
+        <a href="teaching.html" class="nav-link">Teaching</a>
+        <a href="cv.html" class="nav-link">CV</a>
+        <a href="blog.html" class="nav-link active">Blog</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <header class="page-header">
+        <p class="page-kicker">Notes &amp; ideas</p>
+        <h1 class="page-title">Blog</h1>
+        <p class="page-subtitle">
+          Short notes on physics, <strong>topological data analysis</strong>,
+          <strong>topological machine learning</strong>, and the computational tools I use
+          day-to-day. These posts are informal and often technical – more like research notes
+          than polished papers.
+        </p>
+      </header>
+
+      <section class="section">
+        <h2 class="section-title">Latest posts</h2>
+        <p class="section-intro">
+        </p>
+
+                <div class="card-grid">
+          <!-- Intro post -->
+          <article class="card">
+            <div class="card-meta">Intro · January 2026</div>
+            <h3 class="card-title">
+              <a href="blog/welcome.html">
+                Welcome to my research notes
+              </a>
+            </h3>
+            <p class="card-body">
+              An overview of what you can expect to find here: notes on physics, topological
+              data analysis, machine learning, and small computational experiments that do not
+              fit into formal papers.
+            </p>
+            <div class="card-links">
+              <span>Tags:</span>
+              <a href="#">intro</a> · <a href="#">tda</a> · <a href="#">machine-learning</a>
+            </div>
+          </article>
+
+          <!-- (Optional) future posts: uncomment or replace as you write them
+          <article class="card">
+            <div class="card-meta">TDA · January 2026</div>
+            <h3 class="card-title">
+              <a href="blog/topological-summaries-gw-time-series.html">
+                Topological summaries of gravitational-wave-like time series
+              </a>
+            </h3>
+            <p class="card-body">
+              A hands-on exploration of how persistence diagrams behave on noisy time-series data
+              inspired by gravitational-wave searches at low SNR.
+            </p>
+            <div class="card-links">
+              <span>Tags:</span>
+              <a href="#">tda</a> · <a href="#">time-series</a> · <a href="#">gravitational-waves</a>
+            </div>
+          </article>
+          -->
+        </div>
+
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">About this blog</h2>
+        <p class="section-intro">
+          Posts here are mostly for learning and sharing ideas. They may contain incomplete results,
+          toy models, or work-in-progress thoughts. If you spot an error or want to discuss something,
+          feel free to <a href="mailto:gabrielwendell@fisica.ufrn.br">send me an email</a>.
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>© <span id="year"></span> Gabriel Wendell Celestino Rocha.</div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="research.html">Research</a>
+        <a href="publications.html">Publications</a>
+        <a href="talks.html">Talks</a>
+        <a href="software.html">Software</a>
+        <a href="teaching.html">Teaching</a>
+        <a href="cv.html">CV</a>
+        <a href="blog.html">Blog</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

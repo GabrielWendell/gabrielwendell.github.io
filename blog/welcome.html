@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome – Gabriel Wendell – Blog</title>
+  <meta name="description"
+        content="An introduction to my research blog: what I write about, who it is for, and how to use the notes and code shared here." />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+  <!-- Syntax highlighting for code blocks (Prism.js) -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/themes/prism-tomorrow.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-python.min.js" defer></script>
+
+  <!-- MathJax 3: enable $...$ and \(...\) inline, $$...$$ and \[...\] display -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script','noscript','style','textarea','pre','code']
+      }
+    };
+  </script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+</head>
+
+<body class="blog-post">
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="../index.html" class="brand">Gabriel Wendell</a>
+      <nav class="site-nav">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="../research.html" class="nav-link">Research</a>
+        <a href="../publications.html" class="nav-link">Publications</a>
+        <a href="../talks.html" class="nav-link">Talks</a>
+        <a href="../software.html" class="nav-link">Software</a>
+        <a href="../teaching.html" class="nav-link">Teaching</a>
+        <a href="../cv.html" class="nav-link">CV</a>
+        <a href="../blog.html" class="nav-link active">Blog</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <header class="page-header">
+        <p class="page-kicker">Blog</p>
+        <h1 class="page-title">Welcome to my research notes</h1>
+        <p class="page-subtitle">
+          A place where I collect short notes, experiments, and ideas at the intersection of
+          <strong>physics</strong>, <strong>topological data analysis</strong>, and
+          <strong>machine learning</strong>.
+        </p>
+        <p style="margin-top: 0.6rem; font-size: 0.85rem; color: var(--muted);">
+          <strong>Date:</strong> January 15, 2026
+          &nbsp;·&nbsp;
+          <strong>Tags:</strong> <span>intro</span>, <span>tda</span>, <span>machine-learning</span>
+        </p>
+      </header>
+
+      <article class="section">
+        <h2 class="section-title">1. Why this blog exists</h2>
+        <p class="section-intro">
+          Most of my work lives in papers, talks, and code repositories. That is great for finished
+          results, but not so great for the messy in-between stage where ideas are tried, broken,
+          and slowly improved.
+        </p>
+
+        <p>
+          This blog is a space for that in-between stage. Here I want to record small computational
+          experiments, derivations, and observations that connect
+          <strong>topological data analysis (TDA)</strong>,
+          <strong>topological deep learning</strong>, and
+          <strong>physical systems across scales</strong> – from gravitational waves and galaxy
+          morphology to dynamical systems and condensed-matter toy models.
+        </p>
+
+        <p>
+          Posts are intentionally informal. They are closer to research notes than to polished
+          articles, and I expect many of them to evolve as projects move forward.
+        </p>
+
+        <h2 class="section-title">2. What you will find here</h2>
+
+        <h3>2.1 Conceptual notes</h3>
+        <p>
+          Short explanations of ideas that I use frequently in my work, such as:
+        </p>
+        <ul class="item-list">
+          <li>Intuition behind persistent homology and persistence diagrams;</li>
+          <li>How Mapper and related constructions help summarize complex state spaces;</li>
+          <li>Connections between TDA, graphs, and representations used in ML models.</li>
+        </ul>
+
+        <h3>2.2 Computational experiments</h3>
+        <p>
+          Many posts will include small Python scripts or Jupyter-style snippets where I try
+          things out on synthetic or real data. Examples include:
+        </p>
+        <ul class="item-list">
+          <li>Topological summaries of gravitational-wave-like time series at low SNR;</li>
+          <li>Simple models for galaxy morphology using self-supervised representations;</li>
+          <li>Diagnostics of neural networks trained on physical simulations.</li>
+        </ul>
+        <p>
+          Whenever possible, I will link to the corresponding <strong>code repositories</strong> or
+          notebooks so that you can reproduce or modify the experiments.
+        </p>
+
+        <h3>2.3 Teaching and learning material</h3>
+        <p>
+          I also plan to use the blog to share material that may be useful for students:
+        </p>
+        <ul class="item-list">
+          <li>Notes that complement my courses or seminars;</li>
+          <li>Step-by-step introductions to tools I use frequently (Python, TDA libraries, etc.);</li>
+          <li>Annotated references and reading suggestions for people entering the area.</li>
+        </ul>
+
+        <h2 class="section-title">3. Who this blog is for</h2>
+        <p>
+          The primary audience I have in mind is:
+        </p>
+        <ul class="item-list">
+          <li>Students and researchers in physics or astronomy curious about TDA and ML;</li>
+          <li>People from the TDA / ML community interested in physical applications;</li>
+          <li>Anyone who enjoys seeing how mathematical ideas meet real data.</li>
+        </ul>
+        <p>
+          I will try to keep posts as self-contained as reasonably possible, but some familiarity
+          with basic calculus, linear algebra, and programming will certainly help.
+        </p>
+
+        <h2 class="section-title">4. How to read and use these posts</h2>
+        <p>
+          You should think of these posts as invitations rather than final answers. Feel free to:
+        </p>
+        <ul class="item-list">
+          <li>Reuse snippets of code or ideas in your own projects (with attribution, if relevant);</li>
+          <li>Disagree, extend, or correct what you find – and let me know when you do;</li>
+          <li>Contact me if a note sparks an idea for a collaboration or project.</li>
+        </ul>
+
+        <p style="margin-top: 1rem;">
+          If you notice any errors or have suggestions for topics, feel free to
+          <a href="mailto:gabrielwendell@fisica.ufrn.br">send me an email</a>.
+          I am always happy to discuss physics, topology, and machine learning.
+        </p>
+      </article>
+
+      <!-- Bottom navigation: previous / next -->
+      <section class="section post-nav">
+        <div class="post-nav-inner">
+            <div class="post-nav-prev">
+            ← <a href="../blog.html">Back to the blog index</a>
+            </div>
+            <div class="post-nav-next">
+            <a href="post-template.html">Next post →</a>
+            </div>
+        </div>
+        </section>
+
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>© <span id="year"></span> Gabriel Wendell Celestino Rocha.</div>
+      <div class="footer-links">
+        <a href="../index.html">Home</a>
+        <a href="../research.html">Research</a>
+        <a href="../publications.html">Publications</a>
+        <a href="../talks.html">Talks</a>
+        <a href="../software.html">Software</a>
+        <a href="../teaching.html">Teaching</a>
+        <a href="../cv.html">CV</a>
+        <a href="../blog.html">Blog</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Copy-to-clipboard for code blocks (kept here for future posts that include code)
+    function setupCodeCopy() {
+      document.querySelectorAll('.code-block').forEach(function (block) {
+        const button = block.querySelector('.code-copy-btn');
+        const codeElement = block.querySelector('pre code');
+        if (!button || !codeElement) return;
+
+        function doCopy(text) {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            return navigator.clipboard.writeText(text);
+          }
+          return new Promise(function (resolve, reject) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+              document.execCommand('copy');
+              resolve();
+            } catch (e) {
+              reject(e);
+            } finally {
+              document.body.removeChild(textarea);
+            }
+          });
+        }
+
+        button.addEventListener('click', function () {
+          const text = codeElement.innerText.trimEnd();
+          doCopy(text).then(function () {
+            button.textContent = 'Copied!';
+            setTimeout(function () { button.textContent = 'Copy'; }, 2000);
+          }).catch(function () {
+            button.textContent = 'Error';
+            setTimeout(function () { button.textContent = 'Copy'; }, 2000);
+          });
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupCodeCopy);
+    } else {
+      setupCodeCopy();
+    }
+  </script>
+</body>
+</html>

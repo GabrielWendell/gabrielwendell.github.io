@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>[Post title] – Gabriel Wendell – Blog</title>
+  <meta name="description" content="[One-sentence description of this post for search engines.]" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+  <!-- Syntax highlighting for code blocks (Prism.js) -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/themes/prism-tomorrow.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/prism.min.js" defer></script>
+  <!-- Add more language files if needed; Python as example -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-python.min.js" defer></script>
+    <!-- MathJax 3: enable $...$ and \(...\) inline, $$...$$ and \[...\] display -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      options: {
+        // don't try to typeset inside code/pre
+        skipHtmlTags: ['script','noscript','style','textarea','pre','code']
+      }
+    };
+  </script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+</head>
+<body class="blog-post">
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="../index.html" class="brand">Gabriel Wendell</a>
+      <nav class="site-nav">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="../research.html" class="nav-link">Research</a>
+        <a href="../publications.html" class="nav-link">Publications</a>
+        <a href="../talks.html" class="nav-link">Talks</a>
+        <a href="../software.html" class="nav-link">Software</a>
+        <a href="../teaching.html" class="nav-link">Teaching</a>
+        <a href="../cv.html" class="nav-link">CV</a>
+        <a href="../blog.html" class="nav-link active">Blog</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <header class="page-header">
+        <p class="page-kicker">Blog</p>
+        <h1 class="page-title">[Post title]</h1>
+        <p class="page-subtitle">
+          [Short summary of the post – one or two sentences explaining what the reader will learn.]
+        </p>
+        <p style="margin-top: 0.6rem; font-size: 0.85rem; color: var(--muted);">
+          <strong>Date:</strong> [Month DD, YYYY]
+          &nbsp;·&nbsp;
+          <strong>Tags:</strong> <span>[tda]</span>, <span>[machine-learning]</span>, <span>[astrophysics]</span>
+        </p>
+      </header>
+
+      <article class="section">
+        <h2 class="section-title">1. Introduction</h2>
+        <p class="section-intro">
+          Use this space to motivate the problem or idea. Explain the context briefly and mention any
+          prerequisites (for example: basic topology, linear algebra, or familiarity with Python).
+        </p>
+
+        <p>
+          Then continue with normal paragraphs. You can mix inline mathematics written in LaTeX-like
+          notation if you are rendering via MathJax (e.g., <code>\\int f(x)\\,dx</code>), or keep the
+          post fully text-based if you prefer.
+        </p>
+
+        <p class="equation">$$ \int f(x)\,dx $$</p>
+
+        <p>
+            When $a \ne 0$, there are two solutions to $ax^2 + bx + c = 0$, and they are
+            $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}$$
+        </p>
+
+        <h2 class="section-title">2. Main idea</h2>
+        <p>
+          Break the post into logical sections. Use <code>&lt;h2&gt;</code> for main sections and
+          <code>&lt;h3&gt;</code> for subsections.
+        </p>
+
+        <h3>2.1 Example with code</h3>
+        <p>
+          For small code snippets, use inline <code>&lt;code&gt;</code>. For longer blocks,
+          <code>&lt;pre&gt;&lt;code&gt;</code> works well:
+        </p>
+
+<div class="code-block" data-lang="python">
+  <div class="code-block-header">
+    <span>Python</span>
+    <button class="code-copy-btn" type="button" aria-label="Copy code">Copy</button>
+  </div>
+  <pre><code class="language-python">
+# Example Python snippet
+import numpy as np
+
+def toy_filtration(x):
+    """Example helper for a blog post."""
+    return np.sort(x)
+
+points = np.random.randn(100, 2)
+values = toy_filtration(points[:, 0])
+print(values[:5])
+  </code></pre>
+</div>
+
+
+        <p>
+          You can also include figures by placing them in the <code>assets/</code> folder and
+          referencing them with an <code>&lt;img&gt;</code> tag:
+        </p>
+
+        <p>
+          <img src="../assets/example-figure.jpg"
+               alt="Example figure for a blog post."
+               style="max-width: 100%; border-radius: 0.8rem;
+                      border: 1px solid var(--border-subtle);
+                      box-shadow: 0 12px 30px rgba(0,0,0,0.55);">
+        </p>
+
+        <h2 class="section-title">3. Wrap-up</h2>
+        <p>
+          Finish with a short summary of the main takeaways, possible extensions, and references to
+          papers or software. You can add a short bibliography as a list:
+        </p>
+
+        <ul class="item-list">
+          <li>Author A., Author B. <em>Title of the paper</em>. Journal, year.</li>
+          <li>Link to a GitHub repository or dataset.</li>
+        </ul>
+
+        <p style="margin-top: 1rem;">
+          If you notice any errors or have suggestions, feel free to
+          <a href="mailto:gabrielwendell@fisica.ufrn.br">send me an email</a>.
+        </p>
+      </article>
+
+      <section class="section">
+        <p class="section-intro">
+          ← <a href="../blog.html">Back to the blog index</a>
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>© <span id="year"></span> Gabriel Wendell Celestino Rocha.</div>
+      <div class="footer-links">
+        <a href="../index.html">Home</a>
+        <a href="../research.html">Research</a>
+        <a href="../publications.html">Publications</a>
+        <a href="../talks.html">Talks</a>
+        <a href="../software.html">Software</a>
+        <a href="../teaching.html">Teaching</a>
+        <a href="../cv.html">CV</a>
+        <a href="../blog.html">Blog</a>
+      </div>
+    </div>
+  </footer>
+
+    <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Copy-to-clipboard for code blocks
+    function setupCodeCopy() {
+      document.querySelectorAll('.code-block').forEach(function (block) {
+        const button = block.querySelector('.code-copy-btn');
+        const codeElement = block.querySelector('pre code');
+        if (!button || !codeElement) return;
+
+        function doCopy(text) {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            return navigator.clipboard.writeText(text);
+          }
+          // Fallback for older browsers
+          return new Promise(function (resolve, reject) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+              document.execCommand('copy');
+              resolve();
+            } catch (e) {
+              reject(e);
+            } finally {
+              document.body.removeChild(textarea);
+            }
+          });
+        }
+
+        button.addEventListener('click', function () {
+          const text = codeElement.innerText.trimEnd();
+          doCopy(text).then(function () {
+            button.textContent = 'Copied!';
+            setTimeout(function () { button.textContent = 'Copy'; }, 2000);
+          }).catch(function () {
+            button.textContent = 'Error';
+            setTimeout(function () { button.textContent = 'Copy'; }, 2000);
+          });
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupCodeCopy);
+    } else {
+      setupCodeCopy();
+    }
+  </script>
+</body>
+</html>

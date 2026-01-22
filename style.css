@@ -657,6 +657,7 @@ main {
   color: var(--muted);
 }
 
+
 .footer-links {
   display: flex;
   flex-wrap: wrap;
@@ -685,4 +686,221 @@ main {
   .hero-heading {
     font-size: 1.9rem;
   }
+}
+
+/* Blog posts: simple dark background image for readability */
+body.blog-post {
+  background-color: #000000;
+  background-image: url("assets/blog-background.png");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;  /* you can change to 'scroll' if fixed feels janky */
+}
+
+body.blog-post::before,
+body.blog-post::after {
+  content: none;   /* disable the global gradient overlays on blog pages */
+}
+
+/* Blog posts: decorative footer background -------------------------------- */
+
+.blog-post .site-footer {
+  position: relative;
+  overflow: hidden;
+  background: transparent;     /* let the image pseudo-element show through */
+
+}
+
+.blog-post .site-footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("assets/blog-background.png");
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  opacity: 0.9;                /* tweak if you want it lighter/darker */
+  z-index: -1;
+  border-top: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+/* Keep footer text readable on dark background */
+.blog-post .site-footer .footer-inner {
+  background: transparent;     /* remove any existing solid background if you have one */
+}
+
+/* Blog content layout */
+.blog-post main .page-header,
+.blog-post main .section {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Center all images inside blog posts */
+.blog-post main img {
+  display: block;
+  margin: 1.25rem auto;
+  max-width: 100%;
+}
+
+/* Center displayed equations.
+   Option 1: wrap equations in <p class="equation">...</p>.
+   Option 2: these selectors also catch typical MathJax display blocks. */
+.blog-post .equation,
+.blog-post .MJXc-display,
+.blog-post .mjx-chtml[display="true"] {
+  text-align: center;
+  margin: 1.25rem auto;
+}
+
+/* Blog post code blocks --------------------------------------------------- */
+
+.blog-post .code-block {
+  max-width: 900px;
+  margin: 1.2rem auto;
+  border-radius: 0.9rem;
+  border: 1px solid var(--border-subtle);
+  background: rgba(15, 23, 42, 0.98);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+}
+
+.blog-post .code-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.35rem 0.9rem;
+  border-bottom: 5px solid #FFFFFF;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+.blog-post .code-block-header span {
+  opacity: 0.85;
+}
+
+.blog-post .code-copy-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 0.15rem 0.75rem;
+  font-size: 0.72rem;
+  background: rgba(15, 23, 42, 1);
+  color: var(--muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+.blog-post .code-copy-btn:hover {
+  color: var(--accent);
+}
+
+.blog-post .code-block pre {
+  margin: 0;
+  padding: 0.85rem 1rem 1rem;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+               "Liberation Mono", "Courier New", monospace;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  background: #000000;
+}
+
+/* Keep code itself left-aligned inside the centered box */
+.blog-post pre[class*="language-"],
+.blog-post code[class*="language-"] {
+  text-align: left;
+}
+
+/* Blog posts: subtle background behind the content area ------------------- */
+
+.blog-post main {
+  position: relative;                /* so ::before can be positioned inside */
+  background-position: center top;   /* move the “interesting” part down/up */
+}
+
+.blog-post main::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("assets/blog-background.png");
+  background-repeat: no-repeat;
+  background-size: cover;       /* or 'contain' if you prefer */
+  background-position: center top;   /* move the “interesting” part down/up */
+  opacity: 0.5;                 /* lower if it feels too strong */
+  pointer-events: none;
+  z-index: -1;                  /* stay behind text and code boxes */
+}
+
+/* Blog post bottom navigation (prev / next) ------------------------------- */
+
+.post-nav {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.post-nav-inner {
+  display: flex;
+  justify-content: space-between;  /* left & right */
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
+
+.post-nav-prev a,
+.post-nav-next a {
+  text-decoration: underline;
+}
+
+/* On very small screens, stack vertically again */
+@media (max-width: 600px) {
+  .post-nav-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Blog post typography spacing ------------------------------------------- */
+
+/* Overall paragraph spacing in blog articles */
+.blog-post article.section p {
+  margin-top: 0.4rem;
+  margin-bottom: 0.9rem;
+}
+
+/* Main section titles (1., 2., 3., ...) inside the post */
+.blog-post article.section h2.section-title {
+  margin-top: 2.2rem;   /* space above */
+  margin-bottom: 0.6rem;
+}
+
+/* But don't push the very first h2 down from the top */
+.blog-post article.section h2.section-title:first-of-type {
+  margin-top: 0;
+}
+
+/* Subsection titles (2.1, 2.2, ...) */
+.blog-post article.section h3 {
+  margin-top: 1.6rem;
+  margin-bottom: 0.4rem;
+  font-size: 1.05rem;
+}
+
+/* Lists inside the post */
+.blog-post article.section ul.item-list {
+  margin-top: 0.2rem;
+  margin-bottom: 1.1rem;
+}
+
+/* Small extra gap between list items */
+.blog-post article.section ul.item-list li + li {
+  margin-top: 0.15rem;
+}
+
+.blog-post article.section {
+  line-height: 1.7;
 }
