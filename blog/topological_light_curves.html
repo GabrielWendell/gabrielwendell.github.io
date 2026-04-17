@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Topological Representation of Light Curves – Gabriel Wendell – Blog</title>
+  <meta name="description"
+        content="A two-part introduction to the topological representation of astronomical light curves, from delay embeddings and persistent homology to a synthetic active-light-curve example." />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/themes/prism-tomorrow.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-python.min.js" defer></script>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script','noscript','style','textarea','pre','code']
+      }
+    };
+  </script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+</head>
+
+<body class="blog-post">
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="../index.html" class="brand">Gabriel Wendell</a>
+      <nav class="site-nav">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="../research.html" class="nav-link">Research</a>
+        <a href="../publications.html" class="nav-link">Publications</a>
+        <a href="../talks.html" class="nav-link">Talks</a>
+        <a href="../software.html" class="nav-link">Software</a>
+        <a href="../teaching.html" class="nav-link">Teaching</a>
+        <a href="../cv.html" class="nav-link">CV</a>
+        <a href="../blog.html" class="nav-link active">Blog</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <header class="page-header">
+        <p class="page-kicker">Blog</p>
+        <h1 class="page-title">Topological Representation of Light Curves</h1>
+        <p class="page-subtitle">
+          A two-part note on how a one-dimensional light curve can be converted into a geometric and
+          topological object, and how this viewpoint helps us characterize periodicity, transients,
+          and structure beyond classical summary statistics.
+        </p>
+        <p style="margin-top: 0.6rem; font-size: 0.85rem; color: var(--muted);">
+          <strong>Date:</strong> April 17, 2026
+          &nbsp;·&nbsp;
+          <strong>Tags:</strong> <span>tda</span>, <span>time-series</span>, <span>light-curves</span>, <span>astrophysics</span>
+        </p>
+      </header>
+
+      <article class="section">
+        <h2 class="section-title">1. Introduction</h2>
+        <p>
+          Light curves are among the simplest and most useful objects in astronomy: they record how the
+          observed brightness of a source changes in time. Yet, despite this apparent simplicity, a light
+          curve is often the projection of a higher-dimensional dynamical process onto a single scalar observable.
+        </p>
+
+        <p>
+          This is exactly where a topological point of view becomes interesting. Instead of treating a light curve
+          only as a list of amplitudes or a spectrum, we can reinterpret it as a trajectory in a reconstructed
+          state space. Once the signal is embedded into such a space, its <em>shape</em> becomes meaningful:
+          periodic signals tend to organize around loops, quasi-periodic signals can thicken into torus-like
+          clouds, and transient events deform the geometry locally.
+        </p>
+
+        <p>
+          In this post I divide the discussion into two parts. In the first, I summarize the mathematical and
+          computational foundations of a topological representation of light curves. In the second, I show a
+          concrete computational example using a synthetic light curve with a periodic background and a localized
+          flare-like transient. Since “reactive light curve” is not a standard astronomical expression, I interpret
+          it here as an <em>active</em> or <em>transient-bearing</em> synthetic light curve.
+        </p>
+
+        <h2 class="section-title">Part I. Mathematical and computational foundations</h2>
+
+        <h3>2. From a scalar time series to a geometric object</h3>
+        <p>
+          Suppose we observe a light curve as a scalar sequence
+          $$x_0, x_1, \dots, x_{N-1},$$
+          sampled at times
+          $$t_0, t_1, \dots, t_{N-1}.$$
+          By itself, this sequence lives on a line: each observation is just one number. But if the underlying
+          source is generated by some latent dynamical system, then the one-dimensional observation may be viewed
+          as a projection of a richer state space.
+        </p>
+
+        <p>
+          The standard way to recover part of that hidden structure is <strong>delay-coordinate embedding</strong>.
+          For a delay $\tau$ and embedding dimension $m$, we map the light curve to vectors of the form
+        </p>
+
+        <p class="equation">
+          $$
+          \mathbf{X}_i = \big(x_i, x_{i+\tau}, x_{i+2\tau}, \dots, x_{i+(m-1)\tau}\big)
+          \in \mathbb{R}^m.
+          $$
+        </p>
+
+        <p>
+          As $i$ runs over all valid indices, these vectors define a point cloud or sampled trajectory in
+          $\mathbb{R}^m$. The original scalar light curve is therefore transformed into a geometric object.
+          This is the first key step: topology does not act directly on the one-dimensional list of fluxes,
+          but on the geometry induced by the embedding.
+        </p>
+
+        <h3>3. Why topology enters the problem</h3>
+        <p>
+          Once the light curve has been embedded, we can ask questions about its large-scale organization.
+          Does the cloud wrap around a loop? Does it split into disconnected pieces? Does it contain voids,
+          tunnels, or persistent geometric motifs across scales?
+        </p>
+
+        <p>
+          The language of algebraic topology encodes these questions through the <strong>Betti numbers</strong>:
+        </p>
+        <p>
+          $$
+            \begin{split}
+              \beta_{0}&= \text{number of connected components;}\\
+              \beta_{1}&= \text{number of one-dimensional loops or cycles;}\\
+              \beta_{2}&= \text{number of enclosed voids in three-dimensional settings.}
+            \end{split}
+          $$
+        </p>
+
+        <p>
+          For many light-curve applications, the most informative quantity is often $\beta_1$.
+          A clean periodic signal embedded in two or three dimensions often traces out a loop-like object,
+          so persistent one-cycles become natural indicators of periodic organization.
+        </p>
+
+        <h3>4. Filtrations and persistent homology</h3>
+        <p>
+          A point cloud alone is not yet a topological space in a useful computational sense. We therefore build
+          a family of simplicial complexes from it. A common choice is the <strong>Vietoris–Rips filtration</strong>:
+          for each scale parameter $\varepsilon > 0$, we connect points whose pairwise distance is at most
+          $\varepsilon$, and fill higher-dimensional simplices whenever all lower-dimensional faces are present.
+        </p>
+
+        <p>
+          As $\varepsilon$ increases, the complex changes. Connected components merge, loops appear, and later disappear.
+          Persistent homology records the <em>birth</em> and <em>death</em> of these topological features across scales.
+          The output is usually summarized as a barcode or persistence diagram,
+          $$
+          \mathcal{D}_k = \{(b_j, d_j)\}_j,
+          $$
+          where each pair stores the birth and death scales of a $k$-dimensional feature.
+        </p>
+
+        <p>
+          Features that persist for a long interval $d_j - b_j$ are typically interpreted as more structurally relevant
+          than short-lived ones, which are often associated with noise or very local fluctuations.
+        </p>
+
+        <h3>5. Interpreting topology in the context of light curves</h3>
+        <p>
+          The interpretation is not purely abstract; it has a dynamical meaning.
+        </p>
+        <ul class="item-list">
+          <li><strong>Periodic light curve:</strong> delay embeddings tend to organize around a loop, leading to a robust $H_1$ feature.</li>
+          <li><strong>Quasi-periodic light curve:</strong> the cloud may thicken or fold into a more complicated object, sometimes suggestive of toroidal structure.</li>
+          <li><strong>Strongly noisy signal:</strong> the embedding becomes diffuse, and persistent features are typically weaker or less stable.</li>
+          <li><strong>Transient event:</strong> a flare, dip, or burst can pull the embedded trajectory away from its baseline loop, creating local deformations or secondary branches.</li>
+        </ul>
+
+        <p>
+          In other words, topology does not replace classical tools such as the Fourier transform, periodograms,
+          autocorrelation, or wavelets. Rather, it complements them by emphasizing global geometric structure in the
+          reconstructed state space.
+        </p>
+
+        <h3>6. A practical computational pipeline</h3>
+        <p>
+          A useful workflow for topological representations of light curves is the following:
+        </p>
+        <ol class="item-list" style="list-style: decimal; padding-left: 1.25rem;">
+          <li><strong>Preprocess:</strong> detrend, normalize, and handle missing observations.</li>
+          <li><strong>Choose delay parameters:</strong> select $\tau$ and $m$ using heuristics such as autocorrelation decay, mutual information, or false nearest neighbors.</li>
+          <li><strong>Build the embedding:</strong> convert the scalar light curve into a point cloud in $\mathbb{R}^m$.</li>
+          <li><strong>Compute persistent homology:</strong> usually from a Vietoris–Rips filtration on the embedded cloud.</li>
+          <li><strong>Vectorize if needed:</strong> persistence diagrams can be converted into persistence images, landscapes, Betti curves, or summary statistics for downstream ML.</li>
+          <li><strong>Interpret physically:</strong> relate persistent features to periodicity, transients, state changes, or morphological variability.</li>
+        </ol>
+
+        <p>
+          In real astronomical data, irregular cadence and observational gaps matter. They may distort the embedding,
+          so interpolation, windowing, or cadence-aware embeddings sometimes become necessary. For a first synthetic
+          example, however, evenly sampled data is enough to illustrate the main ideas.
+        </p>
+
+        <h2 class="section-title">Part II. A synthetic active-light-curve example</h2>
+
+        <h3>7. Building the toy model</h3>
+        <p>
+          Let us construct a light curve that combines three ingredients:
+        </p>
+        <ul class="item-list">
+          <li>a periodic baseline, mimicking rotational or pulsational variability;</li>
+          <li>a secondary harmonic, making the waveform slightly non-sinusoidal;</li>
+          <li>a localized flare-like transient, introducing a short-lived deviation from the baseline dynamics.</li>
+        </ul>
+
+        <p>
+          A simple model is
+        </p>
+        <p class="equation">
+          $$
+          x(t) = 0.75\sin\!\left(\frac{2\pi t}{P}\right)
+          + 0.18\sin\!\left(\frac{4\pi t}{P} + \phi\right)
+          + F(t) + \eta(t),
+          $$
+          where $P$ is the dominant period, $\phi$ is a phase shift, $\eta(t)$ is a noise term, and
+          $F(t)$ is a localized flare centered at $t_0$.
+        </p>
+
+        <p>
+          In the figures below, the flare is deliberately asymmetric: it rises quickly and decays more slowly.
+          This makes the transient look more realistic and also produces a visible geometric distortion in the embedding.
+        </p>
+
+        <p>
+          <img src="../blog_assets/topological-light-curves/synthetic_light_curve.png"
+               alt="Synthetic active light curve with periodic baseline and transient flare."
+               style="max-width: 100%; border-radius: 0.8rem; border: 1px solid var(--border-subtle); box-shadow: 0 12px 30px rgba(0,0,0,0.55);">
+        </p>
+
+        <p>
+          The baseline signal is approximately periodic, but the flare temporarily pushes the light curve outside its usual oscillatory pattern.
+          Topology becomes useful precisely because it helps us distinguish this global baseline organization from localized deviations.
+        </p>
+
+        <h3>8. Delay embedding of the synthetic light curve</h3>
+        <p>
+          We now embed the normalized signal using a delay $\tau$ and embedding dimension $m=3$.
+          Even when projected into two dimensions, the structure is already visible:
+        </p>
+
+        <p>
+          <img src="../blog_assets/topological-light-curves/delay_embedding_2d.png"
+               alt="Two-dimensional delay embedding of the synthetic light curve."
+               style="max-width: 100%; border-radius: 0.8rem; border: 1px solid var(--border-subtle); box-shadow: 0 12px 30px rgba(0,0,0,0.55);">
+        </p>
+
+        <p>
+          The dominant loop corresponds to the underlying periodic behavior. The outlying points and distortions around the loop are caused by the flare.
+          If the signal were purely periodic and noiseless, the embedding would be much closer to a clean closed curve. Noise thickens the loop, while the
+          transient stretches part of the trajectory outward.
+        </p>
+
+        <p>
+          In three dimensions the same idea becomes even clearer:
+        </p>
+
+        <p>
+          <img src="../blog_assets/topological-light-curves/delay_embedding_3d.png"
+               alt="Three-dimensional delay embedding of the synthetic light curve."
+               style="max-width: 100%; border-radius: 0.8rem; border: 1px solid var(--border-subtle); box-shadow: 0 12px 30px rgba(0,0,0,0.55);">
+        </p>
+
+        <p>
+          One should not over-interpret every twist in such a small synthetic example. The important point is qualitative:
+          the embedded cloud contains a persistent loop-like backbone associated with the periodic component, together with a localized excursion
+          produced by the transient event.
+        </p>
+
+        <h3>9. Recurrence structure</h3>
+        <p>
+          Another way to visualize the organization of the embedded trajectory is through a recurrence matrix. Two states are marked as recurrent when
+          they are close in the embedding space. Periodic or quasi-periodic dynamics often produce structured recurrence patterns, while noise and transients
+          break or blur them.
+        </p>
+
+        <p>
+          <img src="../blog_assets/topological-light-curves/recurrence_matrix.png"
+               alt="Recurrence matrix of the embedded synthetic light curve."
+               style="max-width: 100%; border-radius: 0.8rem; border: 1px solid var(--border-subtle); box-shadow: 0 12px 30px rgba(0,0,0,0.55);">
+        </p>
+
+        <p>
+          Although a recurrence matrix is not itself persistent homology, it is often a useful intermediate sanity check: before computing topology,
+          it lets us see whether the embedding already contains meaningful dynamical repetition.
+        </p>
+
+        <h3>10. Minimal Python code</h3>
+        <p>
+          The following snippet generates a light curve similar to the one shown above and builds a delay embedding. It is intentionally compact and designed
+          for exposition rather than production use.
+        </p>
+
+<div class="code-block" data-lang="python">
+  <div class="code-block-header">
+    <span>Python</span>
+    <button class="code-copy-btn" type="button" aria-label="Copy code">Copy</button>
+  </div>
+  <pre><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+
+rng = np.random.default_rng(7)
+t = np.linspace(0, 60, 900)
+P = 5.5
+phi = 0.5
+
+baseline = 0.75*np.sin(2*np.pi*t/P) + 0.18*np.sin(4*np.pi*t/P + phi)
+
+# Asymmetric flare
+A = 1.2
+t0 = 33.5
+rise = 0.45
+decay = 1.8
+flare = np.where(t <= t0,
+                 A*np.exp(-(t0 - t)/rise),
+                 A*np.exp(-(t - t0)/decay))
+flare[np.abs(t - t0) > 6] = 0.0
+
+noise = 0.08 * rng.normal(size=t.size)
+x = baseline + flare + noise
+x = (x - x.mean()) / x.std()
+
+# Delay embedding
+m = 3
+tau = 12
+n = len(x) - (m - 1)*tau
+X = np.column_stack([x[j:j+n] for j in [0, tau, 2*tau]])
+
+plt.figure(figsize=(5, 5))
+plt.scatter(X[:, 0], X[:, 1], s=8)
+plt.xlabel(r"$x(t)$")
+plt.ylabel(r"$x(t+\tau)$")
+plt.title("Delay embedding of a synthetic active light curve")
+plt.show()</code></pre>
+</div>
+
+        <p>
+          If you want to go one step further and compute persistent homology from the embedded point cloud, packages such as
+          <code>ripser</code> or <code>giotto-tda</code> are convenient choices. Conceptually, the pipeline is just:
+        </p>
+
+<div class="code-block" data-lang="python">
+  <div class="code-block-header">
+    <span>Python</span>
+    <button class="code-copy-btn" type="button" aria-label="Copy code">Copy</button>
+  </div>
+  <pre><code class="language-python">from ripser import ripser
+
+result = ripser(X, maxdim=1)
+diagrams = result["dgms"]
+H0, H1 = diagrams[0], diagrams[1]
+
+# H1 stores the birth and death scales of loop-like features.
+# A prominent long-lived point in H1 is often a signature of periodic structure.</code></pre>
+</div>
+
+        <h3>11. What the topology is telling us here</h3>
+        <p>
+          For this synthetic example, the main qualitative expectation is simple:
+        </p>
+        <ul class="item-list">
+          <li>a relatively persistent $H_1$ feature should encode the baseline periodic loop;</li>
+          <li>noise should generate many short-lived features;</li>
+          <li>the flare should thicken or deform the embedded cloud, potentially altering the lifetime of the dominant loop or creating additional local structure.</li>
+        </ul>
+
+        <p>
+          This is precisely the kind of information that can be useful when comparing classes of variable objects. Two light curves may have similar periods or amplitudes,
+          yet very different geometric organizations in delay space. Persistent homology provides a compact way to quantify that difference.
+        </p>
+
+        <h2 class="section-title">12. Final remarks</h2>
+        <p>
+          The topological representation of a light curve begins with a conceptual shift: instead of seeing the signal only as a graph of flux versus time,
+          we regard it as a sampled trajectory of an underlying system. Delay embeddings reconstruct part of that hidden geometry, and persistent homology
+          summarizes how that geometry organizes across scales.
+        </p>
+
+        <p>
+          For astronomy, this viewpoint is attractive because it is naturally compatible with problems where shape matters: periodicity, morphology of variability,
+          state transitions, transient contamination, and even representation learning pipelines for classification. In practice, topology is best used in dialogue with
+          more classical signal-processing tools, not in isolation.
+        </p>
+
+        <p>
+          In future notes, one could push this example in several directions: compare a purely periodic light curve with a quasi-periodic one; study how missing cadence
+          affects the embedding; or use persistence images as features for a classifier of synthetic variable-star types.
+        </p>
+
+        <h2 class="section-title">13. Suggested reading</h2>
+        <ul class="item-list">
+          <li>F. Takens, <em>Detecting Strange Attractors in Turbulence</em> (1981).</li>
+          <li>H. Edelsbrunner and J. Harer, <em>Computational Topology: An Introduction</em> (2010).</li>
+          <li>J. A. Perea and J. Harer, <em>Sliding Windows and Persistence: An Application of Topological Methods to Signal Analysis</em> (2015).</li>
+          <li>G. Carlsson, <em>Topology and Data</em> (2009).</li>
+        </ul>
+
+        <p style="margin-top: 1rem;">
+          If you notice any errors or want to discuss possible extensions to real astronomical light curves,
+          feel free to <a href="mailto:gabrielwendell@fisica.ufrn.br">send me an email</a>.
+        </p>
+      </article>
+
+      <section class="section post-nav">
+        <div class="post-nav-inner">
+          <div class="post-nav-prev">
+            ← <a href="../blog.html">Back to the blog index</a>
+          </div>
+          <div class="post-nav-next">
+            <a href="welcome.html">Previous post →</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>© <span id="year"></span> Gabriel Wendell Celestino Rocha.</div>
+      <div class="footer-links">
+        <a href="../index.html">Home</a>
+        <a href="../research.html">Research</a>
+        <a href="../publications.html">Publications</a>
+        <a href="../talks.html">Talks</a>
+        <a href="../software.html">Software</a>
+        <a href="../teaching.html">Teaching</a>
+        <a href="../cv.html">CV</a>
+        <a href="../blog.html">Blog</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function setupCodeCopy() {
+      document.querySelectorAll('.code-block').forEach(function (block) {
+        const button = block.querySelector('.code-copy-btn');
+        const codeElement = block.querySelector('pre code');
+        if (!button || !codeElement) return;
+
+        function doCopy(text) {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            return navigator.clipboard.writeText(text);
+          }
+          return new Promise(function (resolve, reject) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+              document.execCommand('copy');
+              resolve();
+            } catch (e) {
+              reject(e);
+            } finally {
+              document.body.removeChild(textarea);
+            }
+          });
+        }
+
+        button.addEventListener('click', function () {
+          const text = codeElement.innerText.trimEnd();
+          doCopy(text).then(function () {
+            button.textContent = 'Copied!';
+            setTimeout(function () { button.textContent = 'Copy'; }, 2000);
+          }).catch(function () {
+            button.textContent = 'Error';
+            setTimeout(function () { button.textContent = 'Copy'; }, 2000);
+          });
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupCodeCopy);
+    } else {
+      setupCodeCopy();
+    }
+  </script>
+</body>
+</html>

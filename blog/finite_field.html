@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finite Field – Gabriel Wendell – Blog</title>
+  <meta name="description" content="[One-sentence description of this post for search engines.]" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+  <!-- Syntax highlighting for code blocks (Prism.js) -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/themes/prism-tomorrow.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/prism.min.js" defer></script>
+  <!-- Add more language files if needed; Python as example -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-python.min.js" defer></script>
+    <!-- MathJax 3: enable $...$ and \(...\) inline, $$...$$ and \[...\] display -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      options: {
+        // don't try to typeset inside code/pre
+        skipHtmlTags: ['script','noscript','style','textarea','pre','code']
+      }
+    };
+  </script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+</head>
+<body class="blog-post">
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="../index.html" class="brand">Gabriel Wendell</a>
+      <nav class="site-nav">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="../research.html" class="nav-link">Research</a>
+        <a href="../publications.html" class="nav-link">Publications</a>
+        <a href="../talks.html" class="nav-link">Talks</a>
+        <a href="../software.html" class="nav-link">Software</a>
+        <a href="../teaching.html" class="nav-link">Teaching</a>
+        <a href="../cv.html" class="nav-link">CV</a>
+        <a href="../blog.html" class="nav-link active">Blog</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <header class="page-header">
+        <p class="page-kicker">Blog</p>
+        <h1 class="page-title">Finite Field</h1>
+        <p class="page-subtitle">
+          [Short summary of the post – one or two sentences explaining what the reader will learn.]
+        </p>
+        <p style="margin-top: 0.6rem; font-size: 0.85rem; color: var(--muted);">
+          <strong>Date:</strong> [Month DD, 2026]
+          &nbsp;·&nbsp;
+          <strong>Tags:</strong> <span>[field theory]</span>, <span>[algebra]</span>, <span>[mathematics]</span>
+        </p>
+      </header>
+
+      <article class="section">
+        <h2 class="section-title">1. Introduction</h2>
+        <p>
+          The proof I intend to present here is combinatorial. We will count the number a_n of irreducible polynomials in 
+          $\mathbb{Z}/p\mathbb{Z}$ of degree $n$, using some counting techniques. Then, we will prove that $a_n>0$ always.
+          Then continue with normal paragraphs. 
+        </p>
+
+        <p>
+          In [Ref], it was demonstrated that certain rings are unique factorization domains based on the fact that they are Euclidean. 
+          Furthermore, it is possible to demonstrate that polynomial rings in Z/pZ are also unique factorization domains.
+        </p>  
+
+        <p>
+          Consider all monic polynomials $x^{n}+c_{n-1}x^{n-1}+\cdots+c_{0}$ of degree $n$, $c_{i}\in Z/pZ$, $i=0,1,\ldots,n-1$. 
+          There are $p$ choices for each $a_{i}$, therefore there are $p^{n}$ polynomials of this type. Each polynomial $P(x)$ factors 
+          uniquely into irreducibles. Suppose that $m_{i}$ of these polynomials have degree $i$, with $i=1,2,\ldots,n$. Summing the degrees 
+          of the irreducible factors, we obtain $m_{1}+2m_{2}+\cdots+nm_{n}=n$.
+        </p>
+
+        <p>
+          Looking at the irreducible polynomials, we can choose $m_{k}$ from $a_{k}$ irreducible polynomials, allowing repetitions. 
+          The number of such choices is equal to the number of integer solutions of $x_{1}+x_{2}+\cdots+x_{a_{k}}=m_{k}$, which is 
+          $\binom{m_{k}+a_{k}-1}{m_{k}}$. Thus, all possible products of $m_{1}$ irreducible factors of degree $1$, $m_{2}$ irreducible factors 
+          of degree $2$, etc., are in total
+
+          $$ \prod_{1\leq k\leq n}\binom{m_{k}+a_{k}-1}{m_{k}}~. $$
+        </p>
+
+        <p>
+            Thus, considering all possible solutions of $\sum_{k=1}^{n}km_{k}=n$, we have all the factorizations of all $p^{n}$ polynomials, that is,
+            
+            $$ \sum_{m_{1}+2m_{2}+\cdots+nm_{n}=n}~\prod_{1\leq k\leq n}\binom{m_{k}+a_{k}-1}{m_{k}}=p^{n}~. $$
+        </p>
+
+        <p>
+          This alone already defines a recurrence for $a_{n}$, but a very complicated one. Let's calculate small values ​​for $p=2$ of
+
+          $$ \begin{cases}
+            a_{1}=2 & ,\\
+            a_{2}+\binom{a_{1}+1}{2}=4 & ,\\
+            a_{3}+a_{1}a_{2}+\binom{a_{1}+2}{3}=8 & ,\\
+            a_{4}+a_{1}a_{3}+\binom{a_{2}+1}{2}+\binom{a_{1}+3}{4}=16 & ,
+            \end{cases} $$
+          we then obtain $a_{1}=2$, $a_{2}=1$, $a_{3}=2$ and $a_{4}=3$.
+        </p>
+
+        <p>
+          Let's significantly simplify this recurrence, eventually finding a closed-form formula for $a_{n}$. To do this, we'll use some generating functions. 
+          Multiply both sides of Eq. (2) by $t^{n}$ and sum for every natural $n$. On the right-hand side, we obtain a (formal) geometric sum series of $1/(1-pt)$. 
+          Thus,
+
+          $$ 
+            \begin{split}
+              \sum_{n\geq0}t^{n} ~ \sum_{m_{1}+2m_{2}+\cdots+nm_{n}=n} ~ \prod_{1\leq k\leq n}\binom{m_{k}+a_{k}-1}{m_{k}}=\frac{1}{1-pt}~, \\
+              \iff\sum_{n\geq0}t^{m_{1}+2m_{2}+\cdots+nm_{n}} ~ \sum_{m_{1}+2m_{2}+\cdots+nm_{n}=n} ~ \prod_{1\leq k\leq n}\binom{m_{k}+a_{k}-1}{m_{k}}=\frac{1}{1-pt}~, \\
+              \iff\sum_{n\geq0} ~ \sum_{m_{1}+2m_{2}+\cdots+nm_{n}=n} ~ \prod_{1\leq k\leq n}\binom{m_{k}+a_{k}-1}{m_{k}}t^{km_{k}}=\frac{1}{1-pt}~.
+            \end{split}
+          $$
+        </p>
+
+        <p>
+          We have two summations: one over all natural numbers and another over sequences of natural numbers $(m_{1},m_{2},\ldots,m_{n})$ such that $m_{1}+2m_{2}+\cdots+nm_{n}=n$. 
+          Considering both summations, we see that this sum no longer presents us with any restrictions. Any finite sum of the type $m_{1}+2m_{2}+\cdots+nm_{n}$ is equal to a natural 
+          number and therefore will appear in the sum. The only precaution we must take is to consider sequences of natural numbers with a finite number of non-zero elements. Thus,
+
+          $$ \sum_{\left(m_{1},m_{2},\ldots\right)}' ~ \prod_{k\geq1}\binom{m_{k}+a_{k}-1}{m_{k}}t^{km_{k}}=\frac{1}{1-pt}~. $$
+
+          <b>Note:</b> We use an apostrophe to indicate that the sum is over sequences with a finite number of non-zero terms.
+        </p>
+
+        <p>
+          Now, the crucial point of our calculations. Let's classify the terms of the form $\binom{m_{k}+a_{k}-1}{m}t^{km}$. Note that the sum above is over <b>all</b> sequences $(m_{1},m_{2},\ldots)$
+          with a finite number of non-zero terms. Sequences of this type and products like the one shown above characterize a product expansion of sums. For example, let's focus on the first term $m_{1}$
+          of the sequence. We are multiplying terms of the form $\binom{m_{k}+a_{k}-1}{m}t^{m}$ (here we replace $m_{1}$ with $m$). Therefore,
+
+          $$ 
+            \begin{split}
+              \sum_{\left(m_{1},m_{2},\ldots\right)}' ~ \prod_{k\geq1}\binom{m_{k}+a_{k}-1}{m_{k}}t^{km_{k}}=\binom{0+a_{1}-1}{0}t^{0}\sum_{\left(m_{2},\ldots\right)}' ~ \prod_{k\geq2}\binom{m_{k}+a_{k}-1}{m_{k}}t^{km_{k}}+\ldots \\
+            =\left[\binom{0+a_{1}-1}{0}t^{0}+\binom{1+a_{1}-1}{1}t^{1}+\ldots\right]\cdot\sum_{\left(m_{2},\ldots\right)}' ~ \prod_{k\geq2}\binom{m_{k}+a_{k}-1}{m_{k}}t^{km_{k}} \\
+            =\sum_{m\geq0}\binom{m+a_{1}-1}{m}t^{m\cdot1}\sum_{\left(m_{2},\ldots\right)}' ~ \prod_{k\geq2}\binom{m+a_{k}-1}{m_{k}}t^{km_{k}}~.
+            \end{split}
+          $$
+
+          Inductively, we can conclude that
+          $$
+            \sum_{\left(m_{1},m_{2},\ldots\right)}' ~ \prod_{k\geq1}\binom{m_{k}+a_{k}-1}{m_{k}}t^{km_{k}}=\prod_{k\geq1} ~ \sum_{m\geq0}\binom{m+a_{k}-1}{m}t^{m\cdot k}=\frac{1}{1-pt}~.
+          $$
+
+          Using the concept of the generalized binomial, that is,
+          $$
+            \begin{split}
+              \binom{a}{n}=\frac{a\left(a-1\right)\cdot\left(a-n+1\right)}{n!}\quad\forall ~ a\in\mathbb{R}~,~ n\in\mathbb{N}~, \\
+              \implies \binom{m+a+1}{m}=\frac{\left(m+a-1\right)\left(m+a-2\right)\cdots a}{m!} = \left(-1\right)^{m}\frac{-a\left(-a-1\right)\cdots\left(-a-m-1\right)}{m!}=\left(-1\right)^{m}\binom{-a}{m}
+            \end{split}
+          $$
+          and, by the generalized Newton binomial, we have
+          $$
+            \sum_{m\geq0}\binom{m+a_{k}-1}{m}t^{m\cdot k}=\sum_{m\geq0}\left(-1\right)^{m}\binom{-a_{k}}{m}\left(t^{k}\right)^{m}=\left(1-t^{k}\right)^{-a_{k}}\quad\therefore\quad\prod_{k\geq1}(1-t^{k})^{-a_{k}}=\frac{1}{1-pt}~.
+          $$
+        </p>
+
+        <h2 class="section-title">2. Alternative Solution</h2>
+        <p>
+          We could have arrived at this identity a little faster. To do so, consider the sum $\sum_{i\geq0}p^{i}t^{i}$. The term in $t^{i}$ indicates the number of monic polynomials of degree $i$ that are uniquely factored into monic 
+          irreducibles. Thus, $t^{i}$ is a marker of the degree of the polynomials. Now, consider $(1+t^{k}+t^{2k}+\cdots)^{a_{k}}$. When expanding this product, we take the term $t^{mk}$ of the $i$-th factor when we take the $i$-th 
+          irreducible of degree $k$ (which total $a_{k}$). Therefore, considering all degrees,
+          $$
+            \prod_{k\geq1}\left(1+t^{k}+t^{2k}+\cdots\right)^{a_{k}}=\sum_{i\geq0}p^{i}t^{i}\iff\prod_{k\geq1}\left(1-t^{k}\right)^{-a_{k}}=\frac{1}{1-pt}~.
+          $$
+        </p>
+
+        <p>
+          However, it's important to know how to manipulate these expressions algebraically. One way to transform products into summations is to take logarithms of both sides. Here, $\log$ indicates the natural/Napierian logarithm. 
+          We then obtain
+          $$
+            -\sum_{k\geq1}a_{k}\log(1-t^{k})=-\log(1-pt)~.
+          $$
+
+          The expansion of $\log{(1-x)}$ in power series is
+          $$
+            \log(1-x)=x+\frac{x^{2}}{2}+\frac{x^{3}}{3}+\cdots=\sum_{i\geq1}\frac{x^{i}}{i}\implies\sum_{k\ge1}a_{k}\sum_{i\geq1}\frac{t^{ik}}{i}=\sum_{i\geq1}\frac{(pt)^{i}}{i}~.
+          $$
+
+          Now, we just need to compare the terms in $t^{n}$. On the right-hand side, it's $p^{n}/n$. On the left-hand side, it always appears when $ik=n\iff i=n/k$, that is, when $k|n$. Therefore
+          $$
+            \sum_{k|n}\frac{a_{k}}{n/k}=\frac{p^{n}}{n}\iff\sum_{k|n}ka_{k}=p^{n}~,
+          $$
+          which is a much more treatable recurrence. Let's review the small cases we presented earlier, with $p=2$
+          $$
+            \begin{cases}
+            a_{1}=2 & ,\\
+            a_{1}+2a_{2}=4 & ,\\
+            a_{1}+3a_{3}=8 & ,\\
+            a_{1}+2a_{2}+4a_{4}=16 & .
+            \end{cases}
+          $$
+        </p>
+
+        <p>
+          Now, let's prove that $a_{n}>0$. Consider the sum $\sum_{k|n}ka_{k}$. Apart from $na_{n}$, all other terms at most $n-1$ are smaller than $q^{n/2}$, since they have already appeared in previous sums. Thus,
+          $$
+            \sum_{k|n}ka_{k}<(n-1)q^{n/2}+na_{n}\iff q^{n}<(n-1)q^{n/2}+na_{n}\iff na_{n}>q^{n/2}(q^{n/2}-n+1)>0~.
+          $$
+        </p>
+
+        <h2 class="section-title">3. Möbius Inversion Formula</h2>
+        <p>
+          We can find a closed-form for $a_{n}$ from the Möbius inversion formula [2]:
+          $$
+            f(n)=\sum_{d|n}g(d)~,\quad\forall n\in\mathbb{Z}_{+}^{*}\iff g(n)=\sum_{d|n}\mu(d)f\left(\frac{n}{d}\right)~,\quad\forall n\in\mathbb{Z}_{+}^{*}~,
+          $$
+          $$
+            \mu(n)=\begin{cases}
+            1 & \text{if }n=1\\
+            \left(-1\right)^{r} & \text{if }n\text{ is the product of }r\text{ distinct primes}\\
+            0 & \text{otherwise}
+            \end{cases}
+          $$
+
+          Here, $\mu(n)$ is the Möbius function. So we have
+          $$
+            \boxed{a_{n}=\sum_{d|n}\mu\left(n\right)p^{n/d}~.}
+          $$
+        </p>
+
+
+        <h2 class="section-title">4. Wrap-up</h2>
+        <p>
+          Finish with a short summary of the main takeaways, possible extensions, and references to
+          papers or software. You can add a short bibliography as a list:
+        </p>
+
+        <h2 class="section-title">References</h2>
+        <ul class="item-list">
+          <li>[2] Apostol, Tom M. (1976), <em>Introduction to analytic number theory<\em>, Undergraduate Texts in Mathematics, New York-Heidelberg: Springer-Verlag.</li>
+        </ul>
+
+        
+
+        <p style="margin-top: 1rem;">
+          If you notice any errors or have suggestions, feel free to
+          <a href="mailto:gabrielwendell@fisica.ufrn.br">send me an email</a>.
+        </p>
+      </article>
+
+      <section class="section">
+        <p class="section-intro">
+          ← <a href="../blog.html">Back to the blog index</a>
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>© <span id="year"></span> Gabriel Wendell Celestino Rocha.</div>
+      <div class="footer-links">
+        <a href="../index.html">Home</a>
+        <a href="../research.html">Research</a>
+        <a href="../publications.html">Publications</a>
+        <a href="../talks.html">Talks</a>
+        <a href="../software.html">Software</a>
+        <a href="../teaching.html">Teaching</a>
+        <a href="../cv.html">CV</a>
+        <a href="../blog.html">Blog</a>
+      </div>
+    </div>
+  </footer>
+
+    <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Copy-to-clipboard for code blocks
+    function setupCodeCopy() {
+      document.querySelectorAll('.code-block').forEach(function (block) {
+        const button = block.querySelector('.code-copy-btn');
+        const codeElement = block.querySelector('pre code');
+        if (!button || !codeElement) return;
+
+        function doCopy(text) {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            return navigator.clipboard.writeText(text);
+          }
+          // Fallback for older browsers
+          return new Promise(function (resolve, reject) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+              document.execCommand('copy');
+              resolve();
+            } catch (e) {
+              reject(e);
+            } finally {
+              document.body.removeChild(textarea);
+            }
+          });
+        }
+
+        button.addEventListener('click', function () {
+          const text = codeElement.innerText.trimEnd();
+          doCopy(text).then(function () {
+            button.textContent = 'Copied!';
+            setTimeout(function () { button.textContent = 'Copy'; }, 2000);
+          }).catch(function () {
+            button.textContent = 'Error';
+            setTimeout(function () { button.textContent = 'Copy'; }, 2000);
+          });
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupCodeCopy);
+    } else {
+      setupCodeCopy();
+    }
+  </script>
+</body>
+</html>
