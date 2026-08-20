@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Topological Representation of Stellar Spectra -- Gabriel Wendell -- Blog</title>
+  <meta name="description"
+        content="A mathematical and computational introduction to representing continuum-normalized stellar spectra with sublevel-set persistent homology, including a reproducible synthetic experiment." />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/themes/prism-tomorrow.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-python.min.js" defer></script>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script','noscript','style','textarea','pre','code']
+      }
+    };
+  </script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    .post-toc {
+      margin: 1.25rem 0 1.7rem;
+      padding: 1rem 1.15rem;
+      border: 1px solid var(--border-subtle);
+      border-radius: 0.8rem;
+      background: rgba(5, 9, 20, 0.72);
+    }
+    .post-toc ol {
+      margin: 0.55rem 0 0 1.25rem;
+      color: var(--muted);
+    }
+    .post-toc li { margin: 0.25rem 0; }
+    .part-divider {
+      margin: 2.7rem 0 1.3rem;
+      padding: 0.75rem 1rem;
+      border-left: 4px solid var(--accent);
+      border-radius: 0 0.65rem 0.65rem 0;
+      background: var(--accent-soft);
+    }
+    .part-divider strong {
+      display: block;
+      color: var(--accent);
+      font-size: 0.78rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+    .part-divider span { font-size: 1.05rem; font-weight: 600; }
+    .post-note {
+      margin: 1.15rem 0;
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--border-subtle);
+      border-left: 4px solid #c084fc;
+      border-radius: 0.7rem;
+      background: rgba(16, 23, 43, 0.84);
+    }
+    .post-note p:last-child { margin-bottom: 0; }
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 0.75rem;
+      margin: 1rem 0 1.35rem;
+    }
+    .concept-card {
+      padding: 0.85rem;
+      border: 1px solid var(--border-subtle);
+      border-radius: 0.7rem;
+      background: rgba(16, 23, 43, 0.72);
+    }
+    .concept-card strong { display: block; color: var(--accent); margin-bottom: 0.25rem; }
+    .concept-card span { color: var(--muted); font-size: 0.9rem; }
+    .table-wrap { overflow-x: auto; margin: 1rem 0 1.4rem; }
+    .post-table {
+      width: 100%;
+      min-width: 680px;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      background: rgba(5, 9, 20, 0.74);
+    }
+    .post-table th, .post-table td {
+      padding: 0.65rem 0.7rem;
+      border: 1px solid var(--border-subtle);
+      text-align: left;
+      vertical-align: top;
+    }
+    .post-table th { color: var(--accent); background: rgba(90, 200, 250, 0.08); }
+    .post-table td { color: var(--muted); }
+    .post-table td strong { color: var(--text); }
+    .post-figure { margin: 1.4rem 0 1.8rem; }
+    .post-figure img {
+      border-radius: 0.8rem;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.55);
+    }
+    .post-figure figcaption {
+      margin: -0.5rem auto 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 0.84rem;
+      text-align: center;
+    }
+    .metric { color: #fbbf24; font-variant-numeric: tabular-nums; }
+    .download-row { display: flex; flex-wrap: wrap; gap: 0.7rem; margin: 1rem 0; }
+    @media (max-width: 720px) {
+      .post-toc { padding: 0.85rem; }
+      .concept-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="blog-post">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="../index.html" class="brand">Gabriel Wendell</a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="../research.html" class="nav-link">Research</a>
+        <a href="../publications.html" class="nav-link">Publications</a>
+        <a href="../talks.html" class="nav-link">Talks</a>
+        <a href="../software.html" class="nav-link">Software</a>
+        <a href="../teaching.html" class="nav-link">Teaching</a>
+        <a href="../cv.html" class="nav-link">CV</a>
+        <a href="../blog.html" class="nav-link active" aria-current="page">Blog</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <div class="container">
+      <header class="page-header">
+        <p class="page-kicker">Topology meets spectroscopy</p>
+        <h1 class="page-title">Topological Representation of Stellar Spectra</h1>
+        <p class="page-subtitle">
+          How can an absorption spectrum be converted into a multiscale topological object?
+          We build the construction from first principles and test it on a reproducible synthetic
+          spectrum near the Mg I b triplet.
+        </p>
+        <p style="margin-top: 0.6rem; font-size: 0.85rem; color: var(--muted);">
+          <strong>Date:</strong> August 20, 2026
+          &nbsp;·&nbsp;
+          <strong>Reading time:</strong> about 18 minutes
+          &nbsp;·&nbsp;
+          <strong>Tags:</strong> <span>tda</span>, <span>astrophysics</span>,
+          <span>spectroscopy</span>, <span>persistent-homology</span>, <span>python</span>
+        </p>
+      </header>
+
+      <article class="section">
+        <h2 class="section-title" id="introduction">1. Introduction</h2>
+        <p class="section-intro">
+          A stellar spectrum is normally read through line positions, depths, widths, equivalent
+          widths, asymmetries, and model fits. Persistent homology offers a complementary question:
+          how does the connected structure of the spectrum evolve as we sweep through flux levels?
+        </p>
+
+        <p>
+          At first sight, topology and stellar spectroscopy may seem mismatched. A one-dimensional
+          spectrum is merely a curve, and a curve drawn over an interval has no visually dramatic
+          holes or voids. The useful topology does not come from treating the plotted curve as a
+          static geometric shape. It comes from treating the normalized flux as a scalar function
+          and following its <em>sublevel sets</em>. In this view, every absorption trough creates a
+          connected component; neighboring troughs merge when the filtration reaches the flux peak
+          between them. The full birth-and-merge history becomes a barcode or persistence diagram.
+        </p>
+
+        <p>
+          This is a natural representation of line prominence across many thresholds at once. It is
+          stable to small perturbations, computationally inexpensive in one dimension, and sensitive
+          to line splitting and blending. It is not a substitute for radiative transfer or classical
+          line diagnostics. Rather, it is a compact structural summary that can be placed beside
+          equivalent widths, atmospheric parameters, and learned spectral features.
+        </p>
+
+        <div class="post-note">
+          <p><strong>Scope.</strong> The experiment below is deliberately pedagogical. Its Gaussian
+          line list and Gaussian broadening proxy are designed to isolate the topology; they are not
+          a physical atmosphere synthesis. For scientific inference, one would replace this toy
+          generator with a library such as AMBRE, BOSZ, PHOENIX, or spectra synthesized by PySME.</p>
+        </div>
+
+        <nav class="post-toc" aria-label="Article contents">
+          <strong>Contents</strong>
+          <ol>
+            <li><a href="#part-i">Part I — Mathematical and computational foundations</a></li>
+            <li><a href="#scalar-function">The spectrum as a filtered scalar function</a></li>
+            <li><a href="#persistence">Birth, death, and persistence</a></li>
+            <li><a href="#stability">Stability and preprocessing</a></li>
+            <li><a href="#algorithm">A one-dimensional union–find algorithm</a></li>
+            <li><a href="#part-ii">Part II — Synthetic computational experiment</a></li>
+            <li><a href="#results">Results: narrow lines versus broadening</a></li>
+            <li><a href="#real-data">From the toy problem to observed spectra</a></li>
+          </ol>
+        </nav>
+
+        <div class="part-divider" id="part-i">
+          <strong>Part I</strong>
+          <span>Mathematical and computational foundations</span>
+        </div>
+
+        <h2 class="section-title" id="scalar-function">2. A spectrum as a scalar function</h2>
+        <p>
+          Let $F_{\mathrm{obs}}(\lambda)$ denote the observed flux on a wavelength interval
+          $\Lambda=[\lambda_{\min},\lambda_{\max}]$, and let $C(\lambda)$ be an estimate of the
+          continuum. We work with the continuum-normalized spectrum
+        </p>
+
+        <p class="equation">
+          $$ f(\lambda)=\frac{F_{\mathrm{obs}}(\lambda)}{C(\lambda)}. $$
+        </p>
+
+        <p>
+          Ideally, $f(\lambda)\approx 1$ away from lines and $f(\lambda)&lt;1$ inside absorption
+          features. For every flux threshold $a$, define the sublevel set
+        </p>
+
+        <p class="equation">
+          $$ S_a=f^{-1}(({-\infty},a])
+          =\{\lambda\in\Lambda:f(\lambda)\le a\}. $$
+        </p>
+
+        <p>
+          If $a\le b$, then $S_a\subseteq S_b$. The collection $\{S_a\}_{a\in\mathbb{R}}$ is a
+          filtration: a nested family of spaces indexed by flux. At a very low threshold, the set is
+          empty. When the threshold reaches a local minimum of $f$, a small interval appears around
+          the line core. As the threshold rises, that interval expands. When two expanding intervals
+          touch at a local maximum, two connected components become one.
+        </p>
+
+        <figure class="post-figure">
+          <img src="../blog_assets/stellar-spectra-topology/stellar-spectrum-sublevel-filtration.png"
+               alt="Four-panel illustration of the sublevel-set filtration of a synthetic stellar spectrum. At increasing flux thresholds the number of connected wavelength intervals changes from one to five and finally one." />
+          <figcaption>
+            <strong>Figure 1.</strong> Sublevel-set filtration of the noiseless synthetic spectrum.
+            The colored wavelength intervals are the connected components of $S_a$. Components are
+            born at absorption minima and ultimately merge when the threshold reaches the continuum.
+          </figcaption>
+        </figure>
+
+        <h3>2.1 Discretization as a path complex</h3>
+        <p>
+          An observed spectrum is sampled at wavelengths
+          $\lambda_0&lt;\lambda_1&lt;\cdots&lt;\lambda_{n-1}$ with fluxes $f_i=f(\lambda_i)$. The natural
+          simplicial complex is a path: vertex $v_i$ represents sample $i$, and edge
+          $[v_i,v_{i+1}]$ joins adjacent wavelengths. Extend the flux from vertices to simplices by
+          the lower-star rule
+        </p>
+
+        <p class="equation">
+          $$ \bar f(\sigma)=\max_{v_i\in\sigma} f_i. $$
+        </p>
+
+        <p>
+          The discrete filtration is then
+          $K_a=\{\sigma\subseteq K:\bar f(\sigma)\le a\}$. A vertex enters at its own flux; an edge
+          enters when both endpoints have entered. This exactly reproduces the component births and
+          merges of a piecewise-linear interpolation of the sampled spectrum.
+        </p>
+
+        <h2 class="section-title" id="persistence">3. From absorption lines to persistent homology</h2>
+        <p>
+          Apply degree-zero homology to every filtration level. $H_0(K_a)$ records connected
+          components, and its dimension
+        </p>
+
+        <p class="equation">
+          $$ \beta_0(a)=\dim H_0(K_a) $$
+        </p>
+
+        <p>
+          is simply the number of wavelength intervals below threshold $a$. The inclusions
+          $K_a\hookrightarrow K_b$ for $a\le b$ induce linear maps
+          $H_0(K_a)\to H_0(K_b)$. Persistent homology follows each component through these maps.
+        </p>
+
+        <div class="concept-grid" aria-label="Dictionary between spectroscopy and persistent homology">
+          <div class="concept-card">
+            <strong>Birth $b_i$</strong>
+            <span>A component appears at a local flux minimum—the core of an absorption trough.</span>
+          </div>
+          <div class="concept-card">
+            <strong>Death $d_i$</strong>
+            <span>It merges with an older component at the intervening local maximum.</span>
+          </div>
+          <div class="concept-card">
+            <strong>Persistence $p_i$</strong>
+            <span>$p_i=d_i-b_i$ measures the trough's prominence relative to its merge level.</span>
+          </div>
+        </div>
+
+        <p>
+          At a merge, the <em>elder rule</em> preserves the component with the lower birth value and
+          terminates the younger one. Each finite component is represented by an interval
+          $[b_i,d_i)$ or a point $(b_i,d_i)$ in the persistence diagram
+        </p>
+
+        <p class="equation">
+          $$ D_0(f)=\{(b_i,d_i):b_i&lt;d_i\}. $$
+        </p>
+
+        <p>
+          Points near the diagonal $b=d$ have small persistence and usually describe shallow
+          fluctuations. Deep, well-separated troughs sit far from the diagonal. The Euclidean
+          vertical distance $d_i-b_i$ is the line's persistence, while its $L^\infty$ distance to the
+          diagonal is $(d_i-b_i)/2$.
+        </p>
+
+        <figure class="post-figure">
+          <img src="../blog_assets/stellar-spectra-topology/stellar-spectrum-topology-overview.png"
+               alt="A synthetic continuum-normalized spectrum near the magnesium b triplet beside its degree-zero persistence diagram. Strong spectral lines correspond to points far above the diagonal and noise features lie close to the diagonal." />
+          <figcaption>
+            <strong>Figure 2.</strong> The topological representation. The gray cloud near the
+            diagonal is produced by small noisy minima; the colored points are features with
+            persistence at least 0.030. The yellow diamond is the surviving component, capped at the
+            normalized continuum level for display.
+          </figcaption>
+        </figure>
+
+        <h3>3.1 What happens to the essential component?</h3>
+        <p>
+          Ordinary $H_0$ persistence contains one component that never dies: the one born at the
+          global minimum. Mathematically, its interval is $[b_\star,\infty)$. That is inconvenient in
+          a spectroscopy plot because the strongest line would be the only one without a finite
+          prominence. Here I cap this terminal interval at the continuum level $a=1$. The yellow
+          diamond in the figures therefore means $[b_\star,1]$; it is a stated visualization
+          convention, not an ordinary finite persistence pair. Extended persistence is a more formal
+          alternative when one wants every class to receive a finite death.
+        </p>
+
+        <h3>3.2 Useful summaries</h3>
+        <p>
+          A persistence diagram is a variable-size multiset, but several fixed or functional
+          summaries are convenient for comparison and machine learning:
+        </p>
+
+        <ul class="item-list">
+          <li><strong>Betti curve:</strong>
+            $\beta_0(a)=\sum_i\mathbf{1}_{[b_i,d_i)}(a)$ counts active components at each flux level.</li>
+          <li><strong>Total persistence:</strong>
+            $\mathrm{TP}_q=\sum_i(d_i-b_i)^q$ measures cumulative topological prominence.</li>
+          <li><strong>Persistence entropy:</strong> with
+            $w_i=p_i/\sum_jp_j$, use $-\sum_iw_i\log w_i$ to quantify how evenly prominence is
+            distributed among features.</li>
+          <li><strong>Landscapes and images:</strong> stable vectorizations of the diagram suitable
+            for averages, statistical tests, or conventional machine-learning models.</li>
+        </ul>
+
+        <h3>3.3 The wavelength caveat</h3>
+        <div class="post-note">
+          <p><strong>A standard persistence diagram does not retain absolute wavelength.</strong>
+          Two identical line patterns translated along the wavelength axis can have the same diagram.
+          For spectroscopy, I recommend storing a decorated pair
+          $(b_i,d_i,\lambda_i^{\mathrm{birth}},\lambda_i^{\mathrm{merge}})$ alongside the standard
+          diagram. The first two coordinates carry stable topological information; the wavelength
+          coordinates preserve line identity and enable cross-matching with atomic transitions.</p>
+        </div>
+
+        <h2 class="section-title" id="stability">4. Stability—and why preprocessing still matters</h2>
+        <p>
+          Persistent homology is useful here because persistence diagrams of tame functions satisfy
+          the bottleneck stability inequality
+        </p>
+
+        <p class="equation">
+          $$ d_B\!\left(D_0(f),D_0(g)\right)\le \|f-g\|_\infty. $$
+        </p>
+
+        <p>
+          If every normalized flux value changes by at most $\varepsilon$, the persistence diagram
+          moves by at most $\varepsilon$ in bottleneck distance. A feature with persistence at most
+          $2\varepsilon$ can be matched to the diagonal and eliminated; a much longer-lived feature
+          cannot disappear under that perturbation without leaving a nearby counterpart. This is a
+          deterministic statement about a uniform error bound. Gaussian noise is unbounded, so
+          “$2\sigma$” should not be substituted mechanically for $2\varepsilon$; in practice one can
+          estimate thresholds from uncertainties, repeated observations, or noise-only surrogates.
+        </p>
+
+        <p>
+          Stability does not rescue poor preprocessing. The topology is computed from the function we
+          supply, and continuum errors, gaps, cosmic rays, telluric residuals, and nonuniform sampling
+          all change that function. Before comparing diagrams, a realistic pipeline should:
+        </p>
+
+        <ol style="margin: 0.6rem 0 1.2rem 1.4rem; color: var(--muted);">
+          <li style="margin-bottom: 0.35rem;">shift spectra to a common rest-frame wavelength grid;</li>
+          <li style="margin-bottom: 0.35rem;">mask or model telluric regions, bad pixels, and emission artifacts;</li>
+          <li style="margin-bottom: 0.35rem;">normalize the continuum using a protocol held fixed across the sample;</li>
+          <li style="margin-bottom: 0.35rem;">match spectral resolution or explicitly study its effect;</li>
+          <li style="margin-bottom: 0.35rem;">propagate flux uncertainties with Monte Carlo realizations;</li>
+          <li>compute topology inside physically meaningful wavelength windows rather than across uncontrolled gaps.</li>
+        </ol>
+
+        <p>
+          Continuum normalization is especially important. Multiplying a spectrum by a curved
+          baseline can introduce large-scale minima, change merge levels, and inflate persistence.
+          Modern synthesis and fitting workflows therefore treat continuum placement as part of the
+          inference problem rather than as a harmless cosmetic operation.
+        </p>
+
+        <h2 class="section-title" id="algorithm">5. Computing $H_0$ persistence in one dimension</h2>
+        <p>
+          General persistent-homology software works here, but the one-dimensional case admits a
+          particularly transparent union–find algorithm. Sort vertices by increasing flux. Activate
+          each vertex; if neither neighbor is active, it creates a component. If one neighbor is
+          active, it joins that component. If both neighbors belong to different components, a merge
+          occurs and the younger component dies at the current threshold.
+        </p>
+
+        <p>
+          Sorting costs $O(n\log n)$, while the union–find operations are essentially linear. The
+          snippet below is the core calculation used for the figures. It records the birth and merge
+          indices as well as the persistence coordinates.
+        </p>
+
+        <div class="code-block" data-lang="python">
+          <div class="code-block-header">
+            <span>Python · lower-star persistence on a path</span>
+            <button class="code-copy-btn" type="button" aria-label="Copy code">Copy</button>
+          </div>
+          <pre><code class="language-python">import numpy as np
+
+def lower_star_h0(values, terminal_level=1.0):
+    f = np.asarray(values, dtype=float)
+    n = f.size
+    parent = np.arange(n)
+    birth = f.copy()
+    birth_index = np.arange(n)
+    active = np.zeros(n, dtype=bool)
+    pairs = []
+
+    def find(i):
+        while parent[i] != i:
+            parent[i] = parent[parent[i]]
+            i = parent[i]
+        return i
+
+    for i in np.argsort(f, kind="stable"):
+        active[i] = True
+
+        for j in (i - 1, i + 1):
+            if j &lt; 0 or j &gt;= n or not active[j]:
+                continue
+
+            ri, rj = find(i), find(j)
+            if ri == rj:
+                continue
+
+            # Elder rule: the lower birth survives.
+            if (birth[ri], birth_index[ri]) &lt;= (birth[rj], birth_index[rj]):
+                old, young = ri, rj
+            else:
+                old, young = rj, ri
+
+            pairs.append((birth[young], f[i], birth_index[young], i))
+            parent[young] = old
+            parent[ri] = old
+            parent[rj] = old
+
+    root = find(int(np.argmin(f)))
+    pairs.append((birth[root], terminal_level, birth_index[root], -1))
+
+    pairs = np.asarray(pairs, dtype=float)
+    persistence = pairs[:, 1] - pairs[:, 0]
+    return pairs[persistence &gt; 1e-12]</code></pre>
+        </div>
+
+        <p>
+          Equal flux values require a consistent tie convention; the stable sort above is adequate
+          for the noisy example and zero-length pairs are discarded. For quantized spectra with many
+          ties, process equal-valued lower stars as a batch or use a tested persistence library.
+        </p>
+
+        <div class="part-divider" id="part-ii">
+          <strong>Part II</strong>
+          <span>A reproducible synthetic stellar-spectrum experiment</span>
+        </div>
+
+        <h2 class="section-title" id="experiment">6. Experimental design</h2>
+        <p>
+          To make the construction concrete, I generated a toy continuum-normalized spectrum over
+          $5158$-$5191$ Å. The window contains three dominant Mg I b-like absorptions and six weaker
+          Fe I/Ti I features. Each intrinsic line is Gaussian,
+        </p>
+
+        <p class="equation">
+          $$ f_{\mathrm{int}}(\lambda)
+          =1-\sum_{j=1}^{m} A_j
+          \exp\!\left[-\frac{(\lambda-\mu_j)^2}{2s_j^2}\right]. $$
+        </p>
+
+        <p>
+          I then convolved the spectrum with a Gaussian kernel whose full width at half maximum is
+          expressed in velocity units. The two cases use effective FWHM values of 18 and
+          85 km s$^{-1}$. This kernel is only a broadening proxy: an analysis of rotating stars should
+          use an appropriate limb-darkened rotational kernel and the instrument line-spread function.
+          Finally, I imposed a weak curved continuum, added independent Gaussian noise with
+          $\sigma_f=0.004$, and divided by the known continuum.
+        </p>
+
+        <div class="code-block" data-lang="python">
+          <div class="code-block-header">
+            <span>Python · synthetic spectrum</span>
+            <button class="code-copy-btn" type="button" aria-label="Copy code">Copy</button>
+          </div>
+          <pre><code class="language-python">import numpy as np
+from scipy.ndimage import gaussian_filter1d
+
+C_KMS = 299_792.458
+
+def synthetic_spectrum(wavelength, line_list, fwhm_kms,
+                       noise_sigma=0.004, seed=7):
+    absorption = np.zeros_like(wavelength)
+    for center, depth, sigma in line_list:
+        z = (wavelength - center) / sigma
+        absorption += depth * np.exp(-0.5 * z**2)
+
+    intrinsic = np.clip(1.0 - absorption, 0.02, None)
+    dlambda = np.median(np.diff(wavelength))
+    sigma_lambda = 5175.0 * fwhm_kms / C_KMS / 2.35482
+    clean = gaussian_filter1d(intrinsic, sigma_lambda / dlambda)
+
+    x = (wavelength - wavelength.mean()) / np.ptp(wavelength)
+    continuum = 1.0 + 0.018*x + 0.012*(x*x - 1/12)
+    rng = np.random.default_rng(seed)
+    observed = continuum*clean + rng.normal(0, noise_sigma, wavelength.size)
+    return observed / continuum, clean</code></pre>
+        </div>
+
+        <p>
+          For visualization, I call a pair robust when $p_i\ge0.030$, which is 7.5 times the injected
+          pointwise noise standard deviation. This is a pedagogical cutoff, not a universal detection
+          threshold. A research analysis should calibrate the false-feature distribution with the
+          actual covariance and reduction pipeline.
+        </p>
+
+        <h2 class="section-title" id="results">7. Results: the topology of line blending</h2>
+        <p>
+          The narrow-line spectrum resolves all nine injected troughs as robust persistent
+          components. In the broadened spectrum, neighboring lines merge into four robust complexes.
+          The change is immediately visible in the persistence diagrams and in the robust Betti
+          curves.
+        </p>
+
+        <figure class="post-figure">
+          <img src="../blog_assets/stellar-spectra-topology/stellar-spectrum-broadening-comparison.png"
+               alt="Comparison of narrow and broadened synthetic stellar spectra, their persistence diagrams, and robust Betti-zero curves. Broadening reduces nine robust bars to four while moving the persistence points toward the diagonal." />
+          <figcaption>
+            <strong>Figure 3.</strong> Narrow-line and broadened cases. The Gaussian convolution
+            blends neighboring absorption troughs, moves their persistence points toward the
+            diagonal, and reduces the maximum number of robust connected components.
+          </figcaption>
+        </figure>
+
+        <div class="table-wrap">
+          <table class="post-table">
+            <thead>
+              <tr>
+                <th>Quantity</th>
+                <th>Narrow: 18 km s$^{-1}$</th>
+                <th>Broadened: 85 km s$^{-1}$</th>
+                <th>Interpretation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Equivalent width</strong></td>
+                <td><span class="metric">0.433396 Å</span></td>
+                <td><span class="metric">0.433395 Å</span></td>
+                <td>Area is preserved by the normalized convolution to numerical precision.</td>
+              </tr>
+              <tr>
+                <td><strong>Maximum line depth</strong></td>
+                <td><span class="metric">0.3438</span></td>
+                <td><span class="metric">0.1002</span></td>
+                <td>Broadening makes the deepest trough shallower.</td>
+              </tr>
+              <tr>
+                <td><strong>Robust components</strong></td>
+                <td><span class="metric">9</span></td>
+                <td><span class="metric">4</span></td>
+                <td>Previously separated lines become blended complexes.</td>
+              </tr>
+              <tr>
+                <td><strong>Total robust persistence</strong></td>
+                <td><span class="metric">1.1257</span></td>
+                <td><span class="metric">0.3131</span></td>
+                <td>Cumulative prominence falls by about 72%.</td>
+              </tr>
+              <tr>
+                <td><strong>Largest persistence</strong></td>
+                <td><span class="metric">0.3417</span></td>
+                <td><span class="metric">0.1080</span></td>
+                <td>Even the dominant absorption complex moves closer to the diagonal.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>7.1 What did topology add?</h3>
+        <p>
+          Equivalent width barely changes because convolution redistributes absorption without
+          changing its area. Yet the topology changes strongly: the number of robust troughs falls
+          from nine to four, total persistence falls by roughly 72%, and the persistence diagram
+          contracts toward the diagonal. Thus equivalent width and persistent homology answer
+          different questions:
+        </p>
+
+        <ul class="item-list">
+          <li><strong>Equivalent width:</strong> how much integrated absorption is present?</li>
+          <li><strong>Persistence:</strong> how is that absorption organized into distinct,
+            hierarchically separated troughs?</li>
+        </ul>
+
+        <p>
+          This distinction could be useful when spectra with similar integrated absorption differ in
+          rotation, instrumental resolution, unresolved multiplicity, line blending, or velocity
+          structure. The diagram does not identify which physical mechanism caused the change; it
+          supplies a compact observable whose physical sensitivity must be calibrated with controlled
+          synthetic grids.
+        </p>
+
+        <h3>7.2 Why persistence is not just line depth</h3>
+        <p>
+          A line depth compares a minimum with an externally chosen continuum. Persistence compares
+          the same minimum with the <em>local merge level</em> determined by its neighbors. For an
+          isolated line on a flat continuum the two are similar. In a crowded blend they differ: a
+          deep shoulder can have modest persistence if it merges with a still deeper component at a
+          low saddle. This is exactly the hierarchy that a barcode makes explicit.
+        </p>
+
+        <h2 class="section-title" id="real-data">8. From the toy problem to observed spectra</h2>
+        <p>
+          A realistic experiment should be designed as a controlled sensitivity study. Choose a
+          spectral window, a forward-model grid, and nuisance transformations; then ask which
+          topological summaries respond to the physical parameter of interest while remaining stable
+          to the nuisance parameters.
+        </p>
+
+        <div class="table-wrap">
+          <table class="post-table">
+            <thead>
+              <tr>
+                <th>Scientific question</th>
+                <th>Controlled variation</th>
+                <th>Candidate topological observable</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Rotation and blending</strong></td>
+                <td>Vary $v\sin i$ after matching instrumental resolution.</td>
+                <td>Robust bar count, total persistence, diagram distance.</td>
+              </tr>
+              <tr>
+                <td><strong>Metallicity or abundance</strong></td>
+                <td>Vary abundance at fixed $T_{\mathrm{eff}},\log g$, and broadening.</td>
+                <td>Persistence by wavelength window; decorated birth locations.</td>
+              </tr>
+              <tr>
+                <td><strong>Surface gravity</strong></td>
+                <td>Compare pressure-sensitive line wings and blends.</td>
+                <td>Multiscale component counts and persistence landscapes.</td>
+              </tr>
+              <tr>
+                <td><strong>Binaries or velocity components</strong></td>
+                <td>Inject shifted secondary spectra with varying flux ratio.</td>
+                <td>Emergence, splitting, and vineyard trajectories of persistent features.</td>
+              </tr>
+              <tr>
+                <td><strong>Anomaly detection</strong></td>
+                <td>Compare observed diagrams with a synthetic-library neighborhood.</td>
+                <td>Bottleneck/Wasserstein distance plus classical residual diagnostics.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>8.1 Uncertainty propagation</h3>
+        <p>
+          Suppose flux uncertainties and their covariance are available. Draw Monte Carlo spectra
+          $f^{(r)}$, repeat the same normalization or continuum-marginalization procedure, and compute
+          $D_0^{(r)}$. The resulting ensemble gives uncertainty bands for Betti curves and total
+          persistence, as well as confidence regions for prominent diagram points. Correlated noise
+          matters: independent pixel perturbations are not an adequate surrogate for resampling,
+          line-spread-function, and continuum-fit errors.
+        </p>
+
+        <h3>8.2 Comparing many stars</h3>
+        <p>
+          For a survey, one can compute diagrams in fixed rest-frame windows and compare them with
+          bottleneck or Wasserstein distances. Persistence landscapes or persistence images convert
+          the variable-size diagrams into arrays suitable for regression and classification. A robust
+          model would concatenate these topological features with classical inputs such as equivalent
+          widths, colors, signal-to-noise ratio, and instrumental metadata rather than forcing
+          topology to carry all information by itself.
+        </p>
+
+        <h2 class="section-title">9. Limitations and extensions</h2>
+        <ul class="item-list">
+          <li><strong>Continuum dependence:</strong> persistence values change when the baseline is
+            biased. The continuum model must be controlled or marginalized.</li>
+          <li><strong>No wavelength in the plain diagram:</strong> keep decorated critical-point
+            locations when line identity matters.</li>
+          <li><strong>Resolution dependence:</strong> broadening is signal, nuisance, or both depending
+            on the scientific question. Do not compare unmatched instruments blindly.</li>
+          <li><strong>Emission lines:</strong> use a superlevel filtration of $f$, or equivalently a
+            sublevel filtration of $-f$, so emission maxima become births.</li>
+          <li><strong>P-Cygni or mixed profiles:</strong> analyze sublevel and superlevel diagrams
+            together, retaining their wavelength ordering.</li>
+          <li><strong>Higher-dimensional topology:</strong> a single scalar spectrum on an interval
+            has informative $H_0$ but no intrinsic $H_1$. Loops require another construction, such as
+            a delay embedding, a time series of spectra, or a wavelength–time image.</li>
+          <li><strong>Scientific validation:</strong> any claimed sensitivity to stellar parameters
+            must be tested against synthetic grids, repeated observations, and classical baselines.</li>
+        </ul>
+
+        <h2 class="section-title">10. Takeaways</h2>
+        <p>
+          The topological representation developed here is simple: normalize the spectrum, build the
+          sublevel filtration of its flux, and record the $H_0$ birth-and-merge pairs. Yet this simple
+          construction reveals a useful structural observable. Absorption minima become components;
+          local peaks determine merge levels; persistence quantifies prominence; and the full diagram
+          summarizes line hierarchy across all thresholds.
+        </p>
+
+        <p>
+          In the synthetic experiment, broadening preserved equivalent width while substantially
+          reducing component count and persistence. That complementarity is the main reason to pursue
+          this representation. The most promising next step is not to replace spectroscopy with
+          topology, but to build a topology–physics dictionary using controlled stellar-atmosphere
+          grids and then ask where the topological summaries add information beyond established line
+          diagnostics.
+        </p>
+
+        <div class="download-row">
+          <a class="btn btn-primary" href="../python_codes/topological_stellar_spectra.py" download>
+            Download the complete Python script
+          </a>
+        </div>
+
+        <h2 class="section-title">References and further reading</h2>
+        <ul class="item-list">
+          <li>
+            H. Edelsbrunner, D. Letscher, and A. Zomorodian,
+            <a href="https://doi.org/10.1007/s00454-002-2885-2" target="_blank" rel="noopener">
+              “Topological Persistence and Simplification”</a>,
+            <em>Discrete &amp; Computational Geometry</em> 28, 511–533 (2002).
+          </li>
+          <li>
+            D. Cohen-Steiner, H. Edelsbrunner, and J. Harer,
+            <a href="https://doi.org/10.1007/s00454-006-1276-5" target="_blank" rel="noopener">
+              “Stability of Persistence Diagrams”</a>,
+            <em>Discrete &amp; Computational Geometry</em> 37, 103–120 (2007).
+          </li>
+          <li>
+            P. Bubenik,
+            <a href="https://jmlr.org/papers/v16/bubenik15a.html" target="_blank" rel="noopener">
+              “Statistical Topological Data Analysis using Persistence Landscapes”</a>,
+            <em>Journal of Machine Learning Research</em> 16, 77–102 (2015).
+          </li>
+          <li>
+            H. Adams et al.,
+            <a href="https://jmlr.org/papers/v18/16-337.html" target="_blank" rel="noopener">
+              “Persistence Images: A Stable Vector Representation of Persistent Homology”</a>,
+            <em>Journal of Machine Learning Research</em> 18, 1–35 (2017).
+          </li>
+          <li>
+            P. de Laverny, A. Recio-Blanco, C. C. Worley, and B. Plez,
+            <a href="https://www.aanda.org/articles/aa/full_html/2012/08/aa19330-12/aa19330-12.html"
+               target="_blank" rel="noopener">
+              “The AMBRE project: A new synthetic grid of high-resolution FGKM stellar spectra”</a>,
+            <em>Astronomy &amp; Astrophysics</em> 544, A126 (2012).
+          </li>
+          <li>
+            A. Wehrhahn et al.,
+            <a href="https://www.aanda.org/articles/aa/full_html/2023/03/aa44482-22/aa44482-22.html"
+               target="_blank" rel="noopener">
+              “PySME — Spectroscopy Made Easier”</a>,
+            <em>Astronomy &amp; Astrophysics</em> 671, A171 (2023).
+          </li>
+        </ul>
+
+        <p style="margin-top: 1rem;">
+          If you notice an error or would like to discuss an application to a particular class of
+          stellar spectra, feel free to
+          <a href="mailto:gabrielwendell@fisica.ufrn.br">send me an email</a>.
+        </p>
+      </article>
+
+      <section class="section">
+        <p class="section-intro">← <a href="../blog.html">Back to the blog index</a></p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>© <span id="year"></span> Gabriel Wendell Celestino Rocha.</div>
+      <div class="footer-links">
+        <a href="../index.html">Home</a>
+        <a href="../research.html">Research</a>
+        <a href="../publications.html">Publications</a>
+        <a href="../talks.html">Talks</a>
+        <a href="../software.html">Software</a>
+        <a href="../teaching.html">Teaching</a>
+        <a href="../cv.html">CV</a>
+        <a href="../blog.html">Blog</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function setupCodeCopy() {
+      document.querySelectorAll('.code-block').forEach(function (block) {
+        const button = block.querySelector('.code-copy-btn');
+        const codeElement = block.querySelector('pre code');
+        if (!button || !codeElement) return;
+
+        function doCopy(text) {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            return navigator.clipboard.writeText(text);
+          }
+          return new Promise(function (resolve, reject) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+              document.execCommand('copy');
+              resolve();
+            } catch (error) {
+              reject(error);
+            } finally {
+              document.body.removeChild(textarea);
+            }
+          });
+        }
+
+        button.addEventListener('click', function () {
+          const text = codeElement.innerText.trimEnd();
+          doCopy(text).then(function () {
+            button.textContent = 'Copied!';
+            setTimeout(function () { button.textContent = 'Copy'; }, 2000);
+          }).catch(function () {
+            button.textContent = 'Error';
+            setTimeout(function () { button.textContent = 'Copy'; }, 2000);
+          });
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupCodeCopy);
+    } else {
+      setupCodeCopy();
+    }
+  </script>
+</body>
+</html>
