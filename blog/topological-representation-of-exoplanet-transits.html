@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Topological Representation of Exoplanet Transits - Gabriel Wendell - Blog</title>
+  <meta name="description"
+        content="From a limb-darkened exoplanet transit light curve to a delay-coordinate point cloud and persistent homology, with an interactive demonstration and reproducible Python example." />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet">
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/themes/prism-tomorrow.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-bash.min.js" defer></script>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    };
+  </script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    .article-lead {
+      font-size: 1.04rem;
+      color: #dce5f4;
+    }
+
+    .post-note,
+    .definition-box,
+    .warning-box {
+      margin: 1.3rem 0;
+      padding: 1rem 1.1rem;
+      border: 1px solid rgba(90, 200, 250, 0.28);
+      border-left: 4px solid var(--accent);
+      border-radius: 0.8rem;
+      background: rgba(13, 18, 36, 0.88);
+    }
+
+    .warning-box {
+      border-color: rgba(245, 196, 81, 0.28);
+      border-left-color: #f5c451;
+    }
+
+    .post-note p:last-child,
+    .definition-box p:last-child,
+    .warning-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .box-label {
+      margin-bottom: 0.35rem;
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .warning-box .box-label {
+      color: #f5c451;
+    }
+
+    .article-table-wrap {
+      margin: 1.2rem 0 1.5rem;
+      overflow-x: auto;
+      border: 1px solid var(--border-subtle);
+      border-radius: 0.8rem;
+      background: rgba(13, 18, 36, 0.9);
+    }
+
+    .article-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    .article-table th,
+    .article-table td {
+      padding: 0.75rem 0.8rem;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .article-table th {
+      color: var(--text);
+      background: rgba(90, 200, 250, 0.08);
+      font-weight: 600;
+    }
+
+    .article-table td {
+      color: var(--muted);
+    }
+
+    .article-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .equation-caption,
+    .figure-caption {
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-align: center;
+    }
+
+    .figure-frame {
+      margin: 1.4rem 0;
+      padding: 0.65rem;
+      border: 1px solid var(--border-subtle);
+      border-radius: 0.9rem;
+      background: rgba(5, 9, 20, 0.92);
+    }
+
+    .figure-frame img {
+      margin: 0 auto 0.6rem !important;
+      border-radius: 0.55rem;
+    }
+
+    .steps {
+      margin: 0.6rem 0 1.2rem 1.35rem;
+      color: var(--muted);
+    }
+
+    .steps li {
+      margin: 0.45rem 0;
+      padding-left: 0.25rem;
+    }
+
+    .steps strong {
+      color: var(--text);
+    }
+
+    .topology-lab {
+      margin: 1.4rem 0;
+      padding: 1.1rem;
+      border: 1px solid rgba(90, 200, 250, 0.34);
+      border-radius: 1rem;
+      background: linear-gradient(145deg, rgba(13, 18, 36, 0.98), rgba(7, 12, 26, 0.98));
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.48);
+    }
+
+    .lab-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.9rem;
+    }
+
+    .lab-heading h3 {
+      margin: 0 !important;
+    }
+
+    .lab-badge {
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+      color: var(--accent);
+      background: var(--accent-soft);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .lab-controls {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(135px, 1fr));
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .lab-control {
+      padding: 0.7rem;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 0.7rem;
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .lab-control label {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.45rem;
+      color: var(--muted);
+      font-size: 0.77rem;
+    }
+
+    .lab-control output {
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .lab-control input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+    }
+
+    .lab-plots {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+    }
+
+    .lab-panel {
+      min-width: 0;
+      padding: 0.55rem;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 0.75rem;
+      background: #050914;
+    }
+
+    .lab-panel-title {
+      margin-bottom: 0.35rem;
+      color: var(--muted);
+      font-size: 0.75rem;
+      text-align: center;
+    }
+
+    .lab-panel canvas {
+      display: block;
+      width: 100%;
+      height: 255px;
+    }
+
+    .lab-readout {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem 1.2rem;
+      margin-top: 0.85rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .lab-readout strong {
+      color: var(--text);
+    }
+
+    @media (max-width: 800px) {
+      .lab-controls {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .lab-plots {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .lab-controls {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body class="blog-post">
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="../index.html" class="brand">Gabriel Wendell</a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="../research.html" class="nav-link">Research</a>
+        <a href="../publications.html" class="nav-link">Publications</a>
+        <a href="../talks.html" class="nav-link">Talks</a>
+        <a href="../software.html" class="nav-link">Software</a>
+        <a href="../teaching.html" class="nav-link">Teaching</a>
+        <a href="../cv.html" class="nav-link">CV</a>
+        <a href="../blog.html" class="nav-link active">Blog</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <header class="page-header">
+        <p class="page-kicker">Astrophysics × topological data analysis</p>
+        <h1 class="page-title">A Topological Representation of Exoplanet Transits</h1>
+        <p class="page-subtitle">
+          How a one-dimensional transit light curve becomes a geometric object—and how persistent
+          homology can separate its coherent orbital morphology from noise.
+        </p>
+        <p style="margin-top: 0.6rem; font-size: 0.85rem; color: var(--muted);">
+          <strong>Date:</strong> August 28, 2026
+          &nbsp;·&nbsp;
+          <strong>Tags:</strong> <span>tda</span>, <span>exoplanets</span>,
+          <span>time-series</span>, <span>persistent-homology</span>
+        </p>
+      </header>
+
+      <article class="section">
+        <h2 class="section-title">1. A transit is more than a dip</h2>
+
+        <p class="article-lead">
+          When a planet crosses the apparent disk of its host star, the observed stellar flux
+          decreases. The depth of this decrease contains information about the planet-to-star
+          radius ratio, while the duration, ingress, egress, curvature, and asymmetry encode a
+          mixture of orbital geometry, stellar limb darkening, cadence, instrumental effects, and
+          stellar activity. A transit light curve is therefore not merely a scalar depth
+          measurement: it is a structured temporal shape.
+        </p>
+
+        <p>
+          The usual approach is to choose a physical forward model and infer its parameters. That
+          remains the correct route when the goal is a planetary radius, impact parameter, or
+          ephemeris. Here I explore a complementary question: <em>can we transform the transit into
+          a geometric object and summarize the shape of that object topologically?</em>
+        </p>
+
+        <p>
+          The construction has three steps. First, the flux series is mapped into a
+          delay-coordinate point cloud. Second, a Vietoris–Rips filtration turns that cloud into a
+          sequence of simplicial complexes. Third, persistent homology records which connected
+          components and loops survive across spatial scales. The output is not a replacement for a
+          transit fit. It is a model-light description of morphology that may be useful for
+          comparison, anomaly detection, quality control, or machine-learning features.
+        </p>
+
+        <div class="post-note">
+          <div class="box-label">Road map</div>
+          <p>
+            <strong>Part I</strong> develops the physical, geometric, and topological foundations.
+            <strong>Part II</strong> builds a limb-darkened synthetic transit, adds realistic noise,
+            computes persistent homology, and studies what survives as the noise level increases.
+          </p>
+        </div>
+
+        <h2 class="section-title">Part I — Mathematical and computational foundations</h2>
+
+        <h3>2. The transit as a forward problem</h3>
+
+        <p>
+          Let $I(x,y)$ be the specific intensity over the projected stellar disk, and let
+          $\Omega_\star$ and $\Omega_p(t)$ denote the stellar disk and the region occulted by the
+          planet at time $t$. Ignoring third light and taking the out-of-transit flux as the
+          normalization, the relative flux is
+        </p>
+
+        <p class="equation">
+          $$
+          F(t)=1-\frac{\displaystyle\int_{\Omega_p(t)} I(x,y)\,\text{ d}A}
+                         {\displaystyle\int_{\Omega_\star} I(x,y)\,\text{ d}A}~.
+          $$
+        </p>
+
+        <p>
+          A common quadratic limb-darkening law writes the intensity in terms of
+          $\mu=\sqrt{1-r^2/R_\star^2}$ :
+        </p>
+
+        <p class="equation">
+          $$
+          \frac{I(\mu)}{I(1)}
+          =1-u_1(1-\mu)-u_2(1-\mu)^2~.
+          $$
+        </p>
+
+        <p>
+          If the stellar disk were uniformly bright and the planet were small, the mid-transit
+          depth would be approximately
+        </p>
+
+        <p class="equation">
+          $$
+          \delta \simeq \left(\frac{R_p}{R_\star}\right)^2=k^2~.
+          $$
+        </p>
+
+        <p>
+          The approximation is useful, but limb darkening and a non-central transit modify the
+          relation between depth and radius ratio. Analytic light-curve models for limb-darkened
+          stars were developed by
+          <a href="https://arxiv.org/abs/astro-ph/0210099" target="_blank" rel="noopener">Mandel &amp; Agol</a>;
+          the computational example below evaluates such a model using
+          <a href="https://lkreidberg.github.io/batman/docs/html/quickstart.html" target="_blank" rel="noopener"><code>batman</code></a>.
+        </p>
+
+        <div class="article-table-wrap">
+          <table class="article-table">
+            <thead>
+              <tr>
+                <th>Quantity</th>
+                <th>Main effect on the light curve</th>
+                <th>Possible geometric/topological effect</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>$k=R_p/R_\star$</td>
+                <td>Primarily controls depth and also affects contact times.</td>
+                <td>Changes the scale and, weakly, the shape of the embedded trajectory.</td>
+              </tr>
+              <tr>
+                <td>$b$</td>
+                <td>Controls the transit chord; high $b$ shortens the event and may produce a grazing shape.</td>
+                <td>Deforms the loop and can reduce the separation between ingress and egress branches.</td>
+              </tr>
+              <tr>
+                <td>$a/R_\star$ and $P$</td>
+                <td>Set the orbital time scale and help determine transit duration.</td>
+                <td>Change the fraction of the delay window occupied by the event.</td>
+              </tr>
+              <tr>
+                <td>$u_1,u_2$</td>
+                <td>Control bottom curvature and the detailed ingress/egress profile.</td>
+                <td>Produce subtler deformations of the point cloud.</td>
+              </tr>
+              <tr>
+                <td>Noise, cadence, gaps</td>
+                <td>Thicken, sparsify, or fragment the observed transit.</td>
+                <td>Create short-lived classes and may eventually destroy the dominant loop.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>3. From a scalar light curve to a point cloud</h3>
+
+        <p>
+          Suppose the normalized flux is sampled at times $t_i$ and written as $f_i=F(t_i)$. A
+          single sample has no memory: it says nothing about whether the star is entering or leaving
+          transit. Delay coordinates restore local temporal context by assigning each starting index
+          $i$ the vector
+        </p>
+
+        <p class="equation">
+          $$
+          \mathbf{x}_i=
+          \bigl(f_i,f_{i+\tau},f_{i+2\tau},\ldots,f_{i+(m-1)\tau}\bigr)
+          \in\mathbb{R}^{m}~,
+          $$
+        </p>
+
+        <p>
+          where $m$ is the embedding dimension and $\tau$ is a lag measured in samples. The physical
+          window spanned by one vector is
+          $W=(m-1)\tau\,\Delta t$ for uniform cadence $\Delta t$. As $i$ advances, the vectors trace a
+          trajectory through $\mathbb{R}^m$. This construction is related to delay-coordinate
+          reconstruction and to the theoretical framework introduced by
+          <a href="https://doi.org/10.1007/BFb0091924" target="_blank" rel="noopener">Takens</a>.
+        </p>
+
+        <p>
+          For a phase-folded transit, the samples represent one periodic orbital cycle. We can then
+          use modular indexing,
+          $f_{i+N}=f_i$, so that the final window wraps back to the beginning of the cycle. The
+          embedded trajectory becomes closed. A coherent transit typically produces one dominant
+          loop-like structure, while measurement noise thickens the trajectory and creates small
+          local irregularities. This use of sliding windows and persistent homology follows the
+          broader signal-analysis framework of
+          <a href="https://arxiv.org/abs/1307.6188" target="_blank" rel="noopener">Perea &amp; Harer</a>.
+        </p>
+
+        <div class="warning-box">
+          <div class="box-label">An important boundary condition</div>
+          <p>
+            A single isolated transit segment is generally an <strong>open</strong> trajectory and
+            need not contain a persistent $H_1$ class. Closing its endpoints by hand can manufacture
+            a loop. Periodic wrapping is justified only after phase folding—or when the input truly
+            represents a complete periodic cycle. For an isolated event, open-window geometry,
+            path-based descriptors, or sublevel-set persistence may be more appropriate.
+          </p>
+        </div>
+
+        <h3>3.1 Choosing the lag and window length</h3>
+
+        <p>
+          There is no universally optimal pair $(m,\tau)$. If $\tau$ is too small, adjacent
+          coordinates are nearly identical and the cloud collapses toward the diagonal. If it is
+          too large, a window may mix unrelated parts of the orbit. A practical transit-specific
+          strategy is to choose $W$ comparable to the duration of ingress plus the central event,
+          then test a grid of nearby values.
+        </p>
+
+        <p>
+          The final result should not rest on one convenient parameter choice. A credible analysis
+          reports a <em>topological sensitivity surface</em> over $(m,\tau)$, cadence, detrending
+          settings, and phase-bin width. Features that persist only at one isolated setting are
+          better treated as numerical artifacts than as astrophysical signatures.
+        </p>
+
+        <h3>4. Vietoris-Rips complexes and persistent homology</h3>
+
+        <p>
+          Let $X=\{\mathbf{x}_1,\ldots,\mathbf{x}_n\}$ be the embedded point cloud with Euclidean
+          distance. At a scale $\varepsilon\geq0$, the Vietoris-Rips complex contains a simplex
+          $[\mathbf{x}_{i_0},\ldots,\mathbf{x}_{i_q}]$ whenever every pair of its vertices is at
+          distance at most $\varepsilon$:
+        </p>
+
+        <p class="equation">
+          $$
+          \operatorname{VR}_\varepsilon(X)=
+          \left\{\sigma\subseteq X:\|\mathbf{x}-\mathbf{y}\|_2\leq\varepsilon
+          \text{ for every }\mathbf{x},\mathbf{y}\in\sigma\right\}~.
+          $$
+        </p>
+
+        <p>
+          Increasing $\varepsilon$ gives a filtration
+          $\operatorname{VR}_{\varepsilon_1}(X)\subseteq
+          \operatorname{VR}_{\varepsilon_2}(X)$ for $\varepsilon_1\leq\varepsilon_2$. Persistent
+          homology follows topological features across this filtration:
+        </p>
+
+        <ul class="item-list">
+          <li><strong>$H_0$:</strong> connected components, useful for diagnosing fragmentation, gaps, or separated morphological states;</li>
+          <li><strong>$H_1$:</strong> loops, the most natural class for a coherent periodic transit representation;</li>
+          <li><strong>$H_2$ and above:</strong> possible in higher-dimensional embeddings, but usually harder to estimate robustly from modest, noisy transit samples.</li>
+        </ul>
+
+        <p>
+          Each class is represented by a birth-death pair $(b_j,d_j)$, with persistence
+          $\ell_j=d_j-b_j$. A long $H_1$ bar indicates a loop visible over a broad interval of
+          spatial scales; points close to the diagonal in a persistence diagram have short lifetime
+          and are more compatible with small-scale irregularity.
+        </p>
+
+        <p class="equation">
+          $$
+          \mathcal{D}_q(X)=\{(b_j,d_j)\}_j~,
+          \qquad
+          \ell_j=d_j-b_j~.
+          $$
+        </p>
+
+        <div class="definition-box">
+          <div class="box-label">A compact transit descriptor</div>
+          <p>
+            One simple feature vector is
+            $\Phi(X)=(\ell^{(1)}_{H_1},\,\ell^{(2)}_{H_1},\,\sum_j\ell_{H_1,j},\,
+            \sum_j\ell_{H_0,j})$, where the first two entries are the two longest $H_1$ lifetimes.
+            For statistical learning, persistence images or persistence landscapes retain more of
+            the diagram than a few hand-selected numbers.
+          </p>
+        </div>
+
+        <h3>4.1 What is—and is not—being represented?</h3>
+
+        <p>
+          The homology here is not the topology of the planet, the stellar surface, or the orbit in
+          physical three-dimensional space. It is the topology of a <strong>data-derived state-space
+          representation</strong>. Its geometry depends on the observable, preprocessing,
+          normalization, cadence, and embedding parameters.
+        </p>
+
+        <p>
+          This distinction matters scientifically. If every window is standardized to unit variance,
+          the representation becomes less sensitive to absolute transit depth and more sensitive to
+          shape. That may be desirable for morphology classification, but undesirable if the planet
+          radius is the signal of interest. Keeping raw relative flux preserves scale but makes
+          diagrams more sensitive to calibration. The preprocessing convention must therefore follow
+          the scientific question.
+        </p>
+
+        <h2 class="section-title">5. Interactive transit-to-topology laboratory</h2>
+
+        <p>
+          The panel below uses a fast, stylized quadratic-limb-darkened transit surrogate. It is
+          designed for intuition, not parameter inference. Change the radius ratio, impact parameter,
+          noise, and lag. The left panel shows one orbital cycle near transit; the right shows the
+          two-coordinate projection $(f_i,f_{i+\tau})$. The production example in Part II uses a
+          physical <code>batman</code> model and computes persistence in the full $m$-dimensional cloud.
+        </p>
+
+        <section class="topology-lab" aria-labelledby="lab-title">
+          <div class="lab-heading">
+            <h3 id="lab-title">Transit morphology explorer</h3>
+            <span class="lab-badge">Interactive</span>
+          </div>
+
+          <div class="lab-controls">
+            <div class="lab-control">
+              <label for="radius-ratio">Radius ratio $R_p/R_\star$ <output id="radius-value">0.100</output></label>
+              <input id="radius-ratio" type="range" min="0.035" max="0.180" step="0.005" value="0.100">
+            </div>
+            <div class="lab-control">
+              <label for="impact">Impact parameter $b$ <output id="impact-value">0.30</output></label>
+              <input id="impact" type="range" min="0.00" max="0.95" step="0.05" value="0.30">
+            </div>
+            <div class="lab-control">
+              <label for="noise">Noise <output id="noise-value">200 ppm</output></label>
+              <input id="noise" type="range" min="0" max="2000" step="50" value="200">
+            </div>
+            <div class="lab-control">
+              <label for="lag">Delay lag <output id="lag-value">10 samples</output></label>
+              <input id="lag" type="range" min="1" max="40" step="1" value="10">
+            </div>
+          </div>
+
+          <div class="lab-plots">
+            <div class="lab-panel">
+              <div class="lab-panel-title">Relative flux near transit</div>
+              <canvas id="transit-canvas" role="img" aria-label="Interactive synthetic transit light curve"></canvas>
+            </div>
+            <div class="lab-panel">
+              <div class="lab-panel-title">Two-coordinate delay projection</div>
+              <canvas id="embedding-canvas" role="img" aria-label="Interactive delay-coordinate projection"></canvas>
+            </div>
+          </div>
+
+          <div class="lab-readout">
+            <span>Approx. depth: <strong id="depth-readout">—</strong></span>
+            <span>Approx. duration for $P=3$ d: <strong id="duration-readout">—</strong></span>
+            <span>Fixed demonstration values: <strong>$a/R_\star=12$, $u_1=0.30$, $u_2=0.20$</strong></span>
+          </div>
+        </section>
+
+        <p>
+          Notice that increasing noise does not instantly remove the large-scale loop; it first
+          thickens the point cloud. Increasing $b$ changes the duration and can push the model toward
+          a grazing event, visibly deforming the trajectory. Changing $\tau$ alters the projection:
+          this is a reminder that a two-dimensional plot is only a view of the full embedding, not
+          the topological calculation itself.
+        </p>
+
+        <h2 class="section-title">Part II — A reproducible computational experiment</h2>
+
+        <h3>6. Scientific question and synthetic system</h3>
+
+        <p>
+          The experiment asks a deliberately narrow question: <em>does the dominant one-dimensional
+          class of a phase-folded transit survive realistic photometric noise?</em> I generate one
+          complete orbital cycle containing a circular, limb-darkened transit, add Gaussian noise,
+          create a circular delay embedding, and compute $H_0$ and $H_1$ persistence.
+        </p>
+
+        <div class="article-table-wrap">
+          <table class="article-table">
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Value</th>
+                <th>Interpretation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>$P$</td><td>3.0 d</td><td>Orbital period</td></tr>
+              <tr><td>$R_p/R_\star$</td><td>0.10</td><td>Roughly a one-percent uniform-disk depth</td></tr>
+              <tr><td>$a/R_\star$</td><td>12.0</td><td>Scaled semi-major axis</td></tr>
+              <tr><td>$i$</td><td>$87.6^\circ$</td><td>Non-central but non-grazing orbit</td></tr>
+              <tr><td>$(u_1,u_2)$</td><td>(0.30, 0.20)</td><td>Quadratic limb darkening</td></tr>
+              <tr><td>$N$</td><td>1,200</td><td>Uniform phase samples per orbit</td></tr>
+              <tr><td>Noise</td><td>200 ppm</td><td>Independent Gaussian photometric scatter</td></tr>
+              <tr><td>Embedding</td><td>$m=25$, $\tau=2$ samples</td><td>48-sample window span</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>6.1 Dependencies</h3>
+
+<div class="code-block" data-lang="bash">
+  <div class="code-block-header">
+    <span>Terminal</span>
+    <button class="code-copy-btn" type="button" aria-label="Copy dependency installation command">Copy</button>
+  </div>
+  <pre><code class="language-bash">python -m pip install numpy matplotlib scikit-learn batman-package ripser persim</code></pre>
+</div>
+
+        <h3>6.2 The core pipeline</h3>
+
+        <p>
+          The essential implementation is short. The modular indices in
+          <code>circular_embedding</code> are the explicit periodic-boundary assumption. The complete
+          companion script also generates the figure and noise sweep shown below:
+          <a href="../python_codes/topological_exoplanet_transit.py" download>download the Python script</a>.
+        </p>
+
+<div class="code-block" data-lang="python">
+  <div class="code-block-header">
+    <span>Python</span>
+    <button class="code-copy-btn" type="button" aria-label="Copy Python example">Copy</button>
+  </div>
+  <pre><code class="language-python">import batman
+import numpy as np
+from ripser import ripser
+
+rng = np.random.default_rng(7)
+period = 3.0
+n = 1_200
+time = np.linspace(-period / 2, period / 2, n, endpoint=False)
+
+# 1. Physical transit model
+params = batman.TransitParams()
+params.t0 = 0.0
+params.per = period
+params.rp = 0.10
+params.a = 12.0
+params.inc = 87.6
+params.ecc = 0.0
+params.w = 90.0
+params.u = [0.30, 0.20]
+params.limb_dark = "quadratic"
+
+model = batman.TransitModel(params, time)
+clean_flux = model.light_curve(params)
+flux = clean_flux + rng.normal(0.0, 200e-6, n)
+
+# 2. Standardize globally: this example emphasizes morphology over depth
+z = (flux - flux.mean()) / flux.std()
+
+# 3. Circular delay-coordinate embedding of one complete folded orbit
+m, lag, stride = 25, 2, 3
+starts = np.arange(0, n, stride)
+offsets = lag * np.arange(m)
+indices = (starts[:, None] + offsets[None, :]) % n
+point_cloud = z[indices]
+
+# 4. Vietoris--Rips persistence through dimension one
+result = ripser(
+    point_cloud,
+    maxdim=1,
+    n_perm=min(300, len(point_cloud)),
+)
+h0, h1 = result["dgms"]
+
+# 5. A compact scalar summary
+dominant_h1 = np.max(h1[:, 1] - h1[:, 0]) if h1.size else 0.0
+print(f"Dominant H1 persistence: {dominant_h1:.3f}")</code></pre>
+</div>
+
+        <p>
+          <code>n_perm</code> asks Ripser.py to use a greedy permutation subsample, which reduces the
+          cost of a dense Vietoris–Rips computation. For a final scientific analysis, one should
+          verify convergence with respect to this approximation and keep the subsampling rule fixed
+          across objects. The package API and diagram conventions are documented by the
+          <a href="https://ripser.scikit-tda.org/en/latest/reference/stubs/ripser.ripser.html" target="_blank" rel="noopener">Ripser.py project</a>.
+        </p>
+
+        <h3>7. Reading the result</h3>
+
+        <figure class="figure-frame">
+          <img src="../blog_assets/topological-exoplanet-transit/topological_exoplanet_transit.png"
+               alt="Four panels showing a synthetic limb-darkened transit, its circular delay embedding, its persistence diagram, and dominant H1 persistence versus noise amplitude.">
+          <figcaption class="figure-caption">
+            A 200 ppm transit example. The main $H_1$ class lies far from the diagonal and remains
+            visible after the point cloud is thickened by noise. Generated by the companion script.
+          </figcaption>
+        </figure>
+
+        <ol class="steps">
+          <li><strong>Transit panel.</strong> The noise-free curve has a limb-darkened bottom and finite ingress/egress. The noisy samples remain visually coherent at 200 ppm.</li>
+          <li><strong>Embedding panel.</strong> Orbital phase parametrizes a closed trajectory. The long out-of-transit baseline is compressed near one end of the projected loop; the transit supplies most of its geometric extent.</li>
+          <li><strong>Persistence diagram.</strong> One $H_1$ point is well separated from the diagonal. Numerous short-lived features are associated with local sampling and noise.</li>
+          <li><strong>Noise sweep.</strong> The dominant loop degrades continuously rather than disappearing immediately. At sufficiently large noise relative to transit depth, its lifetime collapses.</li>
+        </ol>
+
+        <p>
+          For the fixed random seed in the script, the clean and 200 ppm signals yield dominant
+          $H_1$ persistences of approximately $16.22$ and $15.75$, respectively, after global
+          standardization. These numbers are not universal physical constants: they depend on the
+          metric, normalization, embedding, and subsampling. The meaningful observation is the
+          <em>controlled comparison under a frozen pipeline</em>.
+        </p>
+
+        <h3>7.1 A stronger experiment: ensembles, not one noise realization</h3>
+
+        <p>
+          The single sweep is pedagogical. A publication-quality robustness study would generate
+          many realizations at each noise amplitude, report confidence intervals for persistence
+          summaries, and compare against null signals with matched cadence and power spectra. At
+          minimum, I would include three null families:
+        </p>
+
+        <ul class="item-list">
+          <li><strong>White-noise null:</strong> destroys temporal structure while matching the pointwise scatter;</li>
+          <li><strong>Phase-randomized surrogate:</strong> approximately preserves the power spectrum but disrupts phase relations;</li>
+          <li><strong>Transit-free stellar variability:</strong> tests whether rotation, pulsations, or red noise also produce persistent loops.</li>
+        </ul>
+
+        <p>
+          The quantity of interest could then be an effect size or detection probability, for
+          example
+        </p>
+
+        <p class="equation">
+          $$
+          Z_{H_1}=
+          \frac{\ell^{(1)}_{H_1,\mathrm{transit}}-
+                \operatorname{median}(\ell^{(1)}_{H_1,\mathrm{null}})}
+               {\operatorname{MAD}(\ell^{(1)}_{H_1,\mathrm{null}})}~.
+          $$
+        </p>
+
+        <p>
+          Such a statistic is still not a validated exoplanet-detection score. Eclipsing binaries,
+          rotational modulation, and instrumental systematics can also be periodic. Its role would
+          be to add a shape-sensitive feature to a broader vetting system.
+        </p>
+
+        <h3>8. Moving from synthetic to Kepler or TESS data</h3>
+
+        <p>
+          A real-data pipeline should preserve the same conceptual order while treating
+          preprocessing as part of the model rather than as housekeeping:
+        </p>
+
+        <ol class="steps">
+          <li><strong>Retrieve and audit.</strong> Obtain the light curve, quality flags, cadence, flux uncertainty, and sector/quarter provenance.</li>
+          <li><strong>Mask before detrending.</strong> Protect expected transits while estimating long-term variability; an aggressive filter can distort duration and depth.</li>
+          <li><strong>Remove flagged samples and handle gaps.</strong> Do not interpolate across large gaps without quantifying the topological effect.</li>
+          <li><strong>Fold on a frozen ephemeris.</strong> Record the period, reference epoch, and any transit-timing variations.</li>
+          <li><strong>Bin only if justified.</strong> Compare multiple phase-bin widths and propagate uncertainty.</li>
+          <li><strong>Embed and compute persistence.</strong> Use the same normalization, metric, lag grid, and approximation budget for every target.</li>
+          <li><strong>Validate with injections.</strong> Inject known transits into real out-of-transit data to measure completeness, bias, and false-positive behavior.</li>
+        </ol>
+
+        <p>
+          The <a href="https://lightkurve.github.io/lightkurve/reference/api/lightkurve.search_lightcurve.html" target="_blank" rel="noopener"><code>lightkurve.search_lightcurve</code></a>
+          interface can retrieve Kepler and TESS light-curve products, while
+          <a href="https://lightkurve.github.io/lightkurve/reference/api/lightkurve.LightCurve.fold.html" target="_blank" rel="noopener"><code>LightCurve.fold</code></a>
+          provides phase folding. Public transit-survey holdings and system parameters are also
+          available through the
+          <a href="https://exoplanetarchive.ipac.caltech.edu/docs/data.html" target="_blank" rel="noopener">NASA Exoplanet Archive</a>.
+        </p>
+
+        <div class="warning-box">
+          <div class="box-label">Detrending can erase the object you want to study</div>
+          <p>
+            If a smoothing window is comparable to the transit duration, the procedure may alter
+            ingress, egress, and bottom curvature—the same morphology the topological representation
+            is supposed to summarize. Transit masks, injection–recovery tests, and preprocessing
+            sensitivity are therefore part of the topology, not merely preliminary cleaning.
+          </p>
+        </div>
+
+        <h2 class="section-title">9. What could this representation be used for?</h2>
+
+        <p>
+          A topological representation becomes most interesting when many transits are compared
+          under a common pipeline. Several directions seem natural:
+        </p>
+
+        <ul class="item-list">
+          <li><strong>Morphological retrieval:</strong> find transits with similar persistence diagrams using bottleneck or Wasserstein distances;</li>
+          <li><strong>Quality control:</strong> flag events whose topology changes strongly across sectors, quarters, detrending methods, or phase-bin widths;</li>
+          <li><strong>Injection–recovery studies:</strong> map where the dominant $H_1$ class survives in depth–duration–noise space;</li>
+          <li><strong>False-positive vetting:</strong> combine persistence summaries with odd/even depth differences, centroid motion, stellar context, and conventional model-fit features;</li>
+          <li><strong>Transit timing or shape variability:</strong> compute one diagram per epoch and follow a trajectory in the space of persistence diagrams;</li>
+          <li><strong>Machine learning:</strong> concatenate physical parameters, conventional statistics, and vectorized persistence summaries, with train/test splits grouped by target star.</li>
+        </ul>
+
+        <p>
+          One particularly useful design is a two-branch representation. A <em>scale-preserving</em>
+          branch keeps relative flux and retains depth information; a <em>shape-normalized</em> branch
+          standardizes each signal and emphasizes morphology. Their persistence summaries answer
+          different questions and should not be conflated.
+        </p>
+
+        <h2 class="section-title">10. Final perspective</h2>
+
+        <p>
+          Delay coordinates turn the transit from a line on a plot into a trajectory through a
+          reconstructed state space. Persistent homology then asks a multiscale question: which
+          aspects of that trajectory survive as the resolution changes? For a phase-folded transit,
+          the main answer is often one dominant loop accompanied by many short-lived fluctuations.
+        </p>
+
+        <p>
+          The loop is not, by itself, evidence for a planet. Its value lies in being a stable,
+          coordinate-light descriptor of periodic morphology. Used alongside physical transit
+          models, uncertainty propagation, null surrogates, and injection tests, it offers a bridge
+          between exoplanet time-series analysis and topological data analysis.
+        </p>
+
+        <p>
+          The natural next step is to leave the single synthetic system behind: inject a controlled
+          grid of transits into real TESS noise, construct a sensitivity atlas over physical and
+          embedding parameters, and test whether topological summaries add information beyond depth,
+          duration, and signal-to-noise ratio.
+        </p>
+
+        <h2 class="section-title">References and software</h2>
+
+        <ul class="item-list">
+          <li>Mandel, K. &amp; Agol, E. (2002). <a href="https://arxiv.org/abs/astro-ph/0210099" target="_blank" rel="noopener"><em>Analytic Light Curves for Planetary Transit Searches</em></a>.</li>
+          <li>Kreidberg, L. (2015). <a href="https://ui.adsabs.harvard.edu/abs/2015PASP..127.1161K/abstract" target="_blank" rel="noopener"><em>batman: BAsic Transit Model cAlculatioN in Python</em></a>.</li>
+          <li>Takens, F. (1981). <a href="https://doi.org/10.1007/BFb0091924" target="_blank" rel="noopener"><em>Detecting Strange Attractors in Turbulence</em></a>.</li>
+          <li>Perea, J. A. &amp; Harer, J. (2015). <a href="https://arxiv.org/abs/1307.6188" target="_blank" rel="noopener"><em>Sliding Windows and Persistence: An Application of Topological Methods to Signal Analysis</em></a>.</li>
+          <li>Tralie, C., Saul, N. &amp; Bar-On, R. (2018). <a href="https://joss.theoj.org/papers/10.21105/joss.00925" target="_blank" rel="noopener"><em>Ripser.py: A Lean Persistent Homology Library for Python</em></a>.</li>
+          <li><a href="https://lightkurve.github.io/lightkurve/tutorials/" target="_blank" rel="noopener">Lightkurve tutorials</a> for Kepler and TESS light-curve access and analysis.</li>
+        </ul>
+
+        <p style="margin-top: 1rem;">
+          If you notice an error or would like to discuss an extension, feel free to
+          <a href="mailto:gabrielwendell@fisica.ufrn.br">send me an email</a>.
+        </p>
+      </article>
+
+      <section class="section post-nav">
+        <div class="post-nav-inner">
+          <div class="post-nav-prev">← <a href="../blog.html">Back to the blog index</a></div>
+          <div class="post-nav-next"><a href="../blog.html">More research notes →</a></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>© <span id="year"></span> Gabriel Wendell Celestino Rocha.</div>
+      <div class="footer-links">
+        <a href="../index.html">Home</a>
+        <a href="../research.html">Research</a>
+        <a href="../publications.html">Publications</a>
+        <a href="../talks.html">Talks</a>
+        <a href="../software.html">Software</a>
+        <a href="../teaching.html">Teaching</a>
+        <a href="../cv.html">CV</a>
+        <a href="../blog.html">Blog</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function setupCodeCopy() {
+      document.querySelectorAll('.code-block').forEach(function (block) {
+        const button = block.querySelector('.code-copy-btn');
+        const codeElement = block.querySelector('pre code');
+        if (!button || !codeElement) return;
+
+        function doCopy(text) {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            return navigator.clipboard.writeText(text);
+          }
+          return new Promise(function (resolve, reject) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+              document.execCommand('copy');
+              resolve();
+            } catch (error) {
+              reject(error);
+            } finally {
+              document.body.removeChild(textarea);
+            }
+          });
+        }
+
+        button.addEventListener('click', function () {
+          doCopy(codeElement.innerText.trimEnd()).then(function () {
+            button.textContent = 'Copied!';
+            setTimeout(function () { button.textContent = 'Copy'; }, 2000);
+          }).catch(function () {
+            button.textContent = 'Error';
+            setTimeout(function () { button.textContent = 'Copy'; }, 2000);
+          });
+        });
+      });
+    }
+
+    function setupTransitLab() {
+      const radius = document.getElementById('radius-ratio');
+      const impact = document.getElementById('impact');
+      const noise = document.getElementById('noise');
+      const lag = document.getElementById('lag');
+      const transitCanvas = document.getElementById('transit-canvas');
+      const embeddingCanvas = document.getElementById('embedding-canvas');
+      if (!radius || !impact || !noise || !lag || !transitCanvas || !embeddingCanvas) return;
+
+      const n = 520;
+      const aOverR = 12.0;
+      const u1 = 0.30;
+      const u2 = 0.20;
+      const periodDays = 3.0;
+
+      function smoothstep(x) {
+        const z = Math.max(0, Math.min(1, x));
+        return z * z * (3 - 2 * z);
+      }
+
+      function deterministicNoise(i) {
+        return (
+          0.52 * Math.sin(12.9898 * i + 1.7) +
+          0.31 * Math.sin(47.123 * i + 0.4) +
+          0.17 * Math.cos(91.77 * i + 2.2)
+        );
+      }
+
+      function halfContactFraction(k, b, sign) {
+        const chordSq = Math.max(0, Math.pow(1 + sign * k, 2) - b * b);
+        const sinI = Math.sqrt(Math.max(1e-6, 1 - Math.pow(b / aOverR, 2)));
+        const argument = Math.min(1, Math.sqrt(chordSq) / (aOverR * sinI));
+        return 0.5 * Math.asin(argument) / Math.PI;
+      }
+
+      function buildSignal() {
+        const k = Number(radius.value);
+        const b = Number(impact.value);
+        const sigma = Number(noise.value) * 1e-6;
+        const mu = Math.sqrt(Math.max(0, 1 - b * b));
+        const localIntensity = 1 - u1 * (1 - mu) - u2 * Math.pow(1 - mu, 2);
+        const meanIntensity = 1 - u1 / 3 - u2 / 6;
+        const depth = k * k * localIntensity / meanIntensity;
+        const halfOuter = halfContactFraction(k, b, 1);
+        const halfInner = halfContactFraction(k, b, -1);
+        const flux = [];
+        const phase = [];
+
+        for (let i = 0; i < n; i += 1) {
+          const p = -0.5 + i / n;
+          const q = Math.abs(p);
+          let blocked = 0;
+
+          if (q <= halfInner && halfInner > 0) {
+            const chordPosition = q / Math.max(halfInner, 1e-8);
+            const bottomCurve = 1 - 0.08 * chordPosition * chordPosition;
+            blocked = depth * bottomCurve;
+          } else if (q < halfOuter) {
+            const denominator = Math.max(halfOuter - halfInner, 1e-8);
+            blocked = depth * smoothstep((halfOuter - q) / denominator);
+          }
+
+          phase.push(p);
+          flux.push(1 - blocked + sigma * deterministicNoise(i));
+        }
+
+        return { phase, flux, depth, durationDays: 2 * halfOuter * periodDays };
+      }
+
+      function canvasContext(canvas) {
+        const dpr = Math.max(1, window.devicePixelRatio || 1);
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = Math.round(rect.width * dpr);
+        canvas.height = Math.round(rect.height * dpr);
+        const ctx = canvas.getContext('2d');
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        return { ctx, width: rect.width, height: rect.height };
+      }
+
+      function drawAxes(ctx, width, height, xLabel, yLabel) {
+        const left = 48;
+        const right = 15;
+        const top = 14;
+        const bottom = 38;
+        ctx.strokeStyle = 'rgba(230, 237, 247, 0.38)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(left, top);
+        ctx.lineTo(left, height - bottom);
+        ctx.lineTo(width - right, height - bottom);
+        ctx.stroke();
+        ctx.fillStyle = '#a4acc4';
+        ctx.font = '11px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(xLabel, (left + width - right) / 2, height - 9);
+        ctx.save();
+        ctx.translate(13, (top + height - bottom) / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillText(yLabel, 0, 0);
+        ctx.restore();
+        return { left, right, top, bottom };
+      }
+
+      function drawTransit(data) {
+        const surface = canvasContext(transitCanvas);
+        const ctx = surface.ctx;
+        const width = surface.width;
+        const height = surface.height;
+        ctx.clearRect(0, 0, width, height);
+        const margin = drawAxes(ctx, width, height, 'orbital phase', 'relative flux');
+        const xMin = -0.065;
+        const xMax = 0.065;
+        const visible = data.flux.filter(function (_, i) {
+          return data.phase[i] >= xMin && data.phase[i] <= xMax;
+        });
+        const yMin = Math.min.apply(null, visible) - 0.0007;
+        const yMax = Math.max.apply(null, visible) + 0.00045;
+        const plotW = width - margin.left - margin.right;
+        const plotH = height - margin.top - margin.bottom;
+        const sx = function (x) { return margin.left + (x - xMin) / (xMax - xMin) * plotW; };
+        const sy = function (y) { return margin.top + (yMax - y) / (yMax - yMin) * plotH; };
+
+        ctx.strokeStyle = '#5ac8fa';
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        let started = false;
+        data.phase.forEach(function (p, i) {
+          if (p < xMin || p > xMax) return;
+          const x = sx(p);
+          const y = sy(data.flux[i]);
+          if (!started) {
+            ctx.moveTo(x, y);
+            started = true;
+          } else {
+            ctx.lineTo(x, y);
+          }
+        });
+        ctx.stroke();
+
+        ctx.fillStyle = '#a4acc4';
+        ctx.font = '10px Inter, sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText(yMax.toFixed(4), margin.left - 6, margin.top + 4);
+        ctx.fillText(yMin.toFixed(4), margin.left - 6, height - margin.bottom);
+        ctx.textAlign = 'center';
+        ctx.fillText(xMin.toFixed(3), margin.left, height - margin.bottom + 15);
+        ctx.fillText('0', margin.left + plotW / 2, height - margin.bottom + 15);
+        ctx.fillText(xMax.toFixed(3), width - margin.right, height - margin.bottom + 15);
+      }
+
+      function drawEmbedding(data) {
+        const surface = canvasContext(embeddingCanvas);
+        const ctx = surface.ctx;
+        const width = surface.width;
+        const height = surface.height;
+        ctx.clearRect(0, 0, width, height);
+        const margin = drawAxes(ctx, width, height, 'f(i)', 'f(i + τ)');
+        const shift = Number(lag.value);
+        const mean = data.flux.reduce(function (a, b) { return a + b; }, 0) / data.flux.length;
+        const variance = data.flux.reduce(function (a, b) {
+          return a + Math.pow(b - mean, 2);
+        }, 0) / data.flux.length;
+        const sd = Math.sqrt(Math.max(variance, 1e-16));
+        const z = data.flux.map(function (v) { return (v - mean) / sd; });
+        const points = z.map(function (v, i) {
+          return [v, z[(i + shift) % z.length]];
+        });
+        const all = points.reduce(function (acc, p) { return acc.concat(p); }, []);
+        let minV = Math.min.apply(null, all);
+        let maxV = Math.max.apply(null, all);
+        const pad = 0.08 * Math.max(maxV - minV, 1);
+        minV -= pad;
+        maxV += pad;
+        const plotW = width - margin.left - margin.right;
+        const plotH = height - margin.top - margin.bottom;
+        const sx = function (x) { return margin.left + (x - minV) / (maxV - minV) * plotW; };
+        const sy = function (y) { return margin.top + (maxV - y) / (maxV - minV) * plotH; };
+
+        ctx.strokeStyle = 'rgba(90, 200, 250, 0.82)';
+        ctx.lineWidth = 1.25;
+        ctx.beginPath();
+        points.forEach(function (p, i) {
+          if (i === 0) ctx.moveTo(sx(p[0]), sy(p[1]));
+          else ctx.lineTo(sx(p[0]), sy(p[1]));
+        });
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.fillStyle = 'rgba(213, 166, 255, 0.44)';
+        points.forEach(function (p, i) {
+          if (i % 5 !== 0) return;
+          ctx.beginPath();
+          ctx.arc(sx(p[0]), sy(p[1]), 1.7, 0, 2 * Math.PI);
+          ctx.fill();
+        });
+      }
+
+      function update() {
+        document.getElementById('radius-value').textContent = Number(radius.value).toFixed(3);
+        document.getElementById('impact-value').textContent = Number(impact.value).toFixed(2);
+        document.getElementById('noise-value').textContent = Number(noise.value).toFixed(0) + ' ppm';
+        document.getElementById('lag-value').textContent = lag.value + ' samples';
+        const data = buildSignal();
+        document.getElementById('depth-readout').textContent = (data.depth * 1e6).toFixed(0) + ' ppm';
+        document.getElementById('duration-readout').textContent = (data.durationDays * 24).toFixed(2) + ' h';
+        drawTransit(data);
+        drawEmbedding(data);
+      }
+
+      [radius, impact, noise, lag].forEach(function (input) {
+        input.addEventListener('input', update);
+      });
+      window.addEventListener('resize', update);
+      update();
+    }
+
+    function initialize() {
+      setupCodeCopy();
+      setupTransitLab();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initialize);
+    } else {
+      initialize();
+    }
+  </script>
+</body>
+</html>

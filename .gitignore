@@ -1,0 +1,13 @@
+# ==========================================
+# Virtual Environments (CRITICAL)
+# ==========================================
+.venv/
+venv/
+ENV/
+env/
+ENV/
+pipenv/
+.python-version
+.poetry/
+poetry.lock
+__pypackages__/
