@@ -904,3 +904,186 @@ body.blog-post::after {
 .blog-post article.section {
   line-height: 1.7;
 }
+
+/* Publication cards ------------------------------------------------------- */
+
+.publication-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(285px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.publication-grid-secondary {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.publication-card {
+  position: relative;
+  display: block;
+  min-height: 100%;
+  padding: 1.15rem 1.2rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: 1.15rem;
+  background:
+    linear-gradient(145deg, rgba(90, 200, 250, 0.035), transparent 42%),
+    rgba(16, 23, 43, 0.94);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.48);
+  backdrop-filter: blur(6px);
+  color: var(--text);
+  text-decoration: none;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.publication-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(circle at 88% 8%, rgba(90, 200, 250, 0.14), transparent 34%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.publication-card:not(.publication-card-static):hover,
+.publication-card:not(.publication-card-static):focus-visible {
+  transform: translateY(-5px);
+  border-color: rgba(90, 200, 250, 0.62);
+  box-shadow:
+    0 26px 65px rgba(0, 0, 0, 0.58),
+    0 0 0 1px rgba(90, 200, 250, 0.08),
+    0 0 32px rgba(90, 200, 250, 0.08);
+  outline: none;
+  text-decoration: none;
+}
+
+.publication-card:not(.publication-card-static):hover::before,
+.publication-card:not(.publication-card-static):focus-visible::before {
+  opacity: 1;
+}
+
+.publication-card-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.72rem;
+}
+
+.publication-year,
+.publication-type {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.65rem;
+  border-radius: 999px;
+  padding: 0.18rem 0.58rem;
+  font-size: 0.7rem;
+  line-height: 1;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.publication-year {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.publication-type {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--muted);
+}
+
+.publication-title {
+  margin-bottom: 0.52rem;
+  font-size: 1rem;
+  line-height: 1.38;
+  color: var(--text);
+}
+
+.publication-language {
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 0.82em;
+}
+
+.publication-journal {
+  margin-bottom: 0.58rem;
+  font-size: 0.82rem;
+  color: var(--accent);
+}
+
+.publication-desc {
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.publication-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 0.78rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.055);
+}
+
+.publication-doi {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 0.71rem;
+  color: var(--muted);
+}
+
+.publication-open {
+  flex-shrink: 0;
+  font-size: 0.78rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.publication-open span {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.publication-card:hover .publication-open span,
+.publication-card:focus-visible .publication-open span {
+  transform: translate(2px, -2px);
+}
+
+.publication-card-static {
+  cursor: default;
+}
+
+@media (max-width: 620px) {
+  .publication-grid,
+  .publication-grid-secondary {
+    grid-template-columns: 1fr;
+  }
+
+  .publication-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .publication-card,
+  .publication-card::before,
+  .publication-open span {
+    transition: none;
+  }
+
+  .publication-card:not(.publication-card-static):hover,
+  .publication-card:not(.publication-card-static):focus-visible {
+    transform: none;
+  }
+}
