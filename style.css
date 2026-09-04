@@ -1013,6 +1013,22 @@ body.blog-post::after {
   font-size: 0.82em;
 }
 
+.publication-authors {
+  margin-bottom: 0.42rem;
+  font-size: 0.79rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.publication-author-self {
+  color: var(--text);
+  font-weight: 700;
+  text-decoration-line: underline;
+  text-decoration-color: rgba(90, 200, 250, 0.72);
+  text-decoration-thickness: 0.09em;
+  text-underline-offset: 0.18em;
+}
+
 .publication-journal {
   margin-bottom: 0.58rem;
   font-size: 0.82rem;
