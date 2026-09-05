@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Why Can't I Take My Underwear Off While Wearing Pants? (Topologically) – Gabriel Wendell – Blog</title>
+  <meta name="description"
+        content="A playful but rigorous topological investigation of whether underwear can be removed while pants stay on, using fundamental groups, knot theory, spatial graphs, Alexander duality, and ambient isotopy." />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+  <!-- MathJax 3 -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script','noscript','style','textarea','pre','code']
+      }
+    };
+  </script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+  <style>
+    .topology-post .post-lead {
+      font-size: 1.03rem;
+      color: var(--text);
+    }
+
+    .topology-post .post-figure {
+      margin: 1.5rem auto;
+      max-width: 760px;
+    }
+
+    .topology-post .post-figure img {
+      max-height: 610px;
+      width: auto;
+      border-radius: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.5);
+    }
+
+    .topology-post figcaption {
+      margin-top: 0.55rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .topology-post .math-callout,
+    .topology-post .proof-box,
+    .topology-post .takeaway-box {
+      margin: 1.25rem 0;
+      padding: 1rem 1.1rem;
+      border-radius: 0.95rem;
+      border: 1px solid rgba(90, 200, 250, 0.28);
+      background: rgba(16, 23, 43, 0.88);
+    }
+
+    .topology-post .math-callout strong,
+    .topology-post .proof-box strong,
+    .topology-post .takeaway-box strong {
+      color: var(--accent);
+    }
+
+    .topology-post .proof-box {
+      border-left: 3px solid var(--accent);
+    }
+
+    .topology-post .takeaway-box {
+      background:
+        radial-gradient(circle at 100% 0%, rgba(90, 200, 250, 0.12), transparent 42%),
+        rgba(16, 23, 43, 0.9);
+    }
+
+    .topology-post .diagram-card {
+      margin: 1.35rem auto;
+      padding: 0.9rem;
+      max-width: 820px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 1rem;
+      background: rgba(8, 13, 27, 0.92);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4);
+    }
+
+    .topology-post .diagram-card svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .topology-post .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.25rem 0;
+      font-size: 0.88rem;
+      overflow: hidden;
+      border-radius: 0.9rem;
+    }
+
+    .topology-post .comparison-table th,
+    .topology-post .comparison-table td {
+      padding: 0.75rem 0.8rem;
+      border: 1px solid var(--border-subtle);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .topology-post .comparison-table th {
+      background: rgba(90, 200, 250, 0.12);
+      color: var(--text);
+    }
+
+    .topology-post .comparison-table td {
+      background: rgba(16, 23, 43, 0.72);
+      color: var(--muted);
+    }
+
+    .topology-post .mini-note {
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    .topology-post .reference-list li {
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 640px) {
+      .topology-post .comparison-table {
+        font-size: 0.8rem;
+      }
+
+      .topology-post .comparison-table th,
+      .topology-post .comparison-table td {
+        padding: 0.55rem;
+      }
+    }
+  </style>
+</head>
+
+<body class="blog-post topology-post">
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="../index.html" class="brand">Gabriel Wendell</a>
+      <nav class="site-nav">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="../research.html" class="nav-link">Research</a>
+        <a href="../publications.html" class="nav-link">Publications</a>
+        <a href="../talks.html" class="nav-link">Talks</a>
+        <a href="../software.html" class="nav-link">Software</a>
+        <a href="../teaching.html" class="nav-link">Teaching</a>
+        <a href="../cv.html" class="nav-link">CV</a>
+        <a href="../blog.html" class="nav-link active">Blog</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <header class="page-header">
+        <p class="page-kicker">Topology · Knot theory · Everyday mathematics</p>
+        <h1 class="page-title">Why Can't I Take My Underwear Off While Wearing Pants? (Topologically)</h1>
+        <p class="page-subtitle">
+          A deliberately silly question that leads to a serious discussion of
+          <strong>fundamental groups</strong>, <strong>linking</strong>, <strong>spatial graphs</strong>,
+          <strong>Alexander duality</strong>, and the difference between geometric and topological impossibility.
+        </p>
+        <p style="margin-top: 0.6rem; font-size: 0.85rem; color: var(--muted);">
+          <strong>Date:</strong> September 4, 2026
+          &nbsp;·&nbsp;
+          <strong>Tags:</strong> <span>topology</span>, <span>algebraic-topology</span>,
+          <span>knot-theory</span>, <span>fundamental-groups</span>
+        </p>
+      </header>
+
+      <article class="section">
+        <h2 class="section-title">1. The question</h2>
+
+        <p class="post-lead">
+          Suppose you are wearing underwear underneath a pair of pants. Can you remove the underwear
+          while leaving the pants on? In ordinary life this sounds like a problem about dexterity,
+          elastic waistbands, narrow cuffs, and regrettable decisions. But if we deliberately ignore
+          all metric and mechanical constraints, a cleaner mathematical question appears:
+        </p>
+
+        <div class="math-callout">
+          <strong>Topological version.</strong>
+          If the garments are arbitrarily flexible and stretchable, but may not tear and may not pass
+          through the body, is the underwear genuinely <em>topologically trapped</em>?
+        </div>
+
+        <figure class="post-figure">
+          <img src="../blog_assets/topological-underwear/math-stackexchange-question.png"
+               alt="Screenshot of a Mathematics Stack Exchange question asking why underwear cannot be removed while wearing pants, topologically.">
+          <figcaption>
+            The question that motivated this note. In the topological idealization, the answer is more subtle than everyday intuition suggests.
+          </figcaption>
+        </figure>
+
+        <p>
+          The short answer is <strong>no</strong>: in the standard idealized configuration there is no
+          topological obstruction. The underwear can, in principle, be deformed off the body and threaded
+          through an opening of the trousers. What makes the maneuver difficult in reality is geometry and
+          mechanics, not topology.
+        </p>
+
+        <p>
+          The interesting part is not the answer itself, but how to formulate it rigorously. The problem can
+          be recast in the language of surfaces, free groups, complements, linking invariants, and ambient isotopy.
+        </p>
+
+        <h2 class="section-title">2. What are we allowed to ignore?</h2>
+
+        <p>
+          A topological model has to specify what information is being discarded. I will make the following
+          idealizations:
+        </p>
+
+        <ul class="item-list">
+          <li>The garments are infinitely thin, continuously deformable surfaces.</li>
+          <li>They may stretch arbitrarily, so lengths, areas, cuff diameters, and elastic limits are ignored.</li>
+          <li>The cloth cannot tear and cannot pass through the body.</li>
+          <li>The body is replaced by a simple embedded graph representing the pelvis and legs.</li>
+          <li>The outer trousers remain present, but their waist and cuffs are genuine boundary openings through which the inner garment may pass.</li>
+        </ul>
+
+        <p>
+          These assumptions are important. If we impose finite elasticity, finite cuff diameter, friction,
+          fabric thickness, or anatomical joint limits, the answer becomes a problem in geometry and mechanics.
+          Here we ask only whether some continuous deformation exists.
+        </p>
+
+        <h2 class="section-title">3. Underwear is a pair of pants</h2>
+
+        <p>
+          Topologists already have a name for the relevant surface: a <strong>pair of pants</strong>. It is a
+          sphere with three open disks removed,
+        </p>
+
+        <p class="equation">
+          $$
+          P = S^2\setminus\left(D_1^\circ\cup D_2^\circ\cup D_3^\circ\right)~.
+          $$
+        </p>
+
+        <p>
+          The three boundary components represent the waist opening and the two leg openings. Its Euler characteristic is
+        </p>
+
+        <p class="equation">
+          $$\chi(P)=2-3=-1~.$$
+        </p>
+
+        <p>
+          More useful for us is the fact that a pair-of-pants surface deformation retracts onto a figure-eight graph,
+        </p>
+
+        <p class="equation">
+          $$P\simeq S^1\vee S^1~.$$
+        </p>
+
+        <div class="diagram-card">
+          <svg viewBox="0 0 820 300" role="img" aria-label="A pair-of-pants surface deformation retracting to a figure-eight graph">
+            <defs>
+              <marker id="arrow-a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L9,3 z" fill="#5ac8fa"></path>
+              </marker>
+            </defs>
+            <text x="185" y="32" fill="#e6edf7" font-size="18" text-anchor="middle" font-family="Inter, sans-serif">pair-of-pants surface</text>
+            <path d="M145 58 C110 88,95 120,100 158 C104 193,85 231,58 264 L145 264 C158 227,171 203,188 186 C205 203,218 227,231 264 L318 264 C291 231,272 193,276 158 C281 120,266 88,231 58 Z"
+                  fill="rgba(90,200,250,0.13)" stroke="#5ac8fa" stroke-width="4"/>
+            <ellipse cx="188" cy="66" rx="47" ry="17" fill="#080d1b" stroke="#d5a6ff" stroke-width="3"/>
+            <ellipse cx="105" cy="255" rx="37" ry="12" fill="#080d1b" stroke="#d5a6ff" stroke-width="3"/>
+            <ellipse cx="271" cy="255" rx="37" ry="12" fill="#080d1b" stroke="#d5a6ff" stroke-width="3"/>
+
+            <line x1="355" y1="155" x2="470" y2="155" stroke="#5ac8fa" stroke-width="4" marker-end="url(#arrow-a)"/>
+            <text x="412" y="137" fill="#a4acc4" font-size="14" text-anchor="middle" font-family="Inter, sans-serif">deformation retract</text>
+
+            <text x="650" y="32" fill="#e6edf7" font-size="18" text-anchor="middle" font-family="Inter, sans-serif">spine</text>
+            <circle cx="606" cy="157" r="67" fill="none" stroke="#5ac8fa" stroke-width="5"/>
+            <circle cx="694" cy="157" r="67" fill="none" stroke="#d5a6ff" stroke-width="5"/>
+            <circle cx="650" cy="157" r="5" fill="#e6edf7"/>
+            <text x="574" y="244" fill="#a4acc4" font-size="18" text-anchor="middle" font-family="Inter, sans-serif">a</text>
+            <text x="726" y="244" fill="#a4acc4" font-size="18" text-anchor="middle" font-family="Inter, sans-serif">b</text>
+          </svg>
+          <p class="mini-note" style="text-align:center; margin-bottom:0;">
+            The complicated-looking garment has the homotopy type of two circles joined at one point.
+          </p>
+        </div>
+
+        <p>
+          Therefore its fundamental group is the free group on two generators,
+        </p>
+
+        <p class="equation">
+          $$
+          \pi_1(P)\cong F_2=\langle a,b\rangle~.
+          $$
+        </p>
+
+        <p>
+          We can think of $a$ and $b$ as loops associated with the two leg openings. If $c$ denotes the
+          waist boundary, then with a suitable orientation the three boundary classes satisfy
+        </p>
+
+        <p class="equation">
+          $$abc=e~,\qquad c=(ab)^{-1}~.$$
+        </p>
+
+        <p>
+          Thus the garment has nontrivial topology by itself. The real question, however, is whether these
+          loops become nontrivial <em>because they surround the body</em>.
+        </p>
+
+        <h2 class="section-title">4. Replace the lower body by a tree</h2>
+
+        <p>
+          Ignore the detailed shape of the legs and pelvis and replace them by a $Y$-shaped embedded tree
+          $T\subset\mathbb{R}^3$. The two lower branches end at the feet. The upper branch merely anchors the
+          model at the pelvis/torso.
+        </p>
+
+        <p>
+          A tree is contractible, but that statement alone is not enough. The garment moves in the
+          <em>space around</em> the body, so the relevant space is the complement
+        </p>
+
+        <p class="equation">
+          $$X=\mathbb{R}^3\setminus T~.$$
+        </p>
+
+        <p>
+          For a standard tame embedded tree, take a sufficiently small regular neighborhood $N(T)$. Because
+          $T$ has no cycles, $N(T)$ is a 3-ball. The complement of the tree has the same homotopy type as the
+          exterior of this regular neighborhood, and that exterior deformation retracts onto a 2-sphere. Hence
+        </p>
+
+        <p class="equation">
+          $$
+          \mathbb{R}^3\setminus T\simeq S^2~,
+          \qquad
+          \pi_1(\mathbb{R}^3\setminus T)=0~.
+          $$
+        </p>
+
+        <div class="proof-box">
+          <strong>The group-theoretic core.</strong>
+          The inclusion of the underwear spine into the body complement induces
+          $$
+          i_*:\pi_1(P)=F_2\longrightarrow\pi_1(\mathbb{R}^3\setminus T)=\{e\}~.
+          $$
+          Therefore
+          $$i_*(a)=i_*(b)=e~,$$
+          and consequently $i_*(c)=e$ as well. None of the three boundary loops carries a nontrivial
+          fundamental-group class around the standard finite lower-body tree.
+        </div>
+
+        <p>
+          This is the first rigorous indication that the underwear is not linked with the body in the way a
+          ring can be linked with an infinite pole or a closed knot.
+        </p>
+
+        <h2 class="section-title">5. Why the feet — mathematically, the endpoints — matter</h2>
+
+        <p>
+          To see exactly what changes, replace a leg by an infinitely long line $L$. Then
+        </p>
+
+        <p class="equation">
+          $$
+          \mathbb{R}^3\setminus L
+          \cong
+          (\mathbb{R}^2\setminus\{0\})\times\mathbb{R}
+          \simeq S^1~,
+          $$
+        </p>
+
+        <p>so</p>
+
+        <p class="equation">
+          $$\pi_1(\mathbb{R}^3\setminus L)\cong\mathbb{Z}~.$$
+        </p>
+
+        <p>
+          A loop going once around the line represents $1\in\mathbb Z$. It cannot be contracted without
+          crossing the line. That is a genuine winding-number obstruction.
+        </p>
+
+        <div class="diagram-card">
+          <svg viewBox="0 0 840 330" role="img" aria-label="Comparison between a loop around an infinite line and a loop around a finite arc">
+            <defs>
+              <marker id="arrow-b" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L9,3 z" fill="#5ac8fa"></path>
+              </marker>
+            </defs>
+            <line x1="420" y1="28" x2="420" y2="302" stroke="#1f2940" stroke-width="2"/>
+
+            <text x="210" y="34" fill="#e6edf7" font-size="18" text-anchor="middle" font-family="Inter, sans-serif">Infinite line</text>
+            <line x1="210" y1="63" x2="210" y2="286" stroke="#e6edf7" stroke-width="8" stroke-linecap="round"/>
+            <ellipse cx="210" cy="168" rx="96" ry="39" fill="none" stroke="#d5a6ff" stroke-width="5"/>
+            <text x="210" y="235" fill="#a4acc4" font-size="15" text-anchor="middle" font-family="Inter, sans-serif">winding number = 1</text>
+            <text x="210" y="261" fill="#ffb4b4" font-size="15" text-anchor="middle" font-family="Inter, sans-serif">no endpoint to escape over</text>
+
+            <text x="630" y="34" fill="#e6edf7" font-size="18" text-anchor="middle" font-family="Inter, sans-serif">Finite leg-like arc</text>
+            <line x1="630" y1="92" x2="630" y2="248" stroke="#e6edf7" stroke-width="8" stroke-linecap="round"/>
+            <ellipse cx="630" cy="170" rx="96" ry="39" fill="none" stroke="#d5a6ff" stroke-width="5"/>
+            <path d="M720 165 C770 145,770 100,691 86" fill="none" stroke="#5ac8fa" stroke-width="4" marker-end="url(#arrow-b)"/>
+            <text x="630" y="284" fill="#a4acc4" font-size="15" text-anchor="middle" font-family="Inter, sans-serif">slide the loop to the endpoint and off</text>
+          </svg>
+        </div>
+
+        <p>
+          A real leg is not an infinite line. Topologically it behaves like a finite arc. A loop around such
+          an arc can slide toward the endpoint and pass over it. The foot is precisely where the would-be
+          winding invariant loses its force.
+        </p>
+
+        <h2 class="section-title">6. The knot-theory version</h2>
+
+        <p>
+          Now imagine a more dramatic anatomical modification: suppose the leg closes back on itself and becomes
+          a knot $K\subset S^3$. Then the complement has the <strong>knot group</strong>
+        </p>
+
+        <p class="equation">
+          $$G_K=\pi_1(S^3\setminus K)~.$$
+        </p>
+
+        <p>
+          Even for the unknot, this group is nontrivial:
+        </p>
+
+        <p class="equation">
+          $$\pi_1(S^3\setminus K_{\mathrm{unknot}})\cong\mathbb Z~.$$
+        </p>
+
+        <p>
+          If the underwear opening is another closed curve $\gamma$, the pair $(K,\gamma)$ can form a genuine
+          two-component link. For closed oriented components we can define the linking number
+        </p>
+
+        <p class="equation">
+          $$\operatorname{lk}(K,\gamma)\in\mathbb Z~.$$
+        </p>
+
+        <p>
+          A Hopf link has $|\operatorname{lk}|=1$, and no ambient isotopy can change that value to zero without
+          one component crossing the other. That is the kind of invariant we would need for a genuinely trapped
+          garment.
+        </p>
+
+        <p>
+          But an ordinary leg is an arc, not a closed cycle. Classical linking number is therefore not an invariant
+          of the pair in the same way, and the endpoint provides an escape route.
+        </p>
+
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Obstacle</th>
+              <th>Complement, up to homotopy</th>
+              <th>Fundamental group</th>
+              <th>What happens to a surrounding loop?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Standard finite tree / leg-like arc</td>
+              <td>$S^2$</td>
+              <td>$0$</td>
+              <td>No winding obstruction; the loop can escape over an endpoint.</td>
+            </tr>
+            <tr>
+              <td>Infinite line</td>
+              <td>$S^1$</td>
+              <td>$\mathbb Z$</td>
+              <td>Winding number is conserved; a once-wound loop is trapped.</td>
+            </tr>
+            <tr>
+              <td>Closed unknot</td>
+              <td>Solid-torus exterior</td>
+              <td>$\mathbb Z$</td>
+              <td>A meridian is nontrivial; genuine linking can occur.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2 class="section-title">7. Alexander duality gives the same message</h2>
+
+        <p>
+          There is also a compact homological argument. To work in $S^3$, compactify the ambient space and set
+        </p>
+
+        <p class="equation">
+          $$K=T\cup\{\infty\}\subset S^3~.$$
+        </p>
+
+        <p>
+          Alexander duality says
+        </p>
+
+        <p class="equation">
+          $$
+          \widetilde H_i(S^3\setminus K)
+          \cong
+          \widetilde H^{\,2-i}(K)~.
+          $$
+        </p>
+
+        <p>
+          Since a tree has no first cohomology and adding the isolated point at infinity does not create any,
+          $H^1(K)=0$. Therefore
+        </p>
+
+        <p class="equation">
+          $$
+          H_1(\mathbb R^3\setminus T)=0~.
+          $$
+        </p>
+
+        <p>
+          So there is no first-homology class that could serve as an ordinary linking or winding number around
+          the body tree. This is weaker than the statement about the fundamental group — $H_1$ only detects the
+          abelianization of $\pi_1$ — but in this standard case both calculations agree.
+        </p>
+
+        <h2 class="section-title">8. A subtle point: homotopy is not the same as taking the garment off</h2>
+
+        <p>
+          There is an important logical gap one should not hide. Showing that the loops $a$ and $b$ are
+          null-homotopic does <em>not by itself</em> prove that the entire embedded garment can be removed.
+          A null-homotopy is allowed to collapse a loop through itself, whereas a physical piece of cloth must
+          remain embedded.
+        </p>
+
+        <p>
+          The correct notion is an <strong>ambient isotopy</strong>: a continuous motion through embeddings. In a
+          standard unknotted configuration we can describe such a motion explicitly:
+        </p>
+
+        <ol class="item-list" style="list-style: decimal; padding-left: 1.25rem;">
+          <li>Slide the underwear downward inside the trousers.</li>
+          <li>Move one underwear leg opening toward the corresponding foot.</li>
+          <li>Pass that opening over the endpoint of the leg and through the trouser cuff.</li>
+          <li>Repeat for the second leg opening.</li>
+          <li>Once neither opening surrounds a leg, pull the remaining garment through one of the trouser openings.</li>
+        </ol>
+
+        <p>
+          No cloth needs to pass through the body. The deformation may require absurd stretching, but topology
+          does not care about that.
+        </p>
+
+        <div class="takeaway-box">
+          <strong>What the group calculation proves:</strong> there is no linking obstruction between the standard
+          garment loops and the finite body tree.<br><br>
+          <strong>What the explicit isotopy adds:</strong> in the ordinary unknotted configuration, that absence of
+          linking can actually be realized as a continuous removal of the garment.
+        </div>
+
+        <h2 class="section-title">9. And what about the outer pants?</h2>
+
+        <p>
+          So far most of the algebra has focused on the body. Could the outer trousers themselves form a
+          topological cage?
+        </p>
+
+        <p>
+          Not in the standard model. The trousers are also a pair-of-pants surface and therefore have three
+          boundary circles. They are not a closed surface like a sphere. The cuffs and waist are actual exits.
+          Once an underwear opening has been slid off a body endpoint, it can be threaded through the corresponding
+          cuff without crossing the trouser fabric.
+        </p>
+
+        <p>
+          Whether there is enough <em>room</em> between the foot and cuff is a different question. If a cuff has
+          relaxed circumference $C$, the garment or foot requires an effective circumference $C_f$, and the
+          material can stretch by at most a factor $\lambda_{\max}$, then a crude mechanical condition might be
+        </p>
+
+        <p class="equation">
+          $$\lambda_{\max}C\ge C_f~.$$
+        </p>
+
+        <p>
+          Failure of this inequality can make the maneuver physically impossible, but it is not a topological
+          invariant. It depends on metric size and material response.
+        </p>
+
+        <h2 class="section-title">10. When would topology genuinely stop you?</h2>
+
+        <p>
+          The toy problem becomes genuinely topological if we change the rules. Here are several ways to create
+          a real obstruction:
+        </p>
+
+        <ul class="item-list">
+          <li>
+            <strong>Make the legs infinite.</strong> Then the complement has fundamental group $\mathbb Z$, and a
+            surrounding loop carries a conserved winding number.
+          </li>
+          <li>
+            <strong>Close a leg into a loop.</strong> Now knot groups and linking numbers become available, and a
+            Hopf-like configuration cannot be undone without crossing.
+          </li>
+          <li>
+            <strong>Fix arc endpoints to a boundary.</strong> This leads naturally to tangle theory. An arc that is
+            harmless when its endpoints are free can become nontrivial when the endpoints are held fixed.
+          </li>
+          <li>
+            <strong>Knot the garment itself.</strong> The triviality of the body-complement group rules out linking
+            with the body; it does not magically unknot a garment whose own embedding has been made nontrivial.
+          </li>
+        </ul>
+
+        <p>
+          This last point is worth emphasizing. The map
+          $F_2\to\pi_1(\mathbb R^3\setminus T)$ being trivial tells us about how the garment winds around the body.
+          It does not classify every possible embedding of the garment. The conclusion of this post concerns the
+          standard, unknotted way people actually wear clothes.
+        </p>
+
+        <h2 class="section-title">11. Why shirts feel different</h2>
+
+        <p>
+          The original question is motivated by a familiar observation: changing shirts while keeping another
+          shirt on feels possible, while doing the analogous maneuver with underwear and trousers feels much
+          harder. Topologically, there is no deep distinction. Arms also have endpoints — the hands — so sleeve
+          loops can escape for exactly the same reason that leg loops can escape over the feet.
+        </p>
+
+        <p>
+          The difference is overwhelmingly geometric and biomechanical: hands are often easier to pass through
+          sleeves, arms have greater accessible range of motion, trouser cuffs are usually narrower relative to
+          feet, and the lower-body garments constrain one another more strongly.
+        </p>
+
+        <p>
+          In other words, everyday intuition is correctly detecting a practical obstruction, but attributing it
+          to the wrong branch of mathematics.
+        </p>
+
+        <h2 class="section-title">12. The punchline</h2>
+
+        <p>
+          A ridiculous question has led us through a respectable amount of topology. The underwear is a
+          pair-of-pants surface with
+        </p>
+
+        <p class="equation">
+          $$\pi_1(P)\cong F_2~,$$
+        </p>
+
+        <p>
+          while the complement of a standard finite lower-body tree has
+        </p>
+
+        <p class="equation">
+          $$\pi_1(\mathbb R^3\setminus T)=0~.$$
+        </p>
+
+        <p>
+          Hence the leg-opening generators acquire no nontrivial winding class around the body. Unlike a loop
+          around an infinite line or a closed knot, each loop can be slid over an endpoint. Alexander duality
+          independently tells us that there is no $H_1$ linking class, and an explicit ambient isotopy completes
+          the argument for the standard unknotted configuration.
+        </p>
+
+        <div class="math-callout" style="text-align:center; font-size:1.03rem;">
+          $$
+          \text{The obstruction is geometric and mechanical, not topological.}
+          $$
+        </div>
+
+        <p>
+          So, in the ideal world of topology, you can indeed remove your underwear while keeping your pants on.
+          Whether this theorem deserves experimental verification is left to the reader.
+        </p>
+
+        <h2 class="section-title">References and further reading</h2>
+        <ul class="item-list reference-list">
+          <li>
+            Mathematics Stack Exchange,
+            <a href="https://math.stackexchange.com/questions/5115963/why-can-t-i-take-my-underwear-off-while-wearing-pants-topologically"
+               target="_blank" rel="noopener">
+              “Why can't I take my underwear off while wearing pants? (Topologically)”
+            </a>.
+          </li>
+          <li>
+            A. Hatcher, <em>Algebraic Topology</em>. Cambridge University Press, 2002.
+            See the chapters on fundamental groups, homology, and duality.
+          </li>
+          <li>
+            D. Rolfsen, <em>Knots and Links</em>. Publish or Perish, 1976.
+          </li>
+          <li>
+            C. C. Adams, <em>The Knot Book: An Elementary Introduction to the Mathematical Theory of Knots</em>,
+            American Mathematical Society.
+          </li>
+        </ul>
+
+        <p style="margin-top: 1rem;">
+          If you notice an error, know a cleaner proof, or have another absurd question that secretly contains
+          interesting mathematics, feel free to
+          <a href="mailto:gabrielwendell@fisica.ufrn.br">send me an email</a>.
+        </p>
+      </article>
+
+      <section class="section post-nav">
+        <div class="post-nav-inner">
+          <div class="post-nav-prev">
+            ← <a href="topological-representation-of-exoplanet-transits.html">Previous post: Topological Exoplanet Transits</a>
+          </div>
+          <div class="post-nav-next">
+            <a href="../blog.html">More research notes →</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>© <span id="year"></span> Gabriel Wendell Celestino Rocha.</div>
+      <div class="footer-links">
+        <a href="../index.html">Home</a>
+        <a href="../research.html">Research</a>
+        <a href="../publications.html">Publications</a>
+        <a href="../talks.html">Talks</a>
+        <a href="../software.html">Software</a>
+        <a href="../teaching.html">Teaching</a>
+        <a href="../cv.html">CV</a>
+        <a href="../blog.html">Blog</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
