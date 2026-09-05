@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Research – Gabriel Wendell</title>
-  <meta name="description" content="Research themes of Gabriel Wendell: Topological Data Analysis and Machine Learning applied to physics across astronomical, mesoscopic, and microscopic scales." />
+  <meta name="description" content="Research by Gabriel Wendell on persistent homology, topological data analysis, machine learning, astrophysics, complex systems, and condensed matter across physical scales." />
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,14 +14,15 @@
   <header class="site-header">
     <div class="container nav-container">
       <a href="index.html" class="brand">Gabriel Wendell</a>
-      <nav class="site-nav">
+      <nav class="site-nav" aria-label="Primary navigation">
         <a href="index.html" class="nav-link">Home</a>
-        <a href="research.html" class="nav-link active">Research</a>
+        <a href="research.html" class="nav-link active" aria-current="page">Research</a>
         <a href="publications.html" class="nav-link">Publications</a>
         <a href="talks.html" class="nav-link">Talks</a>
         <a href="software.html" class="nav-link">Software</a>
         <a href="teaching.html" class="nav-link">Teaching</a>
         <a href="cv.html" class="nav-link">CV</a>
+        <a href="blog.html" class="nav-link">Blog</a>
       </nav>
     </div>
   </header>
@@ -30,331 +31,250 @@
     <div class="container">
       <header class="page-header">
         <p class="page-kicker">Research</p>
-        <h1 class="page-title">Research Themes</h1>
+        <h1 class="page-title">Topology as a multiscale observable in physics</h1>
         <p class="page-subtitle">
-          My research aims to connect <strong>algebraic topology</strong> and <strong>machine learning</strong>
-          with concrete problems in <strong>astrophysics</strong>, <strong>complex systems</strong>,
-          and <strong>condensed matter physics</strong>.
+          My research investigates how <strong>topological and geometric structure</strong> can be turned into
+          interpretable observables for complex physical data, connecting <strong>persistent homology</strong>,
+          <strong>machine learning</strong>, and scientific modeling from microscopic to astronomical scales.
         </p>
       </header>
 
-      <section class="section">
-        <h2 class="section-title">PhD project</h2>
-        <p class="section-intro">
-          My PhD focuses on <strong>Topological Data Analysis and Topological Deep Learning Applied to Physical Systems Across Scales</strong>.
-          The central idea is to use persistent homology, Mapper, and graph neural networks to construct
-          robust, interpretable descriptors of physical fields and time series.
-        </p>
-        <ul class="item-list">
-          <li><strong>Goal:</strong> Build a unified framework where topological features can be systematically related to physical observables.</li>
-          <li><strong>Tools:</strong> Persistent homology, Betti curves, barcodes, Mapper graphs, GNNs, contrastive/self-supervised learning.</li>
-          <li><strong>Applications:</strong> Barkhausen noise, quantum information, condensed matter, MHD turbulence, dynamical/complex systems,  neurosicence of learning, 
-                                              asteroseismology, gravitational waves, galaxy morphology, active galaxy nuclei.</li>
-        </ul>
+      <section class="section research-statement">
+        <div class="two-column research-statement-grid">
+          <div>
+            <h2 class="section-title">PhD research</h2>
+            <p class="section-intro">
+              My PhD focuses on <strong>Topological Data Analysis and Topological Deep Learning Applied to Physical Systems Across Scales</strong>.
+              The central goal is to identify topological summaries that are not only statistically useful, but can also be
+              related to <strong>physical mechanisms, observables, and changes of regime</strong>.
+            </p>
+          </div>
+          <div class="card research-method-card">
+            <div class="card-meta">Core methodology</div>
+            <div class="pills research-method-pills">
+              <span class="pill">Persistent homology</span>
+              <span class="pill">Delay embeddings</span>
+              <span class="pill">Mapper</span>
+              <span class="pill">Graph methods</span>
+              <span class="pill">Manifold learning</span>
+              <span class="pill">Self-supervised learning</span>
+              <span class="pill">Multifractal analysis</span>
+              <span class="pill">Scientific ML</span>
+            </div>
+          </div>
+        </div>
       </section>
 
-            <!-- RESEARCH TOPICS GRID -->
-            <!-- RESEARCH TOPICS (circular icons) -->
-      <section class="section section-research-topics">
-        <h2 class="section-title">Research Topics &amp; Selected Works</h2>
+      <section class="section">
+        <h2 class="section-title">Current thesis projects</h2>
         <p class="section-intro">
-          A few representative topics I currently work on. Each card links to publications, talks,
-          or software where you can find more details.
+          Three projects currently form the main multiscale backbone of my thesis, each asking how persistent topology
+          can encode physically meaningful structure in a different class of data.
+        </p>
+
+        <div class="research-project-grid">
+          <article class="research-project-card">
+            <div class="research-project-topline">
+              <span class="research-project-scale">Astronomical scale</span>
+              <span class="research-project-status">Current</span>
+            </div>
+            <h3 class="research-project-title">TopoAGN</h3>
+            <p class="research-project-subtitle">Topological observables of AGN variability</p>
+            <p class="research-project-text">
+              Multiband light curves of active galactic nuclei are studied through classical variability diagnostics,
+              delay-space geometry, persistent homology, and multiscale statistics to characterize structure that is
+              difficult to capture with single summary statistics.
+            </p>
+            <div class="pills">
+              <span class="pill">AGN</span>
+              <span class="pill">Time series</span>
+              <span class="pill">Multiband TDA</span>
+            </div>
+          </article>
+
+          <article class="research-project-card">
+            <div class="research-project-topline">
+              <span class="research-project-scale">Mesoscopic scale</span>
+              <span class="research-project-status">Current</span>
+            </div>
+            <h3 class="research-project-title">MasterMaze</h3>
+            <p class="research-project-subtitle">Topology and geometry of behavioral learning</p>
+            <p class="research-project-text">
+              Movement trajectories from maze-learning and reversal tasks are analyzed using behavioral metrics,
+              trajectory geometry, networks, information-theoretic quantities, and topological summaries to study how
+              spatial organization changes during learning.
+            </p>
+            <div class="pills">
+              <span class="pill">Behavior</span>
+              <span class="pill">Trajectories</span>
+              <span class="pill">Learning dynamics</span>
+            </div>
+          </article>
+
+          <article class="research-project-card">
+            <div class="research-project-topline">
+              <span class="research-project-scale">Microscopic scale</span>
+              <span class="research-project-status">Current</span>
+            </div>
+            <h3 class="research-project-title">TopoDOS</h3>
+            <p class="research-project-subtitle">Persistent topology of quasiperiodic spectra</p>
+            <p class="research-project-text">
+              Persistent homology is applied to density-of-states representations of quasiperiodic systems and BCN
+              monolayers, with emphasis on the relation between finite persistence features, spectral gaps, scaling,
+              and physically interpretable spectral structure.
+            </p>
+            <div class="pills">
+              <span class="pill">Quasiperiodicity</span>
+              <span class="pill">DOS / IDOS</span>
+              <span class="pill">Spectral gaps</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section section-research-topics">
+        <h2 class="section-title">Broader research topics</h2>
+        <p class="section-intro">
+          Beyond the three thesis anchors, I work on or actively explore the following directions across astrophysics,
+          nonlinear dynamics, fluid and plasma physics, behavioral data, and condensed matter.
         </p>
 
         <div class="research-topic-grid">
-          <!-- Active Galaxy Nuclei -->
-          <article class="research-topic" id="topic-galaxy-morphology">
+          <article class="research-topic" id="topic-agn">
             <div class="topic-icon">
-              <img src="img/AGNs.jpg  "
-                   alt="Mosaic of galaxy images illustrating different morphologies.">
+              <img src="img/AGNs.jpg" alt="Active galactic nuclei and host galaxies.">
             </div>
-            <h3 class="topic-title">Active Galaxy Nuclei</h3>
+            <h3 class="topic-title">Active Galactic Nuclei</h3>
             <p class="topic-text">
-              Combining topological descriptors of AGN host galaxies with multifractal analysis to study 
-              the connection between morphology and nuclear activity in large surveys.
+              Topological, geometric, and multiscale descriptors of AGN variability and host-galaxy structure,
+              with the goal of connecting morphology and temporal behavior to nuclear activity.
             </p>
-            <!--
-            <p class="topic-links">
-              <a href="publications.html">Related publications</a> ·
-              <a href="software.html">Code &amp; experiments</a>
-            </p>
-          -->
           </article>
 
-          <!-- Galaxy morphology -->
           <article class="research-topic" id="topic-galaxy-morphology">
             <div class="topic-icon">
-              <img src="img/EuclidGalaxyMorphology.Collage.4K.V3.jpg"
-                   alt="Mosaic of galaxy images illustrating different morphologies.">
+              <img src="img/EuclidGalaxyMorphology.Collage.4K.V3.jpg" alt="Mosaic of galaxies with different morphologies.">
             </div>
-            <h3 class="topic-title">Galaxy Morphology Classification</h3>
+            <h3 class="topic-title">Galaxy Morphology</h3>
             <p class="topic-text">
-              Persistent homology and self-supervised learning for robust, interpretable descriptors of galaxy 
-              images from surveys such as Galaxy Zoo.
+              Persistent homology and representation learning for robust, interpretable descriptors of galaxy images,
+              including unsupervised and self-supervised approaches.
             </p>
-            <!--
-            <p class="topic-links">
-              <a href="publications.html">Related publications</a> ·
-              <a href="software.html">Code &amp; experiments</a>
-            </p>
-          -->
           </article>
 
-          <!-- Gravitational waves -->
           <article class="research-topic" id="topic-gw-low-snr">
             <div class="topic-icon">
-              <img src="img/GW_Time-series.png"
-                   alt="Time series and spectrogram of gravitational-wave-like data.">
+              <img src="img/GW_Time-series.png" alt="Time series representation of gravitational-wave-like data.">
             </div>
-            <h3 class="topic-title">Gravitational Waves Detection</h3>
+            <h3 class="topic-title">Gravitational-Wave Detection</h3>
             <p class="topic-text">
-              Topological summaries of noisy time-series simulated data based on gravitational-wave 
-              searches at high and low SNR ratios, exploring their relation to physical parameters.
+              Topological summaries of noisy gravitational-wave-like time series across signal-to-noise regimes,
+              including sensitivity to physical parameters and robustness to noise.
             </p>
-            <!--
-            <p class="topic-links">
-              <a href="software.html">Project pipeline</a> ·
-              <a href="talks.html">Talks &amp; posters</a>
-            </p>
-          -->
           </article>
 
-          <!-- Asteroseismology -->
           <article class="research-topic" id="topic-asteroseismology">
             <div class="topic-icon">
-              <img src="img/Asteroseismology.png"
-                   alt="Oscillation spectrum representing asteroseismology data.">
+              <img src="img/Asteroseismology.png" alt="Asteroseismology illustration and oscillation spectrum.">
             </div>
-            <h3 class="topic-title">Asteroseismology of Solar-like Stars</h3>
+            <h3 class="topic-title">Asteroseismology</h3>
             <p class="topic-text">
-              Combining asteroseismic analysis with topological characteristics of oscillation 
-              spectra to study stellar structure and relate mode content to physical parameters.
+              Topological representations of oscillation spectra and stellar variability, seeking links between
+              mode structure, stellar parameters, and multiscale geometric organization.
             </p>
-            <!--
-            <p class="topic-links">
-              <a href="publications.html">Educational &amp; research works</a>
-            </p>
-          -->
           </article>
 
-          <!-- Complex systems -->
           <article class="research-topic" id="topic-complex-systems">
             <div class="topic-icon">
-              <img src="img/Bottleneck_Distance.png"
-                   alt="Network representation illustrating complex systems.">
+              <img src="img/Bottleneck_Distance.png" alt="Topological comparison used in complex-systems analysis.">
             </div>
-            <h3 class="topic-title">Dynamical Systems &amp; Complex Systems</h3>
+            <h3 class="topic-title">Dynamical &amp; Complex Systems</h3>
             <p class="topic-text">
-              Using homology and Mapper to characterize phase-space structure in nonlinear dynamics and networked 
-              systems beyond pairwise interactions.
+              Delay embeddings, persistent homology, Mapper, and recurrence methods for nonlinear dynamics,
+              attractors, transitions, and higher-order organization.
             </p>
-            <!--
-            <p class="topic-links">
-              <a href="publications.html">Talks &amp; proceedings</a>
-            </p>
-          -->
           </article>
 
-          <!-- Neuroscience -->
           <article class="research-topic" id="topic-neuroscience">
             <div class="topic-icon">
-              <img src="img/Neuroscience.jpg"
-                   alt="Neuroscience illustration.">
+              <img src="img/Neuroscience.jpg" alt="Illustration representing behavioral neuroscience.">
             </div>
-            <h3 class="topic-title">Neuroscience of Learning</h3>
+            <h3 class="topic-title">Behavioral Learning</h3>
             <p class="topic-text">
-              Statistical and topological analysis of movement patterns during learning tasks, relating homological features 
-              to cognitive processes and behavioral performance.
+              Statistical, geometric, network, and topological analysis of movement patterns during learning tasks,
+              with emphasis on spatial strategies and behavioral transitions.
             </p>
-            <!--
-            <p class="topic-links">
-              <a href="publications.html">Talks &amp; proceedings</a>
-            </p>
-          -->
           </article>
 
-          <!-- MHD diagnostics -->
-          <article class="research-topic" id="topic-mhd-cnn">
+          <article class="research-topic" id="topic-mhd">
             <div class="topic-icon">
-              <img src="img/Orszag-Tang_vortex.gif"
-                   alt="Magnetohydrodynamic shock-tube simulation.">
+              <img src="img/Orszag-Tang_vortex.gif" alt="Orszag–Tang magnetohydrodynamic vortex simulation.">
             </div>
-            <h3 class="topic-title">(Magneto)hydrodynamic Simulations</h3>
+            <h3 class="topic-title">(Magneto)hydrodynamics</h3>
             <p class="topic-text">
-              Applying TDA to (magneto)hydrodynamic simulations to study the topology of shocks, vortices, 
-              reconnection sites, and turbulent flows. 
+              TDA and scientific machine learning for shocks, vortices, reconnection, turbulence, and the validation
+              of data-driven predictors for fluid and plasma dynamics.
             </p>
-          <!--
-            <p class="topic-links">
-              <a href="software.html">GitHub repository</a> ·
-              <a href="talks.html">Conference poster</a>
-            </p>
-          -->
           </article>
 
-          <!-- Barkhausen noise -->
           <article class="research-topic" id="topic-barkhausen">
             <div class="topic-icon">
-              <img src="img/barkhausen_noise.jpg"
-                   alt="Avalanche distribution reminiscent of Barkhausen noise.">
+              <img src="img/barkhausen_noise.jpg" alt="Experimental signal illustrating Barkhausen noise.">
             </div>
             <h3 class="topic-title">Barkhausen Noise &amp; Disordered Media</h3>
             <p class="topic-text">
-              Topological analysis of experimental Barkhausen noise data and toy models to connect
-              homological signatures with avalanche statistics and criticality.
+              Persistent topology of avalanche-like signals and disordered systems, connecting homological
+              signatures with statistics, criticality, and domain-wall dynamics.
             </p>
-            <!--
-            <p class="topic-links">
-              <a href="publications.html">Related talks &amp; notes</a>
-            </p>
-            -->
           </article>
 
-          <!-- Phase transitions -->
           <article class="research-topic" id="topic-phase-transitions">
             <div class="topic-icon">
-              <img src="img/Magnetic_PhaseTransition.png"
-                   alt="Avalanche distribution reminiscent of Barkhausen noise.">
+              <img src="img/Magnetic_PhaseTransition.png" alt="Illustration of a magnetic phase transition.">
             </div>
-            <h3 class="topic-title">Magnetic Phase Transitions</h3>
+            <h3 class="topic-title">Phase Transitions</h3>
             <p class="topic-text">
-              Using TDA-inspired descriptors to study phase transitions in lattice models and disordered media,
-              relating topological signatures to critical behaviour and universality classes.
+              Topological and Morse-theoretic approaches to changes of regime in lattice and statistical-mechanical
+              models, with attention to critical behavior and order-parameter structure.
             </p>
-            <!--
-            <p class="topic-links">
-              <a href="publications.html">Related talks &amp; notes</a>
-            </p>
-          -->
           </article>
         </div>
       </section>
 
+      <section class="section research-scale-section">
+        <h2 class="section-title">Across physical scales</h2>
+        <p class="section-intro">
+          The recurring question is the same: <strong>which geometric or topological structures survive changes of
+          representation, noise, resolution, and physical scale—and what do they mean physically?</strong>
+        </p>
 
-
-      <section class="section">
-        <h2 class="section-title">Astronomical scale</h2>
-        <div class="two-column">
-          <div>
-            <p class="section-intro">
-              At the astronomical scale, I study how topological signatures appear in data such as
-              <strong>light curves</strong>, <strong>power spectra</strong>, and <strong>images</strong>.
-              This includes:
+        <div class="research-scale-grid">
+          <article class="card research-scale-card">
+            <div class="card-meta">Astronomical</div>
+            <h3 class="card-title">Signals, spectra &amp; images</h3>
+            <p class="card-body">
+              AGN variability, stellar oscillations, galaxy morphology, gravitational-wave-like signals, and related
+              inverse problems in astrophysics.
             </p>
-            <ul class="item-list">
-              <li>
-                Topological descriptors of <strong>galaxy morphology</strong> from surveys such as Galaxy Zoo, combined with
-                graph neural networks and self-supervised learning.
-              </li>
-              <li>
-                Use of persistent homology and related tools to analyze <strong>gravitational-wave-like signals</strong> at
-                low signal-to-noise ratios.
-              </li>
-              <li>
-                TDA applied to <strong>asteroseismology</strong>, exploring the relation between mode spectra and homological
-                features of frequency-domain representations.
-              </li>
-            </ul>
-          </div>
-          <div>
-            <div class="card">
-              <div class="card-meta">Ongoing work</div>
-              <div class="card-body">
-                <ul class="item-list">
-                  <li><strong>TDA-SSL Galaxy Morphology</strong> – Galaxy Zoo 2 + TDA + self-supervised learning.</li>
-                  <li><strong>TDA for GW at low SNR</strong> – pipeline for robust detection using topological summaries.</li>
-                </ul>
-                <div class="pills">
-                  <span class="pill">Galaxy Zoo</span>
-                  <span class="pill">Persistent homology</span>
-                  <span class="pill">Contrastive learning</span>
-                  <span class="pill">GNNs</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+          </article>
 
-      <section class="section">
-        <h2 class="section-title">Mesoscopic scale</h2>
-        <div class="two-column">
-          <div>
-            <p class="section-intro">
-              At intermediate scales, my work explores <strong>fluid dynamics</strong>,
-              <strong>magnetohydrodynamics</strong>, and <strong>dynamical systems</strong>.
-              Topological tools are used to quantify structures such as shocks, vortices, and chaotic attractors.
+          <article class="card research-scale-card">
+            <div class="card-meta">Mesoscopic</div>
+            <h3 class="card-title">Dynamics, flows &amp; behavior</h3>
+            <p class="card-body">
+              Nonlinear trajectories, learning dynamics, shocks, vortices, fluid and plasma simulations, and
+              topology-aware diagnostics for scientific machine learning.
             </p>
-            <ul class="item-list">
-              <li>
-                TDA diagnostics of <strong>CNN predictors</strong> on shock tube and other CFD test problems.
-              </li>
-              <li>
-                Topology of trajectories in <strong>low-dimensional chaotic systems</strong> (e.g. Lorenz, Rössler, Chua).
-              </li>
-              <li>
-                Connections between persistent homology and mixing / transport in MHD and turbulent flows.
-              </li>
-            </ul>
-          </div>
-          <div>
-            <div class="card">
-              <div class="card-meta">Ongoing work</div>
-              <div class="card-body">
-                <ul class="item-list">
-                  <li>Shock tube benchmarks for ML-based solvers.</li>
-                  <li>Betti curves of attractors and their parameter dependence.</li>
-                  <li>Topological signatures of reconnection and field-line complexity.</li>
-                </ul>
-                <div class="pills">
-                  <span class="pill">MHD</span>
-                  <span class="pill">Dynamical systems</span>
-                  <span class="pill">Topological diagnostics</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+          </article>
 
-      <section class="section">
-        <h2 class="section-title">Microscopic scale</h2>
-        <div class="two-column">
-          <div>
-            <p class="section-intro">
-              At small scales, I study how topological features emerge in <strong>magnetic materials</strong>,
-              <strong>Barkhausen noise</strong>, and <strong>quantum systems</strong>.
+          <article class="card research-scale-card">
+            <div class="card-meta">Microscopic</div>
+            <h3 class="card-title">Spectra, disorder &amp; criticality</h3>
+            <p class="card-body">
+              Quasiperiodic spectra, density of states, Barkhausen noise, disordered media, phase transitions,
+              and topological structure in microscopic models.
             </p>
-            <ul class="item-list">
-              <li>
-                Persistent homology of Barkhausen voltage time series, relating topological invariants to
-                domain-wall dynamics and scaling laws.
-              </li>
-              <li>
-                TDA-inspired descriptors for <strong>phase transitions</strong> in lattice models and disordered media.
-              </li>
-              <li>
-                Topological perspectives on entanglement and quantum state manifolds.
-              </li>
-            </ul>
-          </div>
-          <div>
-            <div class="card">
-              <div class="card-meta">Ongoing work</div>
-              <div class="card-body">
-                <ul class="item-list">
-                  <li>TDA of experimental Barkhausen noise time series.</li>
-                  <li>Links between topological signatures and critical behaviour.</li>
-                </ul>
-                <div class="pills">
-                  <span class="pill">Barkhausen noise</span>
-                  <span class="pill">Phase transitions</span>
-                  <span class="pill">Quantum information</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          </article>
         </div>
       </section>
     </div>
@@ -371,7 +291,7 @@
         <a href="software.html">Software</a>
         <a href="teaching.html">Teaching</a>
         <a href="cv.html">CV</a>
-        <a href="blog.html" class="nav-link">Blog</a>
+        <a href="blog.html">Blog</a>
       </div>
     </div>
   </footer>

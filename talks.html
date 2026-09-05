@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Talks & Posters – Gabriel Wendell</title>
-  <meta name="description" content="Talks, posters, and seminars by Gabriel Wendell." />
+  <meta name="description" content="Selected seminars, conference talks, and posters by Gabriel Wendell on topological data analysis, astrophysics, complex systems, and scientific machine learning." />
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,11 +14,11 @@
   <header class="site-header">
     <div class="container nav-container">
       <a href="index.html" class="brand">Gabriel Wendell</a>
-      <nav class="site-nav">
+      <nav class="site-nav" aria-label="Primary navigation">
         <a href="index.html" class="nav-link">Home</a>
         <a href="research.html" class="nav-link">Research</a>
         <a href="publications.html" class="nav-link">Publications</a>
-        <a href="talks.html" class="nav-link active">Talks</a>
+        <a href="talks.html" class="nav-link active" aria-current="page">Talks</a>
         <a href="software.html" class="nav-link">Software</a>
         <a href="teaching.html" class="nav-link">Teaching</a>
         <a href="cv.html" class="nav-link">CV</a>
@@ -30,41 +30,90 @@
   <main>
     <div class="container">
       <header class="page-header">
-        <p class="page-kicker">Talks & Posters</p>
-        <h1 class="page-title">Selected Presentations</h1>
+        <p class="page-kicker">Talks &amp; Posters</p>
+        <h1 class="page-title">Selected presentations</h1>
         <p class="page-subtitle">
-          A selection of talks, posters, and seminars. Slides or posters will be linked when available.
+          Seminars, conference talks, and posters on topological data analysis, astrophysics,
+          complex systems, and scientific machine learning. Videos and supporting material are linked when available.
         </p>
       </header>
 
+      <section class="section featured-talk-section">
+        <div class="featured-talk-heading">
+          <div>
+            <p class="talk-eyebrow">Latest seminar · IAG-USP · September 3, 2026</p>
+            <h2 class="section-title featured-talk-title">Persistent Homology as a Multiscale Observable:<br>From Quasiperiodic Spectra to Stellar Variability</h2>
+          </div>
+          <span class="talk-featured-badge">Featured</span>
+        </div>
+
+        <div class="featured-talk">
+          <div class="featured-talk-video">
+            <div class="video-frame">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/CIbSTzJ1LaE?start=1777"
+                title="Persistent Homology as a Multiscale Observable — IAG-USP seminar"
+                loading="lazy"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+              </iframe>
+            </div>
+          </div>
+
+          <div class="featured-talk-details">
+            <div class="talk-meta-row">
+              <span>Instituto de Astronomia, Geofísica e Ciências Atmosféricas — USP</span>
+              <span>São Paulo, Brazil</span>
+              <span>In-person seminar</span>
+            </div>
+            <p class="featured-talk-desc">
+              A multiscale view of persistent homology as a physical observable, moving from quasiperiodic
+              spectra and microscopic structure to trajectories, time series, and stellar variability.
+              The seminar emphasizes how topological summaries can complement conventional observables across
+              very different physical systems.
+            </p>
+            <div class="talk-actions">
+              <a class="btn btn-primary" href="https://www.youtube.com/watch?v=CIbSTzJ1LaE&t=1777s" target="_blank" rel="noopener">
+                Watch on YouTube ↗
+              </a>
+              <a class="btn btn-outline" href="https://iag.usp.br/eventos/seminario-extra-astro-03.09.26" target="_blank" rel="noopener">
+                IAG-USP event page ↗
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="section">
-        <h2 class="section-title">Conference Talks</h2>
+        <h2 class="section-title">Conference talks</h2>
         <div class="timeline">
           <article class="timeline-item">
             <h3 class="timeline-title">
               Unsupervised Topological and Contrastive Representation Learning for Galaxy Morphological Analysis
             </h3>
             <p class="timeline-meta">
-              XLVIII RASAB – Oral Presentation · Brazil, Caxambu · 2025 ·
-              <a href="https://sab-astro.org.br/wp-content/uploads/2026/04/Proceedings.pdf" target="_blank" rel="noopener">Proceedings</a> |
-              <a href="https://github.com/GabrielWendell/TDA-SSL_Galaxy_Morphology-XLVIII_RASAB" target="_blank" rel="noopener">GitHub Project</a>
+              XLVIII Reunião Anual da Sociedade Astronômica Brasileira (RASAB) · Caxambu, Brazil · 2025 · Oral presentation ·
+              <a href="https://sab-astro.org.br/wp-content/uploads/2026/04/Proceedings.pdf" target="_blank" rel="noopener">Proceedings</a> ·
+              <a href="https://github.com/GabrielWendell/TDA-SSL_Galaxy_Morphology-XLVIII_RASAB" target="_blank" rel="noopener">GitHub project</a>
             </p>
             <p class="timeline-desc">
-              Topological and machine-learning methods for galaxy morphology and representation learning.
+              Persistent-homology descriptors and contrastive/self-supervised representations for unsupervised analysis of galaxy morphology.
             </p>
           </article>
 
           <article class="timeline-item">
             <h3 class="timeline-title">
-              Applying Statistical Methods in Astrophysics: Analysis of the period-luminosity relation for Cepheids
+              Applying Statistical Methods in Astrophysics: Analysis of the Period-Luminosity Relation for Cepheids
             </h3>
             <p class="timeline-meta">
-              XLVII RASAB – Oral Presentation · Brazil, Águas de Lindoia · 2024 ·
-              <a href="https://sab-astro.org.br/wp-content/uploads/2025/05/Proceedings.pdf" target="_blank" rel="noopener">Proceedings</a> |
-              <a href="https://github.com/GabrielWendell/Cepheids_Projects" target="_blank" rel="noopener">GitHub Project</a>
+              XLVII Reunião Anual da Sociedade Astronômica Brasileira (RASAB) · Águas de Lindóia, Brazil · 2024 · Oral presentation ·
+              <a href="https://sab-astro.org.br/wp-content/uploads/2025/05/Proceedings.pdf" target="_blank" rel="noopener">Proceedings</a> ·
+              <a href="https://github.com/GabrielWendell/Cepheids_Projects" target="_blank" rel="noopener">GitHub project</a>
             </p>
             <p class="timeline-desc">
-              Statistical analysis using Markov Chain Monte Carlo of a sample of Cepheid stars by Riess et al. 2011.
+              Statistical and Bayesian analysis of the Cepheid period-luminosity relation using Markov Chain Monte Carlo methods.
+            </p>
           </article>
         </div>
       </section>
@@ -72,17 +121,16 @@
       <section class="section">
         <h2 class="section-title">Posters</h2>
         <div class="timeline">
-
           <article class="timeline-item">
             <h3 class="timeline-title">
               Topological Machine Learning for Predicting Spatiotemporal Evolution in 1D Magnetohydrodynamics
             </h3>
             <p class="timeline-meta">
-              XXXIX Encontro de Física do Norte e Nordeste (EFNNE) · Brazil, Natal · 2025 ·
-              <a href="https://github.com/GabrielWendell/TDA-Brio-Wu_MHD_CNN-XXXIX_EFNNE" target="_blank" rel="noopener">GitHub Project</a>
+              XXXIX Encontro de Física do Norte e Nordeste (EFNNE) · Natal, Brazil · 2025 · Poster ·
+              <a href="https://github.com/GabrielWendell/TDA-Brio-Wu_MHD_CNN-XXXIX_EFNNE" target="_blank" rel="noopener">GitHub project</a>
             </p>
             <p class="timeline-desc">
-              Poster on topological analysis of MHD simulations for detection of the failure modes of neural temporal predictors.
+              Topological diagnostics of MHD simulations designed to characterize failure modes of neural temporal predictors.
             </p>
           </article>
 
@@ -91,71 +139,68 @@
               Topological Data Analysis for Gravitational Wave Detection under Low Signal-to-Noise Ratios
             </h3>
             <p class="timeline-meta">
-              4th School on Data Science and Machine Learning · Brazil, São Paulo · 2025 ·
-              <a href="https://github.com/GabrielWendell/TDA-GW_Low_SNR-4th_DSML" target="_blank" rel="noopener">GitHub Project</a>
+              4th School on Data Science and Machine Learning · São Paulo, Brazil · 2025 · Poster ·
+              <a href="https://github.com/GabrielWendell/TDA-GW_Low_SNR-4th_DSML" target="_blank" rel="noopener">GitHub project</a>
             </p>
             <p class="timeline-desc">
-              Poster on topological analysis of gravitational-wave-like signals in low signal-to-noise ratio scenarios.
+              Persistent-homology summaries for simulated gravitational-wave-like signals in low signal-to-noise regimes.
             </p>
           </article>
-          
         </div>
       </section>
 
       <section class="section">
-        <h2 class="section-title">Seminars</h2>
-        <div class="timeline">
-          <article class="timeline-item">
-            <h3 class="timeline-title">
-              Topological Data Analysis Applied to Complex Systems
-            </h3>
-            <p class="timeline-meta">
-              International Institute of Physics / Oral Presentation · 2025 ·
-              <a href="https://www.youtube.com/watch?v=KZo9ciaaBKI&list=PLqTLz9G2bGs2-ToEsAuUg3u6ZASY1UbAk&index=23" target="_blank" rel="noopener">YouTube Video</a>
-            </p>
-            <p class="timeline-desc">
-              Overview of topological data analysis applied to physical systems across scales.
-            </p>
+        <h2 class="section-title">Recorded seminars</h2>
+        <p class="section-intro">
+          Selected longer-form seminars with publicly available recordings.
+        </p>
+
+        <div class="seminar-grid">
+          <article class="seminar-card">
+            <div class="video-frame seminar-video">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/2o7s6Q4hedo?start=1215"
+                title="Computational Topology and Complex Systems — UDESC Joinville seminar"
+                loading="lazy"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+              </iframe>
+            </div>
+            <div class="seminar-card-body">
+              <div class="card-meta">UDESC Joinville · 2026</div>
+              <h3 class="card-title">Computational Topology and Complex Systems</h3>
+              <p class="card-body">
+                An introduction to computational topology and persistent homology, followed by applications to nonlinear and complex systems.
+              </p>
+              <p class="card-links">
+                <a href="https://www.youtube.com/watch?v=2o7s6Q4hedo&t=1215s" target="_blank" rel="noopener">Watch on YouTube ↗</a>
+              </p>
+            </div>
           </article>
 
-          <iframe width="530" height="300"
-            src="https://www.youtube.com/embed/KZo9ciaaBKI"
-          </iframe>
-
-          <article class="timeline-item">
-            <h3 class="timeline-title">
-              Topological Data Analysis Applied to Complex Systems
-            </h3>
-            <p class="timeline-meta">
-              International Institute of Physics / Oral Presentation · 2025 ·
-              <a href="https://www.youtube.com/watch?v=KZo9ciaaBKI&list=PLqTLz9G2bGs2-ToEsAuUg3u6ZASY1UbAk&index=23" target="_blank" rel="noopener">YouTube Video</a>
-            </p>
-            <p class="timeline-desc">
-              Overview of topological data analysis applied to physical systems across scales.
-            </p>
+          <article class="seminar-card">
+            <div class="video-frame seminar-video">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/KZo9ciaaBKI"
+                title="Topological Data Analysis Applied to Complex Systems — International Institute of Physics seminar"
+                loading="lazy"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+              </iframe>
+            </div>
+            <div class="seminar-card-body">
+              <div class="card-meta">International Institute of Physics · 2025</div>
+              <h3 class="card-title">Topological Data Analysis Applied to Complex Systems</h3>
+              <p class="card-body">
+                An overview of topological data analysis and its use for characterizing complex physical systems across scales.
+              </p>
+              <p class="card-links">
+                <a href="https://www.youtube.com/watch?v=KZo9ciaaBKI&list=PLqTLz9G2bGs2-ToEsAuUg3u6ZASY1UbAk&index=23" target="_blank" rel="noopener">Watch on YouTube ↗</a>
+              </p>
+            </div>
           </article>
-
-          <iframe width="530" height="300"
-            src="https://www.youtube.com/embed/KZo9ciaaBKI"
-          </iframe>
-          
-          <article class="timeline-item">
-            <h3 class="timeline-title">
-              Computational Topology and Complex Systems
-            </h3>
-            <p class="timeline-meta">
-              UDESC Joinville / Online Seminar · 2026 ·
-              <a href="https://www.youtube.com/watch?v=2o7s6Q4hedo&t=1215s" target="_blank" rel="noopener">YouTube Video</a>
-            </p>
-            <p class="timeline-desc">
-              Computational topology and its applications to complex systems, including topological data analysis and persistent homology.
-            </p>
-          </article>
-
-          <iframe width="530" height="300"
-            src="https://www.youtube.com/embed/2o7s6Q4hedo"
-          </iframe>
-
         </div>
       </section>
     </div>
@@ -172,6 +217,7 @@
         <a href="software.html">Software</a>
         <a href="teaching.html">Teaching</a>
         <a href="cv.html">CV</a>
+        <a href="blog.html">Blog</a>
       </div>
     </div>
   </footer>
