@@ -3,21 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Finite Field – Gabriel Wendell – Blog</title>
-  <meta name="description" content="[One-sentence description of this post for search engines.]" />
+  <title>Why Do Finite Fields Have Prime-Power Size? – Gabriel Wendell – Blog</title>
+  <meta name="description" content="A combinatorial and generating-function proof that irreducible polynomials of every degree exist over finite prime fields, leading to the construction and counting of finite fields of order p^n." />
   <link rel="stylesheet" href="../style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Syntax highlighting for code blocks (Prism.js) -->
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/themes/prism-tomorrow.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/prism.min.js" defer></script>
-  <!-- Add more language files if needed; Python as example -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.30.0/components/prism-python.min.js" defer></script>
-    <!-- MathJax 3: enable $...$ and \(...\) inline, $$...$$ and \[...\] display -->
+
   <script>
     window.MathJax = {
       tex: {
@@ -25,17 +21,13 @@
         displayMath: [['$$', '$$'], ['\\[', '\\]']]
       },
       options: {
-        // don't try to typeset inside code/pre
         skipHtmlTags: ['script','noscript','style','textarea','pre','code']
       }
     };
   </script>
-  <script id="MathJax-script" async
-          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-  </script>
-
-
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
+
 <body class="blog-post">
   <header class="site-header">
     <div class="container nav-container">
@@ -56,197 +48,449 @@
   <main>
     <div class="container">
       <header class="page-header">
-        <p class="page-kicker">Blog</p>
-        <h1 class="page-title">Finite Field</h1>
+        <p class="page-kicker">Blog · Algebra</p>
+        <h1 class="page-title">Why Do Finite Fields Have Prime-Power Size?</h1>
         <p class="page-subtitle">
-          [Short summary of the post – one or two sentences explaining what the reader will learn.]
+          A counting argument for irreducible polynomials over $\mathbb{F}_p$, an Euler-product generating function,
+          and Möbius inversion come together to explain why a finite field exists for every size $p^n$.
         </p>
         <p style="margin-top: 0.6rem; font-size: 0.85rem; color: var(--muted);">
-          <strong>Date:</strong> [Month DD, 2026]
+          <strong>Date:</strong> September 16, 2026
           &nbsp;·&nbsp;
-          <strong>Tags:</strong> <span>[field theory]</span>, <span>[algebra]</span>, <span>[mathematics]</span>
+          <strong>Tags:</strong> <span>finite-fields</span>, <span>algebra</span>, <span>number-theory</span>, <span>generating-functions</span>
         </p>
       </header>
 
       <article class="section">
-        <h2 class="section-title">1. Introduction</h2>
-        <p>
-          The proof I intend to present here is combinatorial. We will count the number a_n of irreducible polynomials in 
-          $\mathbb{Z}/p\mathbb{Z}$ of degree $n$, using some counting techniques. Then, we will prove that $a_n>0$ always.
-          Then continue with normal paragraphs. 
+        <h2 class="section-title">1. The question</h2>
+        <p class="section-intro">
+          Finite fields are among those mathematical objects whose classification is strikingly rigid: their sizes are exactly the prime powers.
+          But where does that restriction come from, and why does every prime power actually occur?
         </p>
 
         <p>
-          In [Ref], it was demonstrated that certain rings are unique factorization domains based on the fact that they are Euclidean. 
-          Furthermore, it is possible to demonstrate that polynomial rings in Z/pZ are also unique factorization domains.
-        </p>  
+          Suppose $K$ is a finite field. Its characteristic must be a prime $p$, so $K$ contains a copy of the prime field
+          $\mathbb{F}_p = \mathbb{Z}/p\mathbb{Z}$. Since $K$ is then a finite-dimensional vector space over $\mathbb{F}_p$,
+          say $\dim_{\mathbb{F}_p}K=n$, it follows immediately that
+        </p>
+
+        <p class="equation">$$|K|=p^n~.$$</p>
 
         <p>
-          Consider all monic polynomials $x^{n}+c_{n-1}x^{n-1}+\cdots+c_{0}$ of degree $n$, $c_{i}\in Z/pZ$, $i=0,1,\ldots,n-1$. 
-          There are $p$ choices for each $a_{i}$, therefore there are $p^{n}$ polynomials of this type. Each polynomial $P(x)$ factors 
-          uniquely into irreducibles. Suppose that $m_{i}$ of these polynomials have degree $i$, with $i=1,2,\ldots,n$. Summing the degrees 
-          of the irreducible factors, we obtain $m_{1}+2m_{2}+\cdots+nm_{n}=n$.
+          Thus <em>every finite field must have prime-power cardinality</em>. The more interesting direction is existence:
+          for every prime $p$ and every integer $n\ge 1$, can we actually build a field with $p^n$ elements?
+        </p>
+
+        <div class="card" style="margin-top: 1.1rem;">
+          <div class="card-meta">Main goal</div>
+          <p class="card-body" style="color: var(--text);">
+            Prove that for every prime $p$ and every $n\ge 1$, there exists a monic irreducible polynomial of degree $n$ in
+            $\mathbb{F}_p[x]$. If $f(x)$ is such a polynomial, then
+            $$\mathbb{F}_p[x]/(f)~,$$
+            is a field with exactly $p^n$ elements.
+          </p>
+        </div>
+
+        <p>
+          The proof below is combinatorial. We count monic irreducible polynomials, package unique factorization into a generating function,
+          and then use Möbius inversion to obtain an explicit formula.
+        </p>
+
+        <h2 class="section-title">2. Counting monic polynomials by their irreducible factors</h2>
+
+        <p>
+          Let $a_n$ denote the number of monic irreducible polynomials of degree $n$ in $\mathbb{F}_p[x]$.
+          There are exactly $p^n$ monic polynomials of degree $n$, because a polynomial
+        </p>
+
+        <p class="equation">$$x^n+c_{n-1}x^{n-1}+\cdots+c_1x+c_0~,$$</p>
+
+        <p>
+          has $p$ independent choices for each coefficient $c_0,\ldots,c_{n-1}$.
+          Since $\mathbb{F}_p[x]$ is a unique factorization domain, every monic polynomial factors uniquely into monic irreducibles.
         </p>
 
         <p>
-          Looking at the irreducible polynomials, we can choose $m_{k}$ from $a_{k}$ irreducible polynomials, allowing repetitions. 
-          The number of such choices is equal to the number of integer solutions of $x_{1}+x_{2}+\cdots+x_{a_{k}}=m_{k}$, which is 
-          $\binom{m_{k}+a_{k}-1}{m_{k}}$. Thus, all possible products of $m_{1}$ irreducible factors of degree $1$, $m_{2}$ irreducible factors 
-          of degree $2$, etc., are in total
-
-          $$ \prod_{1\leq k\leq n}\binom{m_{k}+a_{k}-1}{m_{k}}~. $$
+          Suppose a degree-$n$ polynomial contains $m_k$ irreducible factors of degree $k$, counted with multiplicity. Then
         </p>
 
+        <p class="equation">$$m_1+2m_2+\cdots+nm_n=n~.$$</p>
+
         <p>
-            Thus, considering all possible solutions of $\sum_{k=1}^{n}km_{k}=n$, we have all the factorizations of all $p^{n}$ polynomials, that is,
-            
-            $$ \sum_{m_{1}+2m_{2}+\cdots+nm_{n}=n}~\prod_{1\leq k\leq n}\binom{m_{k}+a_{k}-1}{m_{k}}=p^{n}~. $$
+          For a fixed $k$, choosing a multiset of $m_k$ factors from the $a_k$ available monic irreducibles of degree $k$ gives
         </p>
 
-        <p>
-          This alone already defines a recurrence for $a_{n}$, but a very complicated one. Let's calculate small values ​​for $p=2$ of
+        <p class="equation">$$\binom{m_k+a_k-1}{m_k}~,$$</p>
 
-          $$ \begin{cases}
-            a_{1}=2 & ,\\
-            a_{2}+\binom{a_{1}+1}{2}=4 & ,\\
-            a_{3}+a_{1}a_{2}+\binom{a_{1}+2}{3}=8 & ,\\
-            a_{4}+a_{1}a_{3}+\binom{a_{2}+1}{2}+\binom{a_{1}+3}{4}=16 & ,
-            \end{cases} $$
-          we then obtain $a_{1}=2$, $a_{2}=1$, $a_{3}=2$ and $a_{4}=3$.
+        <p>
+          possibilities. Therefore, summing over every weighted partition of $n$,
         </p>
 
-        <p>
-          Let's significantly simplify this recurrence, eventually finding a closed-form formula for $a_{n}$. To do this, we'll use some generating functions. 
-          Multiply both sides of Eq. (2) by $t^{n}$ and sum for every natural $n$. On the right-hand side, we obtain a (formal) geometric sum series of $1/(1-pt)$. 
-          Thus,
-
-          $$ 
-            \begin{split}
-              \sum_{n\geq0}t^{n} ~ \sum_{m_{1}+2m_{2}+\cdots+nm_{n}=n} ~ \prod_{1\leq k\leq n}\binom{m_{k}+a_{k}-1}{m_{k}}=\frac{1}{1-pt}~, \\
-              \iff\sum_{n\geq0}t^{m_{1}+2m_{2}+\cdots+nm_{n}} ~ \sum_{m_{1}+2m_{2}+\cdots+nm_{n}=n} ~ \prod_{1\leq k\leq n}\binom{m_{k}+a_{k}-1}{m_{k}}=\frac{1}{1-pt}~, \\
-              \iff\sum_{n\geq0} ~ \sum_{m_{1}+2m_{2}+\cdots+nm_{n}=n} ~ \prod_{1\leq k\leq n}\binom{m_{k}+a_{k}-1}{m_{k}}t^{km_{k}}=\frac{1}{1-pt}~.
-            \end{split}
+        <p class="equation">
           $$
-        </p>
-
-        <p>
-          We have two summations: one over all natural numbers and another over sequences of natural numbers $(m_{1},m_{2},\ldots,m_{n})$ such that $m_{1}+2m_{2}+\cdots+nm_{n}=n$. 
-          Considering both summations, we see that this sum no longer presents us with any restrictions. Any finite sum of the type $m_{1}+2m_{2}+\cdots+nm_{n}$ is equal to a natural 
-          number and therefore will appear in the sum. The only precaution we must take is to consider sequences of natural numbers with a finite number of non-zero elements. Thus,
-
-          $$ \sum_{\left(m_{1},m_{2},\ldots\right)}' ~ \prod_{k\geq1}\binom{m_{k}+a_{k}-1}{m_{k}}t^{km_{k}}=\frac{1}{1-pt}~. $$
-
-          <b>Note:</b> We use an apostrophe to indicate that the sum is over sequences with a finite number of non-zero terms.
-        </p>
-
-        <p>
-          Now, the crucial point of our calculations. Let's classify the terms of the form $\binom{m_{k}+a_{k}-1}{m}t^{km}$. Note that the sum above is over <b>all</b> sequences $(m_{1},m_{2},\ldots)$
-          with a finite number of non-zero terms. Sequences of this type and products like the one shown above characterize a product expansion of sums. For example, let's focus on the first term $m_{1}$
-          of the sequence. We are multiplying terms of the form $\binom{m_{k}+a_{k}-1}{m}t^{m}$ (here we replace $m_{1}$ with $m$). Therefore,
-
-          $$ 
-            \begin{split}
-              \sum_{\left(m_{1},m_{2},\ldots\right)}' ~ \prod_{k\geq1}\binom{m_{k}+a_{k}-1}{m_{k}}t^{km_{k}}=\binom{0+a_{1}-1}{0}t^{0}\sum_{\left(m_{2},\ldots\right)}' ~ \prod_{k\geq2}\binom{m_{k}+a_{k}-1}{m_{k}}t^{km_{k}}+\ldots \\
-            =\left[\binom{0+a_{1}-1}{0}t^{0}+\binom{1+a_{1}-1}{1}t^{1}+\ldots\right]\cdot\sum_{\left(m_{2},\ldots\right)}' ~ \prod_{k\geq2}\binom{m_{k}+a_{k}-1}{m_{k}}t^{km_{k}} \\
-            =\sum_{m\geq0}\binom{m+a_{1}-1}{m}t^{m\cdot1}\sum_{\left(m_{2},\ldots\right)}' ~ \prod_{k\geq2}\binom{m+a_{k}-1}{m_{k}}t^{km_{k}}~.
-            \end{split}
-          $$
-
-          Inductively, we can conclude that
-          $$
-            \sum_{\left(m_{1},m_{2},\ldots\right)}' ~ \prod_{k\geq1}\binom{m_{k}+a_{k}-1}{m_{k}}t^{km_{k}}=\prod_{k\geq1} ~ \sum_{m\geq0}\binom{m+a_{k}-1}{m}t^{m\cdot k}=\frac{1}{1-pt}~.
-          $$
-
-          Using the concept of the generalized binomial, that is,
-          $$
-            \begin{split}
-              \binom{a}{n}=\frac{a\left(a-1\right)\cdot\left(a-n+1\right)}{n!}\quad\forall ~ a\in\mathbb{R}~,~ n\in\mathbb{N}~, \\
-              \implies \binom{m+a+1}{m}=\frac{\left(m+a-1\right)\left(m+a-2\right)\cdots a}{m!} = \left(-1\right)^{m}\frac{-a\left(-a-1\right)\cdots\left(-a-m-1\right)}{m!}=\left(-1\right)^{m}\binom{-a}{m}
-            \end{split}
-          $$
-          and, by the generalized Newton binomial, we have
-          $$
-            \sum_{m\geq0}\binom{m+a_{k}-1}{m}t^{m\cdot k}=\sum_{m\geq0}\left(-1\right)^{m}\binom{-a_{k}}{m}\left(t^{k}\right)^{m}=\left(1-t^{k}\right)^{-a_{k}}\quad\therefore\quad\prod_{k\geq1}(1-t^{k})^{-a_{k}}=\frac{1}{1-pt}~.
-          $$
-        </p>
-
-        <h2 class="section-title">2. Alternative Solution</h2>
-        <p>
-          We could have arrived at this identity a little faster. To do so, consider the sum $\sum_{i\geq0}p^{i}t^{i}$. The term in $t^{i}$ indicates the number of monic polynomials of degree $i$ that are uniquely factored into monic 
-          irreducibles. Thus, $t^{i}$ is a marker of the degree of the polynomials. Now, consider $(1+t^{k}+t^{2k}+\cdots)^{a_{k}}$. When expanding this product, we take the term $t^{mk}$ of the $i$-th factor when we take the $i$-th 
-          irreducible of degree $k$ (which total $a_{k}$). Therefore, considering all degrees,
-          $$
-            \prod_{k\geq1}\left(1+t^{k}+t^{2k}+\cdots\right)^{a_{k}}=\sum_{i\geq0}p^{i}t^{i}\iff\prod_{k\geq1}\left(1-t^{k}\right)^{-a_{k}}=\frac{1}{1-pt}~.
+          \boxed{
+          p^n=
+          \sum_{m_1+2m_2+\cdots+nm_n=n}
+          \prod_{k=1}^{n}\binom{m_k+a_k-1}{m_k}
+          }
           $$
         </p>
 
         <p>
-          However, it's important to know how to manipulate these expressions algebraically. One way to transform products into summations is to take logarithms of both sides. Here, $\log$ indicates the natural/Napierian logarithm. 
-          We then obtain
-          $$
-            -\sum_{k\geq1}a_{k}\log(1-t^{k})=-\log(1-pt)~.
-          $$
+          This is already a recurrence for the numbers $a_n$, but it is not a pleasant one to use directly.
+          For example, when $p=2$ it gives
+        </p>
 
-          The expansion of $\log{(1-x)}$ in power series is
+        <p class="equation">
           $$
-            \log(1-x)=x+\frac{x^{2}}{2}+\frac{x^{3}}{3}+\cdots=\sum_{i\geq1}\frac{x^{i}}{i}\implies\sum_{k\ge1}a_{k}\sum_{i\geq1}\frac{t^{ik}}{i}=\sum_{i\geq1}\frac{(pt)^{i}}{i}~.
-          $$
-
-          Now, we just need to compare the terms in $t^{n}$. On the right-hand side, it's $p^{n}/n$. On the left-hand side, it always appears when $ik=n\iff i=n/k$, that is, when $k|n$. Therefore
-          $$
-            \sum_{k|n}\frac{a_{k}}{n/k}=\frac{p^{n}}{n}\iff\sum_{k|n}ka_{k}=p^{n}~,
-          $$
-          which is a much more treatable recurrence. Let's review the small cases we presented earlier, with $p=2$
-          $$
-            \begin{cases}
-            a_{1}=2 & ,\\
-            a_{1}+2a_{2}=4 & ,\\
-            a_{1}+3a_{3}=8 & ,\\
-            a_{1}+2a_{2}+4a_{4}=16 & .
-            \end{cases}
+          \begin{aligned}
+          a_1 &= 2~,\\
+          a_2+\binom{a_1+1}{2} &= 4~,\\
+          a_3+a_1a_2+\binom{a_1+2}{3} &= 8~,\\
+          a_4+a_1a_3+\binom{a_2+1}{2}+\binom{a_1+3}{4} &= 16~,
+          \end{aligned}
           $$
         </p>
 
         <p>
-          Now, let's prove that $a_{n}>0$. Consider the sum $\sum_{k|n}ka_{k}$. Apart from $na_{n}$, all other terms at most $n-1$ are smaller than $q^{n/2}$, since they have already appeared in previous sums. Thus,
+          and hence $a_1=2$, $a_2=1$, $a_3=2$, and $a_4=3$. We now compress the entire recurrence into one generating-function identity.
+        </p>
+
+        <h2 class="section-title">3. An Euler product for polynomials over $\mathbb{F}_p$</h2>
+
+        <p>
+          Introduce a formal variable $t$ that records polynomial degree. The generating function for all monic polynomials is simply
+        </p>
+
+        <p class="equation">$$\sum_{n\ge0}p^n t^n=\frac{1}{1-pt}~.$$</p>
+
+        <p>
+          Now fix one monic irreducible polynomial of degree $k$. In a factorization it may occur zero times, once, twice, and so on,
+          contributing
+        </p>
+
+        <p class="equation">$$1+t^k+t^{2k}+\cdots=\frac{1}{1-t^k}~.$$</p>
+
+        <p>
+          Since there are $a_k$ monic irreducibles of degree $k$, all degree-$k$ irreducibles together contribute
+          $(1-t^k)^{-a_k}$. Unique factorization then gives the formal Euler product
+        </p>
+
+        <p class="equation">
           $$
-            \sum_{k|n}ka_{k}<(n-1)q^{n/2}+na_{n}\iff q^{n}<(n-1)q^{n/2}+na_{n}\iff na_{n}>q^{n/2}(q^{n/2}-n+1)>0~.
+          \boxed{
+          \prod_{k\ge1}(1-t^k)^{-a_k}=\frac{1}{1-pt}
+          }
           $$
         </p>
 
-        <h2 class="section-title">3. Möbius Inversion Formula</h2>
         <p>
-          We can find a closed-form for $a_{n}$ from the Möbius inversion formula [2]:
-          $$
-            f(n)=\sum_{d|n}g(d)~,\quad\forall n\in\mathbb{Z}_{+}^{*}\iff g(n)=\sum_{d|n}\mu(d)f\left(\frac{n}{d}\right)~,\quad\forall n\in\mathbb{Z}_{+}^{*}~,
-          $$
-          $$
-            \mu(n)=\begin{cases}
-            1 & \text{if }n=1\\
-            \left(-1\right)^{r} & \text{if }n\text{ is the product of }r\text{ distinct primes}\\
-            0 & \text{otherwise}
-            \end{cases}
-          $$
+          This is the polynomial analogue of the way Euler products encode unique factorization of integers: irreducible polynomials play the role of primes,
+          while degree plays the role of a logarithmic size.
+        </p>
 
-          Here, $\mu(n)$ is the Möbius function. So we have
+        <h3>3.1 Recovering the same identity from the multiset count</h3>
+
+        <p>
+          The longer combinatorial recurrence above produces the same formula. Using
+        </p>
+
+        <p class="equation">$$\sum_{m\ge0}\binom{m+a-1}{m}z^m=(1-z)^{-a}~,$$</p>
+
+        <p>
+          we may sum independently over every multiplicity $m_k$:
+        </p>
+
+        <p class="equation">
           $$
-            \boxed{a_{n}=\sum_{d|n}\mu\left(n\right)p^{n/d}~.}
+          \sum_{(m_1,m_2,\ldots)}'
+          \prod_{k\ge1}\binom{m_k+a_k-1}{m_k}t^{km_k}
+          =
+          \prod_{k\ge1}\sum_{m\ge0}\binom{m+a_k-1}{m}t^{km}
+          =
+          \prod_{k\ge1}(1-t^k)^{-a_k}~.
           $$
         </p>
 
-
-        <h2 class="section-title">4. Wrap-up</h2>
         <p>
-          Finish with a short summary of the main takeaways, possible extensions, and references to
-          papers or software. You can add a short bibliography as a list:
+          The prime indicates sequences with only finitely many nonzero entries. Comparing with the generating function for all monic polynomials again yields
+          the boxed identity above.
+        </p>
+
+        <h2 class="section-title">4. Taking logarithms: a much simpler recurrence</h2>
+
+        <p>
+          Because we are working with formal power series whose constant term is $1$, formal logarithms are legitimate. Taking logarithms gives
+        </p>
+
+        <p class="equation">$$-\sum_{k\ge1}a_k\log(1-t^k)=-\log(1-pt)~.$$</p>
+
+        <p>
+          Using the correct expansion
+        </p>
+
+        <p class="equation">$$-\log(1-x)=\sum_{r\ge1}\frac{x^r}{r}~,$$</p>
+
+        <p>
+          we obtain
+        </p>
+
+        <p class="equation">
+          $$
+          \sum_{k\ge1}a_k\sum_{r\ge1}\frac{t^{kr}}{r}
+          =
+          \sum_{n\ge1}\frac{p^n t^n}{n}~.
+          $$
+        </p>
+
+        <p>
+          To extract the coefficient of $t^n$ on the left, we need $kr=n$, so $k$ must divide $n$ and $r=n/k$. Therefore
+        </p>
+
+        <p class="equation">
+          $$
+          \frac{1}{n}\sum_{k\mid n}k a_k=\frac{p^n}{n}~,
+          $$
+        </p>
+
+        <p>
+          or equivalently
+        </p>
+
+        <p class="equation">
+          $$
+          \boxed{\sum_{k\mid n}k a_k=p^n}
+          $$
+        </p>
+
+        <p>
+          For $p=2$, this reduces the previous cumbersome system to
+        </p>
+
+        <p class="equation">
+          $$
+          \begin{aligned}
+          a_1 &=2~,\\
+          a_1+2a_2 &=4~,\\
+          a_1+3a_3 &=8~,\\
+          a_1+2a_2+4a_4 &=16~,
+          \end{aligned}
+          $$
+        </p>
+
+        <p>
+          immediately recovering $2,1,2,3$.
+        </p>
+
+        <h2 class="section-title">5. Möbius inversion and the exact counting formula</h2>
+
+        <p>
+          The recurrence has the divisor-sum form required for Möbius inversion. If
+          $F(n)=\sum_{d\mid n}G(d)$, then
+        </p>
+
+        <p class="equation">$$G(n)=\sum_{d\mid n}\mu(d)F\!\left(\frac{n}{d}\right)~,$$</p>
+
+        <p>
+          where the Möbius function is
+        </p>
+
+        <p class="equation">
+          $$
+          \mu(n)=
+          \begin{cases}
+          1, & n=1~,\\
+          (-1)^r, & n \text{ is a product of }r\text{ distinct primes}~,\\
+          0, & n \text{ is divisible by the square of a prime}~.
+          \end{cases}
+          $$
+        </p>
+
+        <p>
+          Taking $F(n)=p^n$ and $G(n)=na_n$ gives
+        </p>
+
+        <p class="equation">
+          $$
+          \boxed{
+          a_n=\frac{1}{n}\sum_{d\mid n}\mu(d)p^{n/d}
+          }
+          $$
+        </p>
+
+        <p>
+          This is the standard formula for the number of monic irreducible degree-$n$ polynomials over $\mathbb{F}_p$.
+          It also immediately explains several small cases:
+        </p>
+
+        <p class="equation">
+          $$
+          a_1=p~,\qquad
+          a_2=\frac{p^2-p}{2}~,\qquad
+          a_3=\frac{p^3-p}{3}~,\qquad
+          a_4=\frac{p^4-p^2}{4}~.
+          $$
+        </p>
+
+        <h2 class="section-title">6. Why $a_n$ is always positive</h2>
+
+        <p>
+          The formula is useful only if it really guarantees an irreducible polynomial in every degree. For $n=1$, $a_1=p>0$. For $n\ge2$,
+        </p>
+
+        <p class="equation">
+          $$
+          na_n
+          =p^n+\sum_{\substack{d\mid n\\ d>1}}\mu(d)p^{n/d}
+          \ge
+          p^n-\sum_{\substack{d\mid n\\ d>1}}p^{n/d}~.
+          $$
+        </p>
+
+        <p>
+          If $d>1$, then $n/d\le n/2$. The exponents $n/d$ appearing in the divisor sum are distinct positive integers, so
+        </p>
+
+        <p class="equation">
+          $$
+          \sum_{\substack{d\mid n\\ d>1}}p^{n/d}
+          \le
+          \sum_{j=1}^{\lfloor n/2\rfloor}p^j
+          p^n\qquad (p\ge2)~.
+          $$
+        </p>
+
+        <p>
+          Hence $na_n>0$, and therefore
+        </p>
+
+        <p class="equation">$$\boxed{a_n>0\quad\text{for every }n\ge1}$$</p>
+
+        <p>
+          So for every prime $p$ and every positive integer $n$, at least one monic irreducible polynomial of degree $n$ exists over $\mathbb{F}_p$.
+        </p>
+
+        <h2 class="section-title">7. From irreducible polynomials to finite fields</h2>
+
+        <p>
+          Choose an irreducible polynomial $f(x)\in\mathbb{F}_p[x]$ of degree $n$. Since $(f)$ is then a maximal ideal,
+        </p>
+
+        <p class="equation">$$\mathbb{F}_p[x]/(f)~,$$</p>
+
+        <p>
+          is a field. Every residue class has a unique representative of degree less than $n$,
+        </p>
+
+        <p class="equation">$$c_0+c_1x+\cdots+c_{n-1}x^{n-1}~,\qquad c_i\in\mathbb{F}_p~,$$</p>
+
+        <p>
+          so there are exactly $p^n$ residue classes. We have therefore constructed a field of size $p^n$.
+        </p>
+
+        <div class="card" style="margin-top: 1.1rem;">
+          <div class="card-meta">Conclusion</div>
+          <p class="card-body" style="color: var(--text);">
+            A finite field has $q$ elements if and only if $q=p^n$ for some prime $p$ and integer $n\ge1$.
+            The argument above proves existence. The further theorem that all fields with $p^n$ elements are isomorphic is another beautiful story.
+          </p>
+        </div>
+
+        <h2 class="section-title">8. Example: irreducibles over $\mathbb{F}_2$</h2>
+
+        <p>
+          The first values of $a_n$ over the binary field are
+        </p>
+
+        <p class="equation">$$a_1=2~,\qquad a_2=1~,\qquad a_3=2~,\qquad a_4=3~.$$</p>
+
+        <p>
+          Representative lists are:
+        </p>
+
+        <ul class="item-list">
+          <li><strong>Degree 1:</strong> $x$, $x+1$ ;</li>
+          <li><strong>Degree 2:</strong> $x^2+x+1$ ;</li>
+          <li><strong>Degree 3:</strong> $x^3+x+1$, $x^3+x^2+1$ ;</li>
+          <li><strong>Degree 4:</strong> $x^4+x+1$, $x^4+x^3+1$, $x^4+x^3+x^2+x+1$ .</li>
+        </ul>
+
+        <p>
+          Any one of the three degree-$4$ polynomials, for instance, may be used to construct a copy of $\mathbb{F}_{16}$.
+        </p>
+
+        <h2 class="section-title">9. A small computational check</h2>
+
+        <p>
+          The Möbius formula is easy to evaluate directly. The following dependency-free Python snippet computes $a_n$:
+        </p>
+
+        <div class="code-block" data-lang="python">
+          <div class="code-block-header">
+            <span>Python</span>
+            <button class="code-copy-btn" type="button" aria-label="Copy code">Copy</button>
+          </div>
+          <pre><code class="language-python">def divisors(n):
+    return [d for d in range(1, n + 1) if n % d == 0]
+
+
+def mobius(n):
+    if n == 1:
+        return 1
+
+    prime_factors = 0
+    d = 2
+    m = n
+
+    while d * d <= m:
+        if m % d == 0:
+            m //= d
+            prime_factors += 1
+            if m % d == 0:      # square factor
+                return 0
+            while m % d == 0:
+                m //= d
+        d += 1
+
+    if m > 1:
+        prime_factors += 1
+
+    return -1 if prime_factors % 2 else 1
+
+
+def irreducible_count(p, n):
+    total = sum(mobius(d) * p ** (n // d) for d in divisors(n))
+    return total // n
+
+
+for n in range(1, 9):
+    print(n, irreducible_count(2, n))
+</code></pre>
+        </div>
+
+        <p>
+          For $p=2$, this prints
+          $2,1,2,3,6,9,18,30$ for degrees $1$ through $8$.
+        </p>
+
+        <h2 class="section-title">10. Wrap-up</h2>
+
+        <p>
+          The argument is a compact example of several areas of mathematics reinforcing one another. Unique factorization turns polynomial decomposition into a counting problem;
+          generating functions turn that count into an Euler product; logarithms convert products into divisor sums; and Möbius inversion extracts the exact number of irreducibles.
+          The final payoff is structural: irreducible polynomials provide the missing ingredient needed to construct every finite field.
+        </p>
+
+        <p>
+          There are several natural directions to continue from here: proving uniqueness of $\mathbb{F}_{p^n}$ up to isomorphism,
+          studying the Frobenius automorphism, characterizing subfields of finite fields, or connecting irreducible polynomials with cyclic multiplicative groups and coding theory.
         </p>
 
         <h2 class="section-title">References</h2>
         <ul class="item-list">
-          <li>[2] Apostol, Tom M. (1976), <em>Introduction to analytic number theory<\em>, Undergraduate Texts in Mathematics, New York-Heidelberg: Springer-Verlag.</li>
+          <li>T. M. Apostol, <em>Introduction to Analytic Number Theory</em>, Springer, 1976. See the discussion of the Möbius function and Möbius inversion.</li>
+          <li>R. Lidl and H. Niederreiter, <em>Finite Fields</em>, 2nd ed., Cambridge University Press, 1997.</li>
         </ul>
-
-        
 
         <p style="margin-top: 1rem;">
           If you notice any errors or have suggestions, feel free to
@@ -254,10 +498,15 @@
         </p>
       </article>
 
-      <section class="section">
-        <p class="section-intro">
-          ← <a href="../blog.html">Back to the blog index</a>
-        </p>
+      <section class="section post-nav">
+        <div class="post-nav-inner">
+          <div class="post-nav-prev">
+            ← <a href="why-cant-i-take-my-underwear-off-topologically.html">Previous post: Topological Underwear</a>
+          </div>
+          <div class="post-nav-next">
+            <a href="../blog.html">Back to the blog index →</a>
+          </div>
+        </div>
       </section>
     </div>
   </main>
@@ -278,10 +527,9 @@
     </div>
   </footer>
 
-    <script>
+  <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Copy-to-clipboard for code blocks
     function setupCodeCopy() {
       document.querySelectorAll('.code-block').forEach(function (block) {
         const button = block.querySelector('.code-copy-btn');
@@ -292,7 +540,6 @@
           if (navigator.clipboard && navigator.clipboard.writeText) {
             return navigator.clipboard.writeText(text);
           }
-          // Fallback for older browsers
           return new Promise(function (resolve, reject) {
             const textarea = document.createElement('textarea');
             textarea.value = text;
