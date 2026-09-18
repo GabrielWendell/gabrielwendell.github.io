@@ -907,6 +907,50 @@ body.blog-post::after {
 
 /* Publication cards ------------------------------------------------------- */
 
+.publication-language-group {
+  margin-top: 1rem;
+}
+
+.publication-language-group + .publication-language-group {
+  margin-top: 2rem;
+  padding-top: 1.35rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.055);
+}
+
+.publication-group-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.8rem;
+}
+
+.publication-group-heading::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(90, 200, 250, 0.28), transparent);
+}
+
+.publication-group-title {
+  font-size: 0.82rem;
+  line-height: 1.2;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.publication-group-count {
+  order: 2;
+  font-size: 0.75rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.publication-language-group .publication-grid,
+.publication-language-group .timeline {
+  margin-top: 0;
+}
+
 .publication-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(285px, 1fr));
@@ -977,7 +1021,8 @@ body.blog-post::after {
 }
 
 .publication-year,
-.publication-type {
+.publication-type,
+.publication-language-badge {
   display: inline-flex;
   align-items: center;
   min-height: 1.65rem;
@@ -1000,6 +1045,19 @@ body.blog-post::after {
   color: var(--muted);
 }
 
+.publication-language-badge {
+  border: 1px solid rgba(90, 200, 250, 0.28);
+  background: rgba(90, 200, 250, 0.075);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.publication-language-badge-pt {
+  border-color: rgba(140, 92, 255, 0.38);
+  background: rgba(140, 92, 255, 0.12);
+  color: #c8baff;
+}
+
 .publication-title {
   margin-bottom: 0.52rem;
   font-size: 1rem;
@@ -1007,10 +1065,13 @@ body.blog-post::after {
   color: var(--text);
 }
 
-.publication-language {
+.publication-title-translation {
+  margin-top: -0.28rem;
+  margin-bottom: 0.55rem;
+  font-size: 0.79rem;
+  line-height: 1.45;
   color: var(--muted);
-  font-weight: 500;
-  font-size: 0.82em;
+  font-style: italic;
 }
 
 .publication-authors {
@@ -1079,6 +1140,15 @@ body.blog-post::after {
 }
 
 @media (max-width: 620px) {
+  .publication-group-heading {
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .publication-group-heading::after {
+    display: none;
+  }
+
   .publication-grid,
   .publication-grid-secondary {
     grid-template-columns: 1fr;
