@@ -356,11 +356,30 @@
           \sum_{\substack{d\mid n\\ d>1}}p^{n/d}
           \le
           \sum_{j=1}^{\lfloor n/2\rfloor}p^j
+          <
           p^n\qquad (p\ge2)~.
           $$
         </p>
 
         <p>
+          The last inequality follows from the geometric-series bound. Writing
+          $m=\lfloor n/2\rfloor$, we have
+        </p>
+
+        <p class="equation">
+          $$
+          \sum_{j=1}^{m}p^j
+          =
+          \frac{p^{m+1}-p}{p-1}
+          <
+          p^{m+1}
+          \le
+          p^n~,
+          $$
+        </p>
+
+        <p>
+          where the final inequality uses $m+1\le n$ for $n\ge2$.
           Hence $na_n>0$, and therefore
         </p>
 
