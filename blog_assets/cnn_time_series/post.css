@@ -1,0 +1,94 @@
+/* Article-specific layout. Shared navigation, colors, and backgrounds use style.css. */
+.cnn-post .post-meta {
+  margin-top: .7rem;
+  color: var(--muted);
+  font-size: .875rem;
+}
+
+.cnn-post .post-downloads,
+.cnn-post .toc {
+  max-width: 900px;
+  margin: 1.6rem auto;
+  padding: 1.1rem 1.3rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: .9rem;
+  background: rgba(15, 23, 42, .96);
+}
+
+.cnn-post .post-downloads h2 {
+  margin: 0 0 .45rem;
+  font-size: 1.1rem;
+}
+
+.cnn-post .post-downloads p { margin: 0 0 .8rem; }
+.cnn-post .post-downloads .card-links { display: flex; flex-wrap: wrap; gap: .6rem 1.4rem; }
+.cnn-post .toc summary { cursor: pointer; font-weight: 600; }
+.cnn-post .toc ul { columns: 2; column-gap: 2rem; padding-left: 1.2rem; margin: .7rem 0 0; }
+.cnn-post .toc li { break-inside: avoid; margin: .3rem 0; }
+.cnn-post .toc a { font-size: .9rem; }
+
+.cnn-post article.section { line-height: 1.78; }
+.cnn-post article.section h2 {
+  margin: 2.3rem 0 .9rem;
+  font-size: 1.4rem;
+  line-height: 1.35;
+  scroll-margin-top: 6rem;
+}
+
+.cnn-post .equation { padding: .35rem 0; overflow-x: auto; overflow-y: hidden; }
+.cnn-post mjx-container { max-width: 100%; overflow-x: auto; overflow-y: hidden; }
+.cnn-post .table-scroll {
+  overflow-x: auto;
+  margin: 1.4rem 0;
+  border: 1px solid var(--border-subtle);
+  border-radius: .7rem;
+}
+
+.cnn-post table { width: 100%; border-collapse: collapse; font-size: .9rem; line-height: 1.6; }
+.cnn-post th, .cnn-post td { padding: .75rem .9rem; border-bottom: 1px solid var(--border-subtle); vertical-align: top; }
+.cnn-post th { text-align: left; background: rgba(30, 41, 59, .9); }
+.cnn-post tr:last-child td { border-bottom: 0; }
+.cnn-post tbody tr:nth-child(even) { background: rgba(15, 23, 42, .65); }
+
+.cnn-post .research-figure {
+  margin: 1.8rem 0 .8rem;
+  padding: .4rem;
+  background: white;
+  border: 1px solid var(--border-subtle);
+  border-radius: .8rem;
+  overflow: hidden;
+}
+
+.cnn-post .research-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  margin: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+.cnn-post .research-figure + p { color: var(--muted); font-size: .9rem; line-height: 1.65; }
+.cnn-post pre { overflow-x: auto; padding: 1.15rem; margin: 1.4rem 0; border: 1px solid var(--border-subtle); border-radius: .7rem; background: #030914; line-height: 1.65; }
+.cnn-post pre code { font-size: .875rem; }
+.cnn-post p code { padding: .1em .3em; background: rgba(30, 41, 59, .8); border-radius: .2rem; }
+.cnn-post article.section ol, .cnn-post article.section ul { padding-left: 1.4rem; }
+.cnn-post article.section li + li { margin-top: .5rem; }
+.cnn-post #references ~ ol { font-size: .9rem; line-height: 1.65; }
+
+@media (max-width: 600px) {
+  .cnn-post .toc ul { columns: 1; }
+  .cnn-post .post-downloads, .cnn-post .toc { padding: 1rem; }
+  .cnn-post article.section h2 { font-size: 1.25rem; }
+}
+
+@media print {
+  body.cnn-post { color: #17202b; background: white; }
+  .cnn-post .site-header, .cnn-post .site-footer, .cnn-post .toc, .cnn-post .post-nav { display: none; }
+  .cnn-post main::before { display: none; }
+  .cnn-post .post-downloads, .cnn-post pre, .cnn-post th, .cnn-post tbody tr:nth-child(even) { background: #f2f5f8; color: #17202b; }
+  .cnn-post .research-figure, .cnn-post pre { break-inside: avoid; }
+  .cnn-post h2 { break-after: avoid; }
+  .cnn-post .table-scroll, .cnn-post .equation { overflow: visible; }
+}

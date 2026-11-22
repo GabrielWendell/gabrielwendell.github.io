@@ -1,0 +1,6 @@
+# Tested with Python 3.12.14. Install the CPU torch wheel first (see README).
+torch==2.5.1
+numpy==2.3.5
+scikit-learn==1.8.0
+matplotlib==3.10.8
+Markdown==3.11.3
